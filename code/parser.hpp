@@ -1,8 +1,9 @@
 // Add necessary includes & imports here
 #include <iostream>
+#include "catch.hpp"
 
 // Generic starter code for each file
-void function1()
+int function2(int x)
 {
-    std::cout << "Function not yet implemented\n";
+    return x;
 }

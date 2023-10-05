@@ -1,9 +1,0 @@
-{
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
-    ],
-    "cmake.configureOnOpen": false,
-    "files.associations": {
-        "iostream": "cpp"
-    }
-}
