@@ -9,7 +9,7 @@
 #include "objectactions.hpp"
 #include "actions.hpp"
 
-//  TODO: Replace template with explicit game types once finished
+//  TODO: Replace template with actual types once types are defined
 //  Struct containing all info about the player; should be instanced upon game start.
 template <typename T>
 class player_info {
@@ -45,12 +45,15 @@ class player_info {
         }
 };
 
+//  TODO: Replace template with actual types once types are defined
+template <typename T>
 int main()
 {
     std::cout << "Hello from the project starter code!\n";
-
-    //  TODO: Get rid of <std::string> declaration once types are set in player_info
-    player_info<std::string> player;
+    
+    player_info<T> player;
+    T parsedAction;
+    T parsedObject;
     
     return 0;
 }
