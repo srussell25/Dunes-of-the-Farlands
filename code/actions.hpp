@@ -45,6 +45,12 @@ void leave(T parsedObject){
 
 }
 
+void help(){
+    std::cout << "Your responses should be short answers that are 2-3 words including an \n
+    action and direct object (Example: Take the key). " ;
+    std::cout << "Command List: use, take, look, examine, open, read, \n throw, unlock, put, go to, leave, attack, and talk to."; 
+}
+
 void attack(T parsedObject){
 
 }
