@@ -12,35 +12,44 @@
 //  TODO: Replace template with actual types once types are defined
 //  Struct containing all info about the player; should be instanced upon game start.
 template <typename T>
-class player_info {
+class player_info 
+{
     private:
         T location;
         std::set<T> inventory = {};
         std::set<T> flags = {};
 
     public:
-        void setLocation(T loc) {
+        void setLocation(T loc) 
+        {
             location = loc;
         }
-        T getLocation() {
+        T getLocation() 
+        {
             return location;
         }
-        void addItem(T item) {
+        void addItem(T item) 
+        {
             inventory.add(item);
         }
-        void removeItem(T item) {
+        void removeItem(T item) 
+        {
             inventory.erase(item);
         }
-        T findItem(T item) {
+        T findItem(T item) 
+        {
             return inventory.find(item);
         }
-        void addFlag(T flag) {
+        void addFlag(T flag) 
+        {
             flags.add(flag);
         }
-        void removeFlag(T flag) {
+        void removeFlag(T flag) 
+        {
             flags.erase(flag);
         }
-        T findFlag(T flag) {
+        T findFlag(T flag) 
+        {
             return flags.find(flag);
         }
 };
