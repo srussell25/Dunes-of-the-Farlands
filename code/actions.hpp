@@ -1,13 +1,11 @@
 // Add necessary includes & imports here
 #include <iostream>
-#include "objectactions.hpp"
+#include "catch.hpp
+
+//  Including files from other parts of the project
 #include "main.cpp"
 #include "gameobjects.hpp"
-#include "catch.hpp"
-
-// Generic starter code for each file
-
-
+#include "objectactions.hpp"
 
 void use(T parsedObject){
 
@@ -27,7 +25,7 @@ void open(T parsedObject){
 void read(T parsedObject){
 
 }
-void Throw(T parsedObject){
+void throw(T parsedObject){
 
 }
 void unlock(T parsedObject){
@@ -57,8 +55,4 @@ void attack(T parsedObject){
 
 void talk_to(T parsedObject){
 
-}
-int function5(int x)
-{
-    return x;
 }
