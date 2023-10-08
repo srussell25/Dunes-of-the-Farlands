@@ -11,8 +11,8 @@ std::string getInput()
     //prompts for user input without skipping a line
     std::cout<<"> ";
     //reads user input into temp until a newline character is reached
-    std::cin.ignore();
     getline(std::cin,temp);
+    
 
     //returns the player input
     return temp;
@@ -26,7 +26,7 @@ void npcText(std::string dialogue, std::string npcName, std::string format = ": 
     //in case specific NPC entities should have different dialogue style
     if (dialogue.length() > wrap)
     {
-        
+
     }
     std::string output = npcName+format+dialogue;
     std::cout<<output<<std::endl;

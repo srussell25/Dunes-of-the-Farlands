@@ -9,6 +9,7 @@
 #include "objectactions.hpp"
 #include "actions.hpp"
 
+
 //  TODO: Replace template with actual types once types are defined
 //  Struct containing all info about the player; should be instanced upon game start.
 template <typename T>
@@ -57,13 +58,29 @@ int main()
     std::cout<<"Enter any key to start" << std::endl;
 
     //this is just here to make the execution wait until the user inputs any character
-    char startSeq;
-    startSeq = getchar();
-    
+    std::string startSeq;
+    startSeq = getInput();
+
     while(true)
     {
-        //function to display story event
-        //function 
+        //function to display current story event
+        
+        //gets player input to story event
+        std::string input;
+        input = getInput();
+
+        //simply converts input into uppercase for easy matching
+        std::transform(input.begin(), input.end(), input.begin(), ::toupper);
+        
+        //parse input
+        if (input == "EXIT")
+        {
+            if (exitSeq() == true)
+                exit(0);
+            else
+                std::cin.ignore();
+        }
+        
     }
 
     /*
