@@ -40,24 +40,50 @@ void items::use(T parsedObject){
     }
 }
 void items::look(T parsedObject){
-    if(T getLocation(T loc) == "" && T parsedObject == ""){
-
+    if(T parsedObject == ""){
+        std::cout << "This key seems to unlock something."; // just example for key
     }
 }
 void items::examine(T parsedObject){
 
 }
 void items::open(T parsedObject){
-
+    if(T parsedObject == ""){
+        removeItem(T item); // for example if user open sort of box from their inventory then the box disappear 
+        item::take(T item); //add item which user obtains from the box
+        std::cout << "You obain" << item << " heal potion! It may be useful"; // just example
+    }
+    else() {
+        std::cout << "It cannot open.";
+    }
 }
 void items::read(T parsedObject){
-
+    if(T getLocation(T loc) == "" && T parsedObject == "") { // if user read book or something readable in certain place magical event creates
+        std::cout << "Lord... I can see you..."; // just example
+    }
+    else if(T parsedObject == ""){
+        std::cout << "Can't read this book since it is damaged.";
+    }
+    else () {
+        std::cout << "It's unreadable.";
+    }
 }
 void items::Throw(T parsedObject){
-
+    if(T getLocation(T loc) == "" && T parsedObject == ""){
+        removeItem(T item); //if throw weapon then the weapon disappear
+    }
+    else() {
+        std::cout << "This is not a throwing thing.";
+    }
 }
 void items::unlock(T parsedObject){
-
+    if(T getLocation(T loc) == "" && T parsedObject == ""){
+        removeItem(T item); //user goes next chapter by unlocking sort of door then key should disappear
+        std::cout << "You open the door!";
+    }
+    else() {
+        std::cout << "You don't have anything to unlock " << parsedObject << ".";
+    }
 }
 void items::put(T parsedObject){
 
@@ -75,13 +101,29 @@ void locations::go_to(T parsedObject){
     }
 }
 void locations::look(T parsedObject){
-
+    if(T getLocation(T loc) == "" && T parsedObject == ""){
+       std::cout << "It has a shady atmosphere";
+    }
+    else() {
+        std::cout << "You cannot see. It's too dark"; // just example
+    }
 }
 void locations::leave(T parsedObject){
-
+    if((T getLocation(T loc) == "" && T parsedObject == "") != setLocation(T loc)){
+       std::cout << "You are leaving from: " << setLocation(T loc);
+       setLocation(T loc);
+    }
+    else() {
+        std::cout << "This place is " << parsedObject << " that you want to go"; // just example
+    }
 }
 void locations::examine(T parsedObject){
-
+    if(T getLocation(T loc) == "" && T parsedObject == ""){
+       std::cout << "There are letters on the wall... It says... God is dead..."; // just example
+    }
+    else () {
+        std::cout << "Try again!";
+    }
 }
 
 //functions for characters
