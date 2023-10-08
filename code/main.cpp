@@ -14,7 +14,7 @@
 template <typename T>
 class player_info {
     private:
-        T location;
+        int location;
         std::set<T> inventory = {};
         std::set<T> flags = {};
 
@@ -23,15 +23,15 @@ class player_info {
             location = loc;
         }
         T getLocation() {
-            return location;
+            return (location);
         }
         void addItem(T item) {
-            inventory.add(item);
+            inventory.insert(item);
         }
         void removeItem(T item) {
             inventory.erase(item);
         }
-        T findItem(T item) {
+         findItem(T item) {
             return inventory.find(item);
         }
         void addFlag(T flag) {
@@ -45,15 +45,32 @@ class player_info {
         }
 };
 
-//  TODO: Replace template with actual types once types are defined
-template <typename T>
+
+//TODO: Replace template with actual types once types are defined
+//template <typename T>
+
 int main()
 {
-    std::cout << "Hello from the project starter code!\n";
+    //title card
+    std::cout <<"DUNES OF THE FARLANDS"<<std::endl<<"====================="<<std::endl<<std::endl;
     
+    std::cout<<"Enter any key to start" << std::endl;
+
+    //this is just here to make the execution wait until the user inputs any character
+    char startSeq;
+    startSeq = getchar();
+    
+    while(true)
+    {
+        //function to display story event
+        //function 
+    }
+
+    /*
     player_info<T> player;
     T parsedAction;
     T parsedObject;
-    
+    */
+
     return 0;
 }
