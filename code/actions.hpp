@@ -1,58 +1,61 @@
 // Add necessary includes & imports here
+#include "catch.hpp"
 #include <iostream>
-#include "catch.hpp
 
-//  Including files from other parts of the project
-#include "main.cpp"
-#include "gameobjects.hpp"
-#include "objectactions.hpp"
-
-void use(T parsedObject){
+void use(auto parsedObject)
+{
 
 }
-void take(T parsedObject){
+void take(auto parsedObject)
+{
 
 }
-void look(T parsedObject){
+void look(auto parsedObject)
+{
 
 }
-void examine(T parsedObject){
+void examine(auto parsedObject)
+{
 
 }
-void open(T parsedObject){
+void open(auto parsedObject)
+{
 
 }
-void read(T parsedObject){
+void read(auto parsedObject)
+{
 
 }
-void throw(T parsedObject){
+void throwItem(auto parsedObject)
+{
 
 }
-void unlock(T parsedObject){
+void unlock(auto parsedObject)
+{
 
 }
-void put(T parsedObject){
+void put(auto parsedObject)
+{
 
 }
-
-void go_to(T parsedObject){
-
-}
-
-void leave(T parsedObject){
+void go_to(auto parsedObject)
+{
 
 }
-
-void help(){
-    std::cout << "Your responses should be short answers that are 2-3 words including an \n
-    action and direct object (Example: Take the key). " ;
-    std::cout << "Command List: use, take, look, examine, open, read, \n throw, unlock, put, go to, leave, attack, and talk to."; 
-}
-
-void attack(T parsedObject){
+void leave(auto parsedObject)
+{
 
 }
+void help()
+{
+    std::cout << "Your responses should be short answers that are 2-3 words including an \n action and direct object (Example: Take the key).";
+    std::cout << "Command List: use, take, look, examine, open, read, \n throwItem, unlock, put, go to, leave, attack, and talk to."; 
+}
+void attack(auto parsedObject)
+{
 
-void talk_to(T parsedObject){
+}
+void talk_to(auto parsedObject)
+{
 
 }

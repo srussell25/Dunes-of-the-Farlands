@@ -1,111 +1,121 @@
 // Add necessary includes & imports here
-#include <iostream>
 #include "catch.hpp"
+#include <iostream>
 #include <string>
 
-//  Including files from other parts of the project
-#include "main.cpp"
-#include "objectactions.hpp"
-
-//  All of these are items/weapons that can get in game; some are placeholder items.
-//  The default state of the items are false unless you start the game with them.
-
-class items 
+class items
 {
+    private:
+        std::string item_description = "description goes here";
     public:
-    std::string item_description = "description goes here";
-    void use(T parsedObject)
-    {
+        std::string get_description() 
+        {
+            return item_description;
+        }
+        void use(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void take(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void look(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void examine(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void open(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void read(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void throwItem(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void unlock(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void put(auto parsedObject)
+        {
+            // unimplemented
+        }
+};
 
-    }
-    void take(T parsedObject)
-    {
+class locations
+{
+    private:
+        std::string location_description = "description goes here";
+        bool has_seen_location = false;
+    public:
+        std::string get_description() 
+        {
+            return location_description;
+        }
+        void go_to(auto parsedObject)
+        {
+            has_seen_location = true;
+            // unimplemented
+        }
+        void look(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void leave(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void examine(auto parsedObject)
+        {
+            // unimplemented
+        }
+};
 
-    }
-    void look(T parsedObject)
-    {
+class characters 
+{
+    private:
+        std::string charcter_description = "description goes here";
+    public:
+        std::string get_description() 
+        {
+            return charcter_description;
+        }
+        void look(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void examine(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void attack(auto parsedObject)
+        {
+            // unimplemented
+        }
+        void talk_to(auto parsedObject)
+        {
+            // unimplemented
+        }
+};
 
-    }
-    void examine(T parsedObject)
-    {
-
-    }
-    void open(T parsedObject)
-    {
-
-    }
-    void read(T parsedObject)
-    {
-
-    }
-    void throw(T parsedObject)
-    {
-
-    }
-    void unlock(T parsedObject)
-    {
-
-    }
-    void put(T parsedObject)
-    {
-
-    }
-}
-
+// example objects
 items sword;
 items sheild;
 items potion;
 items key;
 items chest;
 items note;
- 
-class locations
-{
-    public:
-    std::string location_description = "description goes here";
-    void go_to(T parsedObject)
-    {
 
-    }
-    void look(T parsedObject)
-    {
-
-    }
-    void leave(T parsedObject)
-    {
-
-    }
-    void examine(T parsedObject)
-    {
-    
-    }
-}
-
-bool has_seen_location = false; // used for if we want a big explination of a area and we move player back and forth from locations
 locations town;
 locations cave;
 locations tavern;
-
-class characters 
-{
-    public:
-    std::string charcter_description = "description goes here";
-    void look(T parsedObject)
-    {
-
-    }
-    void examine(T parsedObject)
-    {
-
-    }
-    void attack(T parsedObject)
-    {
-
-    }
-    void talk_to(T parsedObject)
-    {
-
-    }
-}
 
 characters bandit;

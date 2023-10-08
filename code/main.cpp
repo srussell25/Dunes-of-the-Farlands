@@ -1,69 +1,69 @@
-//  Add necessary includes & imports here
-#include <iostream>
+// Add necessary includes & imports here
 #include "catch.hpp"
+#include <iostream>
+#include <set>
 
-//  Including every header file we made for the project
+// Including every header file we made for the project
 #include "ui.hpp"
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
 #include "actions.hpp"
 
-//  TODO: Replace template with actual types once types are defined
-//  Struct containing all info about the player; should be instanced upon game start.
-template <typename T>
+// Class containing all info about the player; should be instanced upon game start.
 class player_info 
 {
     private:
         int location;
-        std::set<T> inventory = {};
-        std::set<T> flags = {};
+
+        // TODO: Replace "items" with generic gameObject class, replace flags with generic flags class
+        std::set<items> inventory = {};
+        std::set<items> flags = {};
 
     public:
-        void setLocation(T loc) 
+        void setLocation(auto loc) 
         {
             location = loc;
         }
-        T getLocation() 
+        auto getLocation() 
         {
             return location;
         }
-        void addItem(T item) 
+        void addItem(auto item) 
         {
             inventory.insert(item);
         }
-        void removeItem(T item) 
+        void removeItem(auto item) 
         {
             inventory.erase(item);
         }
-        T findItem(T item) 
+        auto findItem(auto item) 
         {
             return inventory.find(item);
         }
-        void addFlag(T flag) 
+        void addFlag(auto flag) 
         {
-            flags.add(flag);
+            flags.insert(flag);
         }
-        void removeFlag(T flag) 
+        void removeFlag(auto flag) 
         {
             flags.erase(flag);
         }
-        T findFlag(T flag) 
+        auto findFlag(auto flag) 
         {
             return flags.find(flag);
         }
 };
 
-//TODO: Replace template with actual types once types are defined
-//template <typename T>
 int main()
 {
-    /*
-      player_info<T> player;
-      T parsedAction;
-      T parsedObject;
-    */
-  
+    // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game 
+    player_info player;
+    
+    // TODO: Make generic gameAction class and gameObject class, uncomment the below lines with these new classes
+    //gameAction parsedAction;
+    //gameObject parsedObject;
+
     // title card
     std::cout <<"DUNES OF THE FARLANDS"<<std::endl<<"====================="<<std::endl<<std::endl;
     
@@ -76,7 +76,7 @@ int main()
     while(true)
     {
         // function to display current story event
-        // to be added  
+        //unimplemented
       
         // gets player input to story event
         std::string input;
