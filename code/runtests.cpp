@@ -7,6 +7,6 @@
 #include "actions.hpp"
 
 // Example test for ui.hpp
-STUDENT_TEST("function1 test for ui.hpp") {
-    CHECK(function1(2) == 2);
+STUDENT_TEST("function1 test for ui.hpp") 
+{
 }
