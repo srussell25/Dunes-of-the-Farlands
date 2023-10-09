@@ -3,36 +3,51 @@
 #include <iostream>
 #include <algorithm>
 
+
 class gameObject
 {
     private:
-    std::string objectType = "object type goes here";
-    std::string objectName = "object name goes here";
-    std::string objectDescription = "object descrition goes here"; 
-    std::vector<std::string> objectFlags = {};
+    std::string objectType;
+    std::string objectName;
+    std::string objectDescription; 
+    std::vector<std::string> objectFlags;
     std::vector<std::string>::iterator flagIter;
 
     public:
+    
     void set_object_name(std::string name)
     {
         objectName = name;
     }
-    std::string get_object_type()
+    gameObject(std::string oType, std::string oName, std::string oDesc,std::vector<std::string> oFlags )
     {
-        return objectType;
+        objectType = oType;
+        objectName = oName;
+        objectDescription = oDesc;
+        objectFlags = oFlags;
+        
     }
-    std::string get_object_name()
+    gameObject(std::string oType, std::string oName, std::string oDesc)
     {
-        return objectName;
+        objectType = oType;
+        objectName = oName;
+        objectDescription = oDesc;
+    
+        
     }
-    std::string get_object_description()
-    {
-        return objectDescription;
-    }
+//    std::string get_objectType(){
+//       return objectType;
+//   }
+//   std::string get_objectName(){
+//        return objectName;
+//    }
+//   std::string get_objectDescription(){
+//       return objectDescription;
+//   }
     std::string get_object_flag(std::string flag) 
-    {
-        return *std::find(objectFlags.begin(), objectFlags.end(), flag);
-    }
+        {
+            return *std::find(objectFlags.begin(), objectFlags.end(), flag);
+        }
     void add_object_flag(auto flag)
     {
         objectFlags.insert(objectFlags.begin(), flag);
@@ -40,18 +55,19 @@ class gameObject
     void remove_object_flag(auto flag)
     {
         flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
-        objectFlags.erase(flagIter);
+            objectFlags.erase(flagIter);
     }
 };
-
 std::vector<gameObject> mainObjects = {};
-
 //items
-gameObject sword;
-gameObject sheild;
+//if you think of any cool characters or locations or even items you want to add freel free to add them
+//if you do add something just make a description for the obkect, and fill in all the other requrements 
+gameObject sword("items","sword","");
+gameObject sheild("items","sheild","");
 gameObject key;
 gameObject chest;
 gameObject note;
+
 
 //locations
 gameObject gameStart;
@@ -60,6 +76,9 @@ gameObject oasis;
 gameObject tavern;
 
 //characters
-gameObject bandit;
+
+gameObject bandit("character","bandit","",{"is alive"});/*the is alive is a flag,
+it is used for anything that can block you from progressing*/
 gameObject oldLady;
 gameObject barKeep;
+
