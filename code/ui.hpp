@@ -1,8 +1,3 @@
-// Add necessary includes & imports here
-#include "catch.hpp"
-#include <iostream>
-#include <string>
-#include <stdio.h>
 
 // Method for prompting and reading user input
 std::string get_input()

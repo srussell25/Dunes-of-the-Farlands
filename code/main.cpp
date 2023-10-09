@@ -2,6 +2,8 @@
 #include "catch.hpp"
 #include <iostream>
 #include <algorithm>
+#include <string>
+#include <stdio.h>
 
 // Including every header file we made for the project
 #include "ui.hpp"

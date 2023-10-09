@@ -1,65 +1,61 @@
-// Add necessary includes & imports here
-#include "catch.hpp"
-#include <iostream>
-#include <algorithm>
 
 // This class contains information about any object within the game
 class game_object
 {
     private:
-    std::string objectType;
-    std::string objectName;
-    std::string objectDescription; 
-    std::vector<std::string> objectFlags;
-    std::vector<std::string>::iterator flagIter;
+        std::string objectType;
+        std::string objectName;
+        std::string objectDescription; 
+        std::vector<std::string> objectFlags;
+        std::vector<std::string>::iterator flagIter;
 
     public:
-    // Public default constructor
-    game_object() {}
-    // Public constructor which sets a game_object's type, name & description only.
-    game_object(std::string oType, std::string oName, std::string oDesc)
-    {
-        objectType = oType;
-        objectName = oName;
-        objectDescription = oDesc;
-    }
-    // Public constructor which sets a game_object's type, name, description, as well as its flags.
-    game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags)
-    {
-        objectType = oType;
-        objectName = oName;
-        objectDescription = oDesc;
-        objectFlags = oFlags;
-    }
-    void set_object_name(std::string name)
-    {
-        objectName = name;
-    }
-    std::string get_object_type()
-    {
-        return objectType;
-    }
-    std::string get_object_name()
-    {
-        return objectName;
-    }
-    std::string get_object_description()
-    {
-        return objectDescription;
-    }
-    std::string get_object_flag(std::string flag) 
-    {
-        return *std::find(objectFlags.begin(), objectFlags.end(), flag);
-    }
-    void add_object_flag(std::string flag)
-    {
-        objectFlags.insert(objectFlags.begin(), flag);
-    }
-    void remove_object_flag(std::string flag)
-    {
-        flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
-        objectFlags.erase(flagIter);
-    }
+        // Public default constructor
+        game_object() {}
+        // Public constructor which sets a game_object's type, name & description only.
+        game_object(std::string oType, std::string oName, std::string oDesc)
+        {
+            objectType = oType;
+            objectName = oName;
+            objectDescription = oDesc;
+        }
+        // Public constructor which sets a game_object's type, name, description, as well as its flags.
+        game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags)
+        {
+            objectType = oType;
+            objectName = oName;
+            objectDescription = oDesc;
+            objectFlags = oFlags;
+        }
+        void set_object_name(std::string name)
+        {
+            objectName = name;
+        }
+        std::string get_object_type()
+        {
+            return objectType;
+        }
+        std::string get_object_name()
+        {
+            return objectName;
+        }
+        std::string get_object_description()
+        {
+            return objectDescription;
+        }
+        std::string get_object_flag(std::string flag) 
+        {
+            return *std::find(objectFlags.begin(), objectFlags.end(), flag);
+        }
+        void add_object_flag(std::string flag)
+        {
+            objectFlags.insert(objectFlags.begin(), flag);
+        }
+        void remove_object_flag(std::string flag)
+        {
+            flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
+            objectFlags.erase(flagIter);
+        }
 };
 
 // The master list of all objects in the game; add objects to this vector after creation.
