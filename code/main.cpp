@@ -73,7 +73,9 @@ int main()
     // Setting up all the game objects
     initialize_game_objects();
 
-    // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game.
+    // TODO: Check if the player is alive in the game loop; 
+    // if not (due to a gameplay event), re-instance 
+    // this variable and restart the game.
     player_info player;
     
     std::string inputText;

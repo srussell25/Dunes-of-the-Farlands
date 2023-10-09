@@ -29,6 +29,16 @@ class game_object
             objectDescription = oDesc;
             objectFlags = oFlags;
         }
+        // Comparison operators
+        friend bool operator==(game_object const& x, game_object const& y)
+        {
+            return x.objectName == y.objectName;
+        }
+        friend bool operator!=(game_object const& x, game_object const& y)
+        {
+            return !(x == y);
+        }
+        // Other methods
         void set_object_name(std::string name)
         {
             objectName = name;
