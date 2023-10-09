@@ -5,19 +5,19 @@
 #include <stdio.h>
 
 // Method for prompting and reading user input
-std::string getInput()
+std::string get_input()
 {
     std::string temp;
     // Prompts for user input without skipping a line
-    std::cout<<"> ";
+    std::cout << "> ";
     // Reads user input into temp until a newline character is reached
-    getline(std::cin,temp);
+    getline(std::cin, temp);
     // Returns the player input
     return temp;
 }
 
 // Function for returning npc dialogue to the screen
-void npcText(std::string dialogue, std::string npcName, std::string format = ": ")
+void npc_text(std::string dialogue, std::string npcName, std::string format = ": ")
 {
     int wrap = 100;
     // Default formatting takes the style [Name: dialogue], however the format field was included
@@ -26,20 +26,20 @@ void npcText(std::string dialogue, std::string npcName, std::string format = ": 
     {
         // unimplemented
     }
-    std::string output = npcName+format+dialogue;
-    std::cout<<output<<std::endl;
+    std::string output = npcName + format + dialogue;
+    std::cout << output << std::endl;
 }
 
 // Method for returning all non-dialogue information to the screen
-void narrator(std::string Text)
+void narrator(std::string text)
 {
-    std::cout<<"["+Text+"]"<<std::endl;
+    std::cout << "[" + text + "]" << std::endl;
 }
 
 // TODO: Test this function properly
-bool exitSeq()
+bool exit_seq()
 {
-    std::cout<<"Are you sure? (Y/N)"<<std::endl;
+    std::cout << "Are you sure? (Y/N)" << std::endl;
     // Creates a loop that continuously gets the next character until it finds either a Y or N reply
     while (true)
     {
