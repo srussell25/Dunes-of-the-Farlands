@@ -18,4 +18,6 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
     return std::tuple<std::string, game_object>{returnStr, returnObj};
 }
 
+// list of all commands: go to, look at, examine, attack, take, throw item, read, open, unlock, put, talk to, inventory, help, exit
+
 #endif

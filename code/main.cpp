@@ -11,62 +11,7 @@
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
-
-// Class containing all info about the player; should be instanced upon game start.
-class player_info 
-{
-    private:
-        game_object currentLocation;
-        std::vector<game_object> inventory = {};
-        std::vector<std::string> flags = {};
-        std::vector<game_object>::iterator invIter;
-        std::vector<std::string>::iterator flagIter;
-        bool isAlive = true;
-    
-    public:
-        void set_location(game_object location)
-        {
-            currentLocation = location;
-        }
-        game_object get_location()
-        {
-            return currentLocation;
-        }
-        void add_item(game_object item)
-        {
-            inventory.insert(inventory.end(), item);
-        }
-        void remove_item(game_object item)
-        {
-            invIter = std::find(inventory.begin(), inventory.end(), item);
-            inventory.erase(invIter);
-        }
-        game_object find_item(game_object item) 
-        {
-            return *std::find(inventory.begin(), inventory.end(), item);
-        }
-        void add_flag(std::string flag) 
-        {
-            flags.insert(flags.end(), flag);
-        }
-        void remove_flag(std::string flag) 
-        {
-            flagIter = std::find(flags.begin(), flags.end(), flag);
-            flags.erase(flagIter);
-        }
-        std::string find_flag(std::string flag) 
-        {
-            return *std::find(flags.begin(), flags.end(), flag);
-        }
-        bool get_player_state()
-        {
-            return isAlive;
-        }
-        void set_player_state(bool state)
-        {
-            isAlive = state;
-        }
-};
+#include "playercharacter.hpp"
 
 int main()
 {
@@ -76,7 +21,7 @@ int main()
     // TODO: Check if the player is alive in the game loop; 
     // if not (due to a gameplay event), re-instance 
     // this variable and restart the game.
-    player_info player;
+    player_info player = player_info();
     
     std::string inputText;
     std::string outputText;
@@ -105,7 +50,7 @@ int main()
         }
 
         // Send currentAction & currentGameObject to mainAction, get output
-        outputText = main_action(get<0>(parserOutput), get<1>(parserOutput));
+        outputText = main_action(get<0>(parserOutput), get<1>(parserOutput), player);
 
         // Output text to terminal
         narrator(outputText);
