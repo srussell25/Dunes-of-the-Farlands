@@ -91,7 +91,6 @@ int main()
         // Gets player input to story event
         std::string input;
         input = get_input();
-
         
         // Parse input
         if (input == "EXIT")
