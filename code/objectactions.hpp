@@ -5,9 +5,19 @@
 
 std::string use(game_object obj, player_info &playerChar)
 {
-    if (obj.get_object_name() == "key")
+    if (obj.get_object_name() == "chestKey")
     {
-        return "You used the key.";
+        return "You used the chestKey.";
+    }
+    else if (obj.get_object_name() == "drink"){
+        if (obj.get_object_flag("at tavern") == "at tavern")
+        {
+            return "man that drink was pretty good.";
+        }
+        else
+        {
+            return "man that drink sucked you really should of drank it in the tavern";
+        }
     }
     
     return "";
@@ -15,14 +25,27 @@ std::string use(game_object obj, player_info &playerChar)
 
 std::string take(game_object obj, player_info &playerChar)
 {
-    if (obj.get_object_name() == "key")
+    if (obj.get_object_name() == "chestKey")
     {
         playerChar.add_item(obj);
-        return "Key added to inventory.";
+        return "chestKey added to inventory.";
     }
+    else if(obj.get_object_name() == "drink")  {
+        if (obj.get_object_flag("at tavern") == "at tavern")
+        {
+            playerChar.add_item(obj);
+            return "drink was added to inventory.";
+        }
+        else 
+        {
+            return "what drink?";
+        }
 
+    }
     return "";
 }
+
+
 
 // This function will take in an action as a string and the current 
 // game object being called upon; it will then check the name of the 
