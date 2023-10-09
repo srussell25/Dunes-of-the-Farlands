@@ -91,10 +91,11 @@ void initialize_game_objects() {
     "that it is... a chest. What, did you expect a mimic or something?"));
     mainObjects.insert(mainObjects.end(), game_object("item", "note", "The note reads: 'January 18th. "
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of my job to keep this chest protected, but I won't make it out here much longer.'")); 
-     mainObjects.insert(mainObjects.end(), game_object("item", "drink", "its the drink that the bartender gave you at the tavern"
-     "you should drink it in the tavern before it gets warm", {"at tavern"}));
+    mainObjects.insert(mainObjects.end(), game_object("item", "drink", "its the drink that the bartender gave you at the tavern"
+    "you should drink it in the tavern before it gets warm", {"at tavern"}));
+
     // Initializing locations (objects of type "location")
-    mainObjects.insert(mainObjects.end(), game_object("location", "gameStart", "Add description here."));
+    mainObjects.insert(mainObjects.begin(), game_object("location", "gameStart", "Add description here."));
     mainObjects.insert(mainObjects.end(), game_object("location", "abandonedTown", "Add description here."));
     mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "Add description here."));
     mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "Add description here."));
