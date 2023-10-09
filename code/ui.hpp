@@ -1,3 +1,5 @@
+#ifndef UI_HPP
+#define UI_HPP
 
 // Method for prompting and reading user input
 std::string get_input()
@@ -51,3 +53,5 @@ bool exit_seq()
         }
     }
 }
+
+#endif

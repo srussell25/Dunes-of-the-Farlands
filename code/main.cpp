@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <stdio.h>
+#include <tuple>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -75,26 +76,33 @@ int main()
     // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game.
     player_info player;
     
-    std::string currentAction;
-    game_object currentGameObject;
+    std::string inputText;
+    std::string outputText;
+    std::tuple<std::string, game_object> parserOutput;
 
     // Title card
-    std::cout << "DUNES OF THE FARLANDS"<< std::endl <<"====================="<< std::endl << std::endl;
+    std::cout << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl << std::endl;
     std::cout << "Enter any key to start" << std::endl;
 
-    // This is to make the execution wait until the user inputs any character
+    // Make the program wait until the user inputs any character
     get_input();
 
     while(true)
-    {
-        // Function to display current story event
-        // unimplemented
-      
-        // Gets player input to story event
-        std::string input;
-        input = get_input();
-        
-        // Parse input
+    { 
+        // Get the player's current input
+        inputText = get_input();
+    
+        // Send input to parser
+        parserOutput = game_input_parser(inputText);
+
+        // Send currentAction & currentGameObject to mainAction, get output
+        outputText = main_action(get<0>(parserOutput), get<1>(parserOutput));
+
+        // Output text to terminal
+        narrator(outputText);
+
+        /*
+        Exit program if player input is "EXIT"
         if (input == "EXIT")
         {
             if (exit_seq() == true)
@@ -106,6 +114,7 @@ int main()
                 std::cin.ignore();
             }
         }
+        */
     }
   
     return 0;

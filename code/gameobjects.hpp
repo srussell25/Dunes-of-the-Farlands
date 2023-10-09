@@ -1,3 +1,5 @@
+#ifndef GAMEOBJECTS_HPP
+#define GAMEOBJECTS_HPP
 
 // This class contains information about any object within the game
 class game_object
@@ -93,3 +95,5 @@ void initialize_game_objects() {
     mainObjects.insert(mainObjects.end(), game_object("character", "oldLady", "Add description here.", {"exampleFlag1", "exampleFlag2"}));
     mainObjects.insert(mainObjects.end(), game_object("character", "barKeep", "Add description here."));
 }
+
+#endif
