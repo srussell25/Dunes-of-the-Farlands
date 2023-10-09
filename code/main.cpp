@@ -81,6 +81,7 @@ int main()
     std::string inputText;
     std::string outputText;
     std::tuple<std::string, game_object> parserOutput;
+    game_object emptyGameObj;
 
     // Title card
     std::cout << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl << std::endl;
@@ -96,6 +97,12 @@ int main()
     
         // Send input to parser
         parserOutput = game_input_parser(inputText);
+
+        // If there is invalid input, skip to next loop iteration
+        if (get<1>(parserOutput) == emptyGameObj) {
+            std::cout << "Invalid input; type 'HELP' for a list of all commands." << std::endl;
+            continue;
+        }
 
         // Send currentAction & currentGameObject to mainAction, get output
         outputText = main_action(get<0>(parserOutput), get<1>(parserOutput));

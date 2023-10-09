@@ -10,7 +10,10 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
     std::string returnStr;
     game_object returnObj;
 
-    // code goes here
+    if (input.empty())
+    {
+       return std::tuple<std::string, game_object>{returnStr, returnObj};
+    }
 
     return std::tuple<std::string, game_object>{returnStr, returnObj};
 }
