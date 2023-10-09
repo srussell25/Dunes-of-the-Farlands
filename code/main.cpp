@@ -51,7 +51,7 @@ class player_info
         void removeFlag(std::string flag) 
         {
             flagIter = std::find(flags.begin(), flags.end(), flag);
-            inventory.erase(flagIter);
+            flags.erase(flagIter);
         }
         std::string findFlag(std::string flag) 
         {
