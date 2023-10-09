@@ -1,7 +1,7 @@
 // Add necessary includes & imports here
 #include "catch.hpp"
 #include <iostream>
-#include <set>
+#include <algorithm>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -13,45 +13,57 @@
 // Class containing all info about the player; should be instanced upon game start.
 class player_info 
 {
+    // TODO: Replace any marked strings (the ones with asterisks) with references to 
+    //       gameObjects instead once gameObjects is implemented
     private:
-        int location;
-
-        // TODO: Replace "items" with generic gameObject class, replace flags with generic flags class
-        std::set<items> inventory = {};
-        std::set<items> flags = {};
-
+        std::string location; // *
+        std::vector<std::string> inventory = {}; // *
+        std::vector<std::string> flags = {};
+        std::vector<std::string>::iterator invIter; // *
+        std::vector<std::string>::iterator flagIter;
+        bool isAlive = true;
     public:
-        void setLocation(auto loc) 
+        void setLocation(std::string loc) // *
         {
             location = loc;
         }
-        auto getLocation() 
+        std::string getLocation() // *
         {
             return location;
         }
-        void addItem(auto item) 
+        void addItem(std::string item) // *
         {
-            inventory.insert(item);
+            inventory.insert(inventory.end(), item);
         }
-        void removeItem(auto item) 
+        void removeItem(std::string item) // *
         {
-            inventory.erase(item);
+            invIter = std::find(inventory.begin(), inventory.end(), item);
+            inventory.erase(invIter);
         }
-        auto findItem(auto item) 
+        std::string findItem(std::string item) 
         {
-            return inventory.find(item);
+            return *std::find(inventory.begin(), inventory.end(), item);
         }
-        void addFlag(auto flag) 
+        void addFlag(std::string flag) 
         {
-            flags.insert(flag);
+            flags.insert(flags.end(), flag);
         }
-        void removeFlag(auto flag) 
+        void removeFlag(std::string flag) 
         {
-            flags.erase(flag);
+            flagIter = std::find(flags.begin(), flags.end(), flag);
+            inventory.erase(flagIter);
         }
-        auto findFlag(auto flag) 
+        std::string findFlag(std::string flag) 
         {
-            return flags.find(flag);
+            return *std::find(flags.begin(), flags.end(), flag);
+        }
+        bool getPlayerState()
+        {
+            return isAlive;
+        }
+        void setPlayerState(bool state)
+        {
+            isAlive = state;
         }
 };
 
@@ -60,38 +72,42 @@ int main()
     // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game 
     player_info player;
     
-    // TODO: Make generic gameAction class and gameObject class, uncomment the below lines with these new classes
-    //gameAction parsedAction;
-    //gameObject parsedObject;
+    // TODO: Replace std::string with gameObject for currentObject once gameObject is implemented
+    std::string currentAction;
+    std::string currentGameObject;
 
-    // title card
+    // Title card
     std::cout <<"DUNES OF THE FARLANDS"<<std::endl<<"====================="<<std::endl<<std::endl;
     
     std::cout<<"Enter any key to start" << std::endl;
 
-    // this is just here to make the execution wait until the user inputs any character
+    // This is to make the execution wait until the user inputs any character
     std::string startSeq;
     startSeq = getInput();
 
     while(true)
     {
-        // function to display current story event
-        //unimplemented
+        // Function to display current story event
+        // unimplemented
       
-        // gets player input to story event
+        // Gets player input to story event
         std::string input;
         input = getInput();
 
-        // simply converts input into uppercase for easy matching
+        // Simply converts input into uppercase for easy matching
         std::transform(input.begin(), input.end(), input.begin(), ::toupper);
         
-        // parse input
+        // Parse input
         if (input == "EXIT")
         {
             if (exitSeq() == true)
+            {
                 exit(0);
+            }
             else
+            {
                 std::cin.ignore();
+            }
         }
     }
   
