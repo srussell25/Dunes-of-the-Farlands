@@ -12,6 +12,8 @@ std::string get_input()
     std::cout << "> ";
     // Reads user input into temp until a newline character is reached
     getline(std::cin, temp);
+    // Simply converts input into uppercase for easy matching
+    std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
     // Returns the player input
     return temp;
 }
@@ -36,7 +38,7 @@ void narrator(std::string text)
     std::cout << "[" + text + "]" << std::endl;
 }
 
-// TODO: Test this function properly
+// Method for prompting the user whether they want to exit the game or not
 bool exit_seq()
 {
     std::cout << "Are you sure? (Y/N)" << std::endl;

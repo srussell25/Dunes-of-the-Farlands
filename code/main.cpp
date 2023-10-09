@@ -81,8 +81,7 @@ int main()
     std::cout << "Enter any key to start" << std::endl;
 
     // This is to make the execution wait until the user inputs any character
-    std::string startSeq;
-    startSeq = get_input();
+    get_input();
 
     while(true)
     {
@@ -93,8 +92,6 @@ int main()
         std::string input;
         input = get_input();
 
-        // Simply converts input into uppercase for easy matching
-        std::transform(input.begin(), input.end(), input.begin(), ::toupper);
         
         // Parse input
         if (input == "EXIT")
