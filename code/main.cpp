@@ -8,60 +8,58 @@
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
-#include "actions.hpp"
 
 // Class containing all info about the player; should be instanced upon game start.
 class player_info 
 {
-    // TODO: Replace any marked strings (the ones with asterisks) with references to 
-    //       gameObjects instead once gameObjects is implemented
     private:
-        std::string location; // *
-        std::vector<std::string> inventory = {}; // *
+        game_object currentLocation;
+        std::vector<game_object> inventory = {};
         std::vector<std::string> flags = {};
-        std::vector<std::string>::iterator invIter; // *
+        std::vector<game_object>::iterator invIter;
         std::vector<std::string>::iterator flagIter;
         bool isAlive = true;
+    
     public:
-        void setLocation(std::string loc) // *
+        void set_location(game_object location)
         {
-            location = loc;
+            currentLocation = location;
         }
-        std::string getLocation() // *
+        game_object get_location()
         {
-            return location;
+            return currentLocation;
         }
-        void addItem(std::string item) // *
+        void add_item(game_object item)
         {
             inventory.insert(inventory.end(), item);
         }
-        void removeItem(std::string item) // *
+        void remove_item(game_object item)
         {
             invIter = std::find(inventory.begin(), inventory.end(), item);
             inventory.erase(invIter);
         }
-        std::string findItem(std::string item) 
+        game_object find_item(game_object item) 
         {
             return *std::find(inventory.begin(), inventory.end(), item);
         }
-        void addFlag(std::string flag) 
+        void add_flag(std::string flag) 
         {
             flags.insert(flags.end(), flag);
         }
-        void removeFlag(std::string flag) 
+        void remove_flag(std::string flag) 
         {
             flagIter = std::find(flags.begin(), flags.end(), flag);
             flags.erase(flagIter);
         }
-        std::string findFlag(std::string flag) 
+        std::string find_flag(std::string flag) 
         {
             return *std::find(flags.begin(), flags.end(), flag);
         }
-        bool getPlayerState()
+        bool get_player_state()
         {
             return isAlive;
         }
-        void setPlayerState(bool state)
+        void set_player_state(bool state)
         {
             isAlive = state;
         }
@@ -69,21 +67,22 @@ class player_info
 
 int main()
 {
-    // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game 
+    // Setting up all the game objects
+    initialize_game_objects();
+
+    // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game.
     player_info player;
     
-    // TODO: Replace std::string with gameObject for currentObject once gameObject is implemented
     std::string currentAction;
-    std::string currentGameObject;
+    game_object currentGameObject;
 
     // Title card
-    std::cout <<"DUNES OF THE FARLANDS"<<std::endl<<"====================="<<std::endl<<std::endl;
-    
-    std::cout<<"Enter any key to start" << std::endl;
+    std::cout << "DUNES OF THE FARLANDS"<< std::endl <<"====================="<< std::endl << std::endl;
+    std::cout << "Enter any key to start" << std::endl;
 
     // This is to make the execution wait until the user inputs any character
     std::string startSeq;
-    startSeq = getInput();
+    startSeq = get_input();
 
     while(true)
     {
@@ -92,7 +91,7 @@ int main()
       
         // Gets player input to story event
         std::string input;
-        input = getInput();
+        input = get_input();
 
         // Simply converts input into uppercase for easy matching
         std::transform(input.begin(), input.end(), input.begin(), ::toupper);
@@ -100,7 +99,7 @@ int main()
         // Parse input
         if (input == "EXIT")
         {
-            if (exitSeq() == true)
+            if (exit_seq() == true)
             {
                 exit(0);
             }
