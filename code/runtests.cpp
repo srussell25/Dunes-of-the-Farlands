@@ -4,9 +4,5 @@
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
-#include "actions.hpp"
 
-// Example test for ui.hpp
-STUDENT_TEST("function1 test for ui.hpp") 
-{
-}
+// Include tests below
