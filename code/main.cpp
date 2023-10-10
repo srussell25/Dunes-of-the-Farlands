@@ -1,97 +1,79 @@
 // Add necessary includes & imports here
 #include "catch.hpp"
 #include <iostream>
-#include <set>
+#include <algorithm>
+#include <string>
+#include <stdio.h>
+#include <tuple>
 
 // Including every header file we made for the project
 #include "ui.hpp"
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
-#include "actions.hpp"
-
-// Class containing all info about the player; should be instanced upon game start.
-class player_info 
-{
-    private:
-        int location;
-
-        // TODO: Replace "items" with generic gameObject class, replace flags with generic flags class
-        std::set<items> inventory = {};
-        std::set<items> flags = {};
-
-    public:
-        void setLocation(auto loc) 
-        {
-            location = loc;
-        }
-        auto getLocation() 
-        {
-            return location;
-        }
-        void addItem(auto item) 
-        {
-            inventory.insert(item);
-        }
-        void removeItem(auto item) 
-        {
-            inventory.erase(item);
-        }
-        auto findItem(auto item) 
-        {
-            return inventory.find(item);
-        }
-        void addFlag(auto flag) 
-        {
-            flags.insert(flag);
-        }
-        void removeFlag(auto flag) 
-        {
-            flags.erase(flag);
-        }
-        auto findFlag(auto flag) 
-        {
-            return flags.find(flag);
-        }
-};
+#include "playercharacter.hpp"
 
 int main()
 {
-    // TODO: Check if the player is alive in the game loop; if not (due to a gameplay event), re-instance this variable and restart the game 
+    std::string inputText;
+    std::string outputText;
+    std::tuple<std::string, game_object> parserOutput;
+    game_object emptyGameObj;
     player_info player;
-    
-    // TODO: Make generic gameAction class and gameObject class, uncomment the below lines with these new classes
-    //gameAction parsedAction;
-    //gameObject parsedObject;
 
-    // title card
-    std::cout <<"DUNES OF THE FARLANDS"<<std::endl<<"====================="<<std::endl<<std::endl;
-    
-    std::cout<<"Enter any key to start" << std::endl;
-
-    // this is just here to make the execution wait until the user inputs any character
-    std::string startSeq;
-    startSeq = getInput();
-
+    // Main program loop
     while(true)
     {
-        // function to display current story event
-        //unimplemented
-      
-        // gets player input to story event
-        std::string input;
-        input = getInput();
+        // Setting up all the game objects & player character
+        initialize_game_objects();
+        player = player_info();
 
-        // simply converts input into uppercase for easy matching
-        std::transform(input.begin(), input.end(), input.begin(), ::toupper);
-        
-        // parse input
-        if (input == "EXIT")
+        // Title card
+        std::cout << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl << std::endl;
+        std::cout << "Enter any letter to start!" << std::endl;
+
+        // Make the program wait until the user inputs any character
+        get_input();
+
+        // Main gameplay loop; if player dies, break loop to restart
+        while(true) 
         {
-            if (exitSeq() == true)
-                exit(0);
-            else
-                std::cin.ignore();
+            // Get the player's current input
+            inputText = get_input();
+
+            // Send input to parser
+            parserOutput = game_input_parser(inputText);
+
+            // If there is invalid input, skip to next loop iteration
+            if (get<1>(parserOutput) == emptyGameObj) 
+            {
+                std::cout << "Invalid input; type 'HELP' for a list of all commands." << std::endl;
+                continue;
+            }
+
+            // Send currentAction & currentGameObject to mainAction, get output
+            outputText = main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+            // Output text to terminal
+            narrator(outputText);
+
+            // Nested break for the loop to ensure all text is outputted to the console.
+            if (!player.get_player_state())
+            {
+                break;
+            }
+        }
+
+        // Game Over loop; if player answers no, quit the game
+        std::cout << std::endl << "Game Over!" << std::endl;
+        std::cin.ignore();
+        if (!exit_seq("Try again?"))
+        {
+            break;
+        }
+        else
+        {
+            std::cin.ignore();
         }
     }
   

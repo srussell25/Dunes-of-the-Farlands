@@ -1,287 +1,215 @@
-// Add necessary includes & imports here
-#include "catch.hpp"
-#include <iostream>
+#ifndef OBJECTACTIONS_HPP
+#define OBJECTACTIONS_HPP
 
-// TODO: Make the comment below more concise
-/* 
-  These functions should check if you have the right criteria to perform an action; for example, if you try to 
-  take a item, you need to make sure that you can reach it (if there is a thing in the way) or even if you're 
-  in the same location as the item or in some cases if you even have the item to use in the first place.
-*/
+#include "playercharacter.hpp"
 
-// TODO: Define "item" and "loc" variables
-
-/* TODO: 
-    None of the methods in this file below will work because they are redefining methods that already exist within gameobjects.hpp.
-    This file needs a complete rewrite.
-    Everything is commented out so that the rest of the program will compile.
-
-// functions for items
-void items::take(auto parsedObject){
-    // if in_location = true {take item} or if blocked by something, check for that, block the user, and then say something like "can't take that right now".
-    if(getLocation(loc) == "" && parsedObject == "")
-    {
-        addItem(item);
-        std::cout << parsedObject << " has been added to your inventory.";
-    }
-    else if(getLocation(loc) == "" && parsedObject == "" && findItem(item) == true) // for if you try to grab an item more than once.
-    {
-        std::cout << "The item that you're trying to grab again is already in your inventory."
-    }
-    else if(getLocation(loc) == "" && parsedObject == "")
-    {
-        addItem(item);
-        std::cout << parsedObject << " has been added to your inventory.";
-    }
-    else // for if you try to grab something that doesn't exist within the game. 
-    {  
-        std::cout << "The action that you just attempted to perform is not valid. Please try again.";
-    }
-}
-void items::use(auto parsedObject)
+std::string use(game_object obj, player_info &playerChar)
 {
-    // check if they have_item and if the are in_location; this is similar to the attack command.
-    if(getLocation(loc) == "" && parsedObject == "" && findItem(item) == true)
+    if (obj.get_object_name() == "chestKey")
     {
-        removeItem(item);
-        std::cout << parsedObject << " was used.";
+        return "You used the chestKey.";
     }
-    else if(parsedObject == "")
+    else if (obj.get_object_name() == "drink")
     {
-        std::cout << "You have taken out " << parsedObject << " from your inventory.";
-    }
-}
-void items::look(auto parsedObject)
-{
-    if(parsedObject == "")
-    {
-        std::cout << "This key seems to unlock something."; // just example for key
-    }
-}
-void items::examine(auto parsedObject)
-{
-    // unimplemented
-}
-void items::open(auto parsedObject)
-{
-    if(parsedObject == "")
-    {
-        removeItem(item); // for example, if the user opens a container from within their inventory, then remove the container from their inventory 
-        item::take(item); // and then add the items from within the container to the user's inventory instead
-        std::cout << "You obain" << item << " heal potion! It may be useful"; // example text for a heal potion
-    }
-    else 
-    {
-        std::cout << "It cannot open.";
-    }
-}
-void items::read(auto parsedObject)
-{
-    if(getLocation(loc) == "" && parsedObject == "") // if user reads something in a specific place, creates an event
-    {
-        std::cout << "Lord... I can see you..."; // example text of a magical event upon reading a magic book
-    }
-    else if(parsedObject == "")
-    {
-        std::cout << "Can't read this book since it is damaged."; // need to change text to more generic fail state
-    }
-    else 
-    {
-        std::cout << "It's unreadable.";
-    }
-}
-void items::throwItem(auto parsedObject){
-    if(getLocation(loc) == "" && parsedObject == "")
-    {
-        removeItem(item); // if a weapon is thrown, remove the item from the player's inventory
-    }
-    else 
-    {
-        std::cout << "This is not a throwing thing.";
-    }
-}
-void items::unlock(auto parsedObject){
-    if(getLocation(loc) == "" && parsedObject == "")
-    {
-        removeItem(item); // user goes next chapter by unlocking some sort of door, then key should disappear from inventory
-        std::cout << "You open the door!";
-    }
-    else
-    {
-        std::cout << "You don't have anything to unlock " << parsedObject << ".";
-    }
-}
-void items::put(auto parsedObject)
-{
-    // unimplemented
-}
-
-// functions for locations
-// TODO: replace example description text with a direct call to a gameObject's get_description() function
-void locations::go_to(auto parsedObject)
-{
-    if(getLocation(loc) == "" && parsedObject == "")
-    {
-       setLocation(loc);
-       std::cout << "You are now going to: " << parsedObject;
-    }
-    else if(findItem(item) == false && getLocation(loc) == "" && findItem(loc) == false) // for when the player doesn't have the right items
-    {
-        std::cout << "You are missing multiple items. Look around the area before moving on to the next location."
-    }
-}
-void locations::look(auto parsedObject)
-{
-    if(getLocation(loc) == "" && parsedObject == "")
-    {
-       std::cout << "It has a shady atmosphere"; // example text
-    }
-    else
-    {
-        std::cout << "You cannot see. It's too dark"; // example text
-    }
-}
-void locations::leave(auto parsedObject)
-{
-    if((getLocation(loc) == "" && parsedObject == "") != setLocation(loc))
-    {
-       std::cout << "You are leaving from: " << setLocation(loc);
-       setLocation(loc);
-    }
-    else
-    {
-        std::cout << "This place is " << parsedObject << " that you want to go"; // example text
-    }
-}
-void locations::examine(auto parsedObject)
-{
-    if(getLocation(loc) == "" && parsedObject == "")
-    {
-       std::cout << "There are letters on the wall... It says... God is dead..."; // example text
-    }
-    else
-    {
-        std::cout << "Try again!";
-    }
-}
-
-// functions for characters
-void characters::look(auto parsedObject)
-{
-    // unimplemented
-}
-void characters::examine(auto parsedObject)
-{
-    // unimplemented
-}
-void characters::attack(auto parsedObject)
-{
-    // unimplemented
-}
-void characters::talk_to(auto parsedObject)
-{
-    // unimplemented
-}
-
-*/
-
-// TODO: Delete the following code once the parser is finished; this just does the job of the parser
-/*
-void examineInput(auto parsedAction, auto parsedObject)
-{
-    std::string(tolower(parsedAction));
-    if(parsedObject == item)
-    {
-        if(parsedAction == "use")
+        if (obj.get_object_flag("at_object") == "at_object")
         {
-            void items::use(parsedObject);
-        }
-        else if(parsedAction == "take")
-        {
-            void items::take(parsedObject);
-        }
-        else if(parsedAction == "look")
-        {
-            void items::look(parsedObject);
-        }
-        else if(parsedAction == "examine")
-        {
-            void items::examine(parsedObject);
-        }
-        else if(parsedAction == "open")
-        {
-            void items::open(parsedObject);
-        }
-        else if(parsedAction == "read")
-        {
-            void items::read(parsedObject);
-        }
-        else if(parsedAction == "throwItem")
-        {
-            void items::throwItem(parsedObject);
-        }
-        else if(parsedAction == "unlock") // probably only going to be used for chests, doors, etc.
-        {
-            void items::unlock(parsedObject);
-        }
-        else if(parsedAction == "put")
-        {
-            void items::put(parsedObject);
+            playerChar.remove_item(obj);
+            return "Man, that was a pretty good drink!";
         }
         else
         {
-            std::cout << parsedAction << " is not a valid input.";
+            return "Hmm, I feel like I'm missing out by not "
+            "drinking this in the tavern... maybe I should go back?";
         }
     }
-    else if(parsedObject == locations)
+    return "Invalid action & object combination; try again.";
+}
+
+std::string take(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_name() == "chestKey")
     {
-        if(parsedAction == "go to")
+        playerChar.add_item(obj);
+        return "Key to the chest added to your inventory.";
+    }
+    else if (obj.get_object_name() == "drink")  
+    {
+        if (obj.get_object_flag("at_object") == "at_object")
         {
-            void locations::go_to(parsedObject);
+            playerChar.add_item(obj);
+            return "The drink was added to your inventory.";
         }
-        else if(parsedAction == "look")
+        else 
         {
-            void locations::look(parsedObject);
-        }
-        else if(parsedAction == "leave")
-        {
-            void locations::leave(parsedObject);
-        }
-        else if(parsedAction == "examine")
-        {
-            void locations::examine(parsedObject);
-        }
-        else
-        {
-            std::cout << parsedAction << " is not a valid input.";
+            return "Take a drink? I don't see a drink around here, do you?";
         }
     }
-    else if(parsedObject == characters)
+    return "Invalid action & object combination; try again.";
+}
+std::string go_to(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_name() == "oasis")
     {
-        if(parsedAction == "look")
+        if (playerChar.get_location().get_object_name() == "gameStart")
         {
-            void characters::look(parsedObject);
+            playerChar.set_location(oasis);
+            playerChar.set_player_state(false);
+            return "You make your way over to the oasis, but when you get there, a frog suddenly jumps onto your leg. "
+            "It's a poisonous frog. You die in seconds.";
         }
-        else if(parsedAction == "examine")
+    }
+    else if (obj.get_object_name() == "abandonedTown")
+    {
+        if (playerChar.get_location().get_object_name() == "gameStart")
         {
-            void characters::examine(parsedObject);
+            playerChar.set_location(abandonedTown); 
+            oldLady.add_object_flag("nearCharacter");
+            abandonedTown.add_object_flag("at_town");
+            gameStart.remove_object_flag("at_start");
+            return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
+            " but it's overrun by thugs and bandits. The walls are broken, and people have"
+            " malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby,"
+            " but your gaze also happens upon an old lady who seems to be struggling. What do you do?";
         }
-        else if(parsedAction == "attack")
+    }
+    else if (obj.get_object_name() == "tavern")
+    {
+        if (playerChar.get_location().get_object_name() == "abandonedTown")
         {
-            void characters::attack(parsedObject);
+            barkeep.add_object_flag("nearCharacter");
+            bandit.add_object_flag("nearCharacter");
+            tavern.add_object_flag("at_tavern");
+            drink.add_object_flag("at_object");
+            abandonedTown.remove_object_flag("at_town");
+            oldLady.remove_object_flag("nearCharacter");   
+            return "You enter into the tavern. You try to go up to the bar to ask for directions,"
+            " but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot."
+            " He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!"
+            " What do you do?";
         }
-        else if(parsedAction == "talk to")
+    }
+    return "Invalid action & object combination; try again.";
+}
+
+std::string talk_to(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_name() == "bartender" || obj.get_object_name() == "barkeep" )
+    {
+        if (obj.get_object_flag("nearCharacter") == "nearCharacter")
         {
-            void characters::talk_to(parsedObject);
+        return "hey im the bartender of the Sand Dune Saloon. here is a drink. there is nothing here for you at the is town unless you want to get yourself kill"
+        "i would recommend going to east to the Farlands, but be on your guard. Some of the people in that area are no good.";
+
         }
-        else
+    }
+    else if (obj.get_object_flag("oldlady") == "oldlady")
+    {
+        if (obj.get_object_flag("nearCharacter") == "nearCharacter")
         {
-            std::cout << parsedAction << " is not a valid input.";
+            playerChar.set_player_state(false);
+            return "you try to talk to the old lady but then she stabs you and takes your stuff. looks like the lady wasn't week after all";
         }
+    }
+    return "Invalid action & object combination; try again.";
+}
+
+
+// If there is an object to look at, call this function for the description.
+std::string look(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_flag("at object") == "at object")
+    {
+        return obj.get_object_description();
+    }
+    return "Invalid action & object combination; try again.";
+}
+
+// Should give a more in depth description of an object - not fully implemented as of now.
+std::string examine(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_flag("at object") == "at object")
+    {
+        return obj.get_object_description();
+    }
+    return "Invalid action & object combination; try again.";
+}
+
+// Attack the character, then check for the specified character
+std::string attack(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_type() == "character" && obj.get_object_flag("nearCharacter") == "nearCharacter")
+    {
+        if(obj.get_object_name() == "bandit")
+        {
+            bandit.remove_object_flag("is_alive");
+            return "You take out your sword, and with a mighty slash, you defeat the bandit."
+            " His 'friends' take one look at you and decide to run away. Meanwhile, the rest"
+            " of the bar doesn't seem to take any notice of your actions, except for the bartender."
+            " He beckons you over to the bar, and sets a drink down in front of you.";
+        }
+        else if(obj.get_object_name() == "oldLady")
+        {
+            return "Attacking an old lady? You can't be serious!";
+        }
+        else if(obj.get_object_name() == "barkeep")
+        {
+            return "Hey, you've only just met the guy, have some self discipline!";
+        }
+    }
+    return "Invalid action & object combination; try again.";
+}
+
+//read things like books, notes, etc.
+std::string read(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_type() == "item")
+    {
+        if (obj.get_object_name() == "note" && obj.get_object_flag("at_tavern") == "at_tavern")
+        {
+            return obj.get_object_description();
+        }
+    }
+    return "Invalid action & object combination; try again.";
+}
+
+// This function will take in an action as a string and the current 
+// game object being called upon; it will then check the name of the 
+// action via a set of if statements doing string comparisons, and once 
+// it finds a match, it will send the game object through to a 
+// dedicated function for the action being called upon.
+std::string main_action(std::string act, game_object obj, player_info &playerChar) 
+{
+    std::string result = "";
+    
+    if (act == "use")
+    { 
+        result = use(obj, playerChar);
+    }
+    else if (act == "take" || act == "get" || "grab")
+    {
+        result = take(obj, playerChar);
+    }
+    else if (act == "go to")
+    {
+        result = go_to(obj, playerChar);
+    }
+    else if (act == "look")
+    {
+        result = look(obj, playerChar);
+    }
+    else if (act == "read")
+    {
+        result = read(obj, playerChar);
+    }
+    else if (act == "talk to")
+    {
+        result = talk_to(obj, playerChar);
     }
     else
     {
-        std::cout << parsedObject << " was not recognized. Please try again.";
+        result = "This action has not been implemented yet, sorry!";
     }
+    return result;
 }
-*/
+
+#endif

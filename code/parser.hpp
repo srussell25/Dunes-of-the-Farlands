@@ -1,9 +1,24 @@
-// Add necessary includes & imports here
-#include "catch.hpp"
-#include <iostream>
+#ifndef PARSER_HPP
+#define PARSER_HPP
 
-// Generic starter code for each file
-int function2(int x)
+#include "gameobjects.hpp"
+
+// TODO: Write a better explanation for this function
+// This function takes in user input & parses it
+std::tuple<std::string, game_object> game_input_parser(std::string input)
 {
-    return x;
+    std::string returnStr;
+    game_object returnObj;
+
+    if (input.empty())
+    {
+       return std::tuple<std::string, game_object>{returnStr, returnObj};
+    }
+
+    return std::tuple<std::string, game_object>{returnStr, returnObj};
 }
+
+// NOTE: list of all commands: go to, look at, examine, attack, take, 
+// throw item, read, open, unlock, put, talk to, inventory, help, exit
+
+#endif
