@@ -79,6 +79,7 @@ game_object oasis;
 game_object tavern;
 game_object bandit;
 game_object oldLady;
+game_object barKeep;
 game_object sword;
 game_object shield;
 game_object chestkey;
