@@ -85,7 +85,7 @@ game_object chestkey;
 game_object chest;
 game_object note;
 game_object drink;
-game_object barKeep;
+game_object barkeep;
 
 // NOTE: When making a game_object you must set its name, its type (either "item", "location", or "character"),
 //       and its description at minimum. Optionally, you can also add a vector of strings containing various flags
@@ -100,20 +100,22 @@ void initialize_game_objects() {
         mainObjects.clear();
     }
 
+    // Initializing items (objects of type "item")
     sword = game_object("item", "sword", "You look upon an ordinary sword; "
     "it's not pretty, but it gets the job done.");
     shield = game_object("item", "shield", "You look upon an ordinary shield; "
     "it may be made out of wood, but it'll protect you well enough. Maybe.");
     chestkey = game_object("item", "chestkey", "This is, almost certainly, "
-    "the key to the chest. The engraving on the side says 'chest key'; I'd be surprised if it was for anything else.");
+    "the key to the chest. The engraving on the side says 'chest key';"
+    " I'd be surprised if it was for anything else.");
     chest = game_object("item", "chest", "You look at the chest and see "
     "that it is... a chest. What, did you expect a mimic or something?");
-    note =  game_object("item", "note", "The note reads: 'January 18th. "
-    "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of my job to keep this chest protected, but I won't make it out here much longer.'");
-    drink = game_object("item", "drink", "its the drink that the bartender gave you at the tavern"
-    "you should drink it in the tavern before it gets warm", {"at tavern"});
+    note = game_object("item", "note", "The note reads: 'January 18th. "
+    "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
+    " my job to keep this chest protected, but I won't make it out here much longer.'");
+    drink = game_object("item", "drink", "It's the drink the bartender gave you at the tavern."
+    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_tavern"});
 
-    // Initializing items (objects of type "item")
     mainObjects.insert(mainObjects.end(), sword);
     mainObjects.insert(mainObjects.end(), shield);
     mainObjects.insert(mainObjects.end(), chestkey);
@@ -124,8 +126,8 @@ void initialize_game_objects() {
     // Initializing locations (objects of type "location")
     gameStart = game_object("location", "gameStart", "It's shabby and a place of calm tension.", {"at_start"});
     abandonedTown = game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.");
-    oasis = game_object("location", "oasis", "This oasis looks beautiful and peaceful.");
-    tavern = game_object("location", "tavern", "It's tavern full of drinks and food");
+    oasis = game_object("location", "oasis", "You look at what seems to be a beautiful oasis.");
+    tavern = game_object("location", "tavern", "It's a tavern; I wonder if there's anyone inside?");
 
     mainObjects.insert(mainObjects.begin(), gameStart);
     mainObjects.insert(mainObjects.end(), abandonedTown);
@@ -136,12 +138,13 @@ void initialize_game_objects() {
     bandit = game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"});
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-    oldLady = game_object("character", "oldLady", "There's an old lady that looks like a friendly soul in this bandit-infested town. Her prescence was the only welcome we got from our arrival", {"exampleFlag1", "exampleFlag2"});
-    barKeep = game_object("character", "barKeep", "The barkeep is keepng themselves occupied by wiping down all their glasses");
+    oldLady = game_object("character", "oldLady", "You see an old lady who seems to be having trouble with something,"
+    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?");
+    barkeep = game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.");
 
     mainObjects.insert(mainObjects.end(), bandit);
     mainObjects.insert(mainObjects.end(), oldLady);
-    mainObjects.insert(mainObjects.end(), barKeep);
+    mainObjects.insert(mainObjects.end(), barkeep);
 }
 
 #endif

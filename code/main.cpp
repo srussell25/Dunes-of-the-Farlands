@@ -30,13 +30,13 @@ int main()
 
         // Title card
         std::cout << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl << std::endl;
-        std::cout << "Enter any key to start" << std::endl;
+        std::cout << "Enter any letter to start!" << std::endl;
 
         // Make the program wait until the user inputs any character
         get_input();
 
         // Main gameplay loop; if player dies, break loop to restart
-        while(!player.get_player_state()) 
+        while(true) 
         {
             // Get the player's current input
             inputText = get_input();
@@ -56,6 +56,12 @@ int main()
 
             // Output text to terminal
             narrator(outputText);
+
+            // Nested break for the loop to ensure all text is outputted to the console.
+            if (!player.get_player_state())
+            {
+                break;
+            }
         }
 
         // Game Over loop; if player answers no, quit the game
