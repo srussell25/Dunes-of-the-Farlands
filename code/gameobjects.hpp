@@ -89,7 +89,7 @@ void initialize_game_objects() {
     "the key to the chest. The engraving on the side says 'chest key'; I'd be surprised if it was for anything else."));
     mainObjects.insert(mainObjects.end(), game_object("item", "chest", "You look at the chest and see "
     "that it is... a chest. What, did you expect a mimic or something?"));
-    mainObjects.insert(mainObjects.end(), game_object("item", "note", "The note reads: 'January 18th. "
+    mainObjects.insert(mainObjects.end(), game_object("item", "note", "The note reads: 'January 18th."
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of my job to keep this chest protected, but I won't make it out here much longer.'")); 
      mainObjects.insert(mainObjects.end(), game_object("item", "drink", "its the drink that the bartender gave you at the tavern"
      "you should drink it in the tavern before it gets warm", {"at tavern"}));
