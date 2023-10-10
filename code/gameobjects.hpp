@@ -106,7 +106,6 @@ void initialize_game_objects() {
     "you should drink it in the tavern before it gets warm", {"at tavern"});
 
     // Initializing items (objects of type "item")
-
     mainObjects.insert(mainObjects.end(), sword);
     mainObjects.insert(mainObjects.end(), shield);
     mainObjects.insert(mainObjects.end(), chestkey);
@@ -119,7 +118,6 @@ void initialize_game_objects() {
     mainObjects.insert(mainObjects.end(), game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.", {"at abandonedTown"}));
     mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "This oasis looks beautiful and peaceful.", {"at oasis"}));
     mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "It's tavern full of drinks and food", {"at tavern"}));
-
 
     // Initializing characters (objects of type "character")
     mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}));
