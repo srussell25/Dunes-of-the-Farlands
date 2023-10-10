@@ -72,7 +72,13 @@ class game_object
 
 // The master list of all objects in the game; add objects to this vector after creation.
 std::vector<game_object> mainObjects = {};
-
+game_object gameStart;
+game_object abandonedTown;
+game_object oasis;
+game_object tavern;
+game_object bandit;
+game_object oldLady;
+game_object barKeep;
 // NOTE: When making a game_object you must set its name, its type (either "item", "location", or "character"),
 //       and its description at minimum. Optionally, you can also add a vector of strings containing various flags
 //       for that object, but keep in mind you can always add (and remove) flags at a later point if needed.
@@ -95,17 +101,26 @@ void initialize_game_objects() {
     "you should drink it in the tavern before it gets warm", {"at tavern"}));
 
     // Initializing locations (objects of type "location")
-    mainObjects.insert(mainObjects.begin(), game_object("location", "gameStart", "It's shabby and a place of calm tension."));
-    mainObjects.insert(mainObjects.end(), game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.", {"at abandonedTown"}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "This oasis looks beautiful and peaceful.", {"at oasis"}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "It's tavern full of drinks and food", {"at tavern"}));
+    gameStart = game_object("location", "gameStart", "It's shabby and a place of calm tension.");
+    abandonedTown = game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.", {"at abandonedTown"});
+    oasis = game_object("location", "oasis", "This oasis looks beautiful and peaceful.", {"at oasis"});
+    tavern = game_object("location", "tavern", "It's tavern full of drinks and food", {"at tavern"});
+
+    mainObjects.insert(mainObjects.begin(), gameStart);
+    mainObjects.insert(mainObjects.end(), abandonedTown);
+    mainObjects.insert(mainObjects.end(), oasis);
+    mainObjects.insert(mainObjects.end(), tavern);
 
     // Initializing characters (objects of type "character")
-    mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}));
+    bandit = game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"});
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-    mainObjects.insert(mainObjects.end(), game_object("character", "oldLady", "There's an old lady that looks like a friendly soul in this bandit-infested town. Her prescence was the only welcome we got from our arrival", {"exampleFlag1", "exampleFlag2"}));
-    mainObjects.insert(mainObjects.end(), game_object("character", "barKeep", "The barkeep is keepng themselves occupied by wiping down all their glasses"));
+    oldLady = game_object("character", "oldLady", "There's an old lady that looks like a friendly soul in this bandit-infested town. Her prescence was the only welcome we got from our arrival", {"exampleFlag1", "exampleFlag2"});
+    barKeep = game_object("character", "barKeep", "The barkeep is keepng themselves occupied by wiping down all their glasses");
+
+    mainObjects.insert(mainObjects.end(), bandit);
+    mainObjects.insert(mainObjects.end(), oldLady);
+    mainObjects.insert(mainObjects.end(), barKeep);
 }
 
 #endif
