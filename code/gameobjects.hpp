@@ -95,10 +95,10 @@ void initialize_game_objects() {
     "you should drink it in the tavern before it gets warm", {"at tavern"}));
 
     // Initializing locations (objects of type "location")
-    mainObjects.insert(mainObjects.begin(), game_object("location", "gameStart", "Add description here."));
-    mainObjects.insert(mainObjects.end(), game_object("location", "abandonedTown", "Add description here."));
-    mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "Add description here."));
-    mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "Add description here."));
+    mainObjects.insert(mainObjects.begin(), game_object("location", "gameStart", "It's shabby and a place of calm tension."));
+    mainObjects.insert(mainObjects.end(), game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.", {"at abandonedTown"}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "This oasis looks beautiful and peaceful.", {"at oasis"}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "It's tavern full of drinks and food", {"at tavern"}));
 
     // Initializing characters (objects of type "character")
     mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "Add description here.", {"is_alive"}));
