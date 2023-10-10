@@ -36,9 +36,9 @@ void narrator(std::string text)
 }
 
 // Method for prompting the user whether they want to exit the game or not
-bool exit_seq()
+bool exit_seq(std::string outputText = "Are you sure?")
 {
-    std::cout << "Are you sure? (Y/N)" << std::endl;
+    std::cout << outputText + " (Y/N)" << std::endl;
     // Creates a loop that continuously gets the next character until it finds either a Y or N reply
     while (true)
     {
