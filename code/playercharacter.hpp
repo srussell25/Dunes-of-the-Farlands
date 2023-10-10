@@ -17,7 +17,9 @@ class player_info
     
     public:
         // Public default constructor
-        player_info()
+        player_info() {}
+        // Public constructor called by main
+        player_info(std::string str)
         {
             currentLocation = *mainObjects.begin();
             inventory = {};

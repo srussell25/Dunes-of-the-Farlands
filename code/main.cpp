@@ -26,7 +26,7 @@ int main()
     {
         // Setting up all the game objects & player character
         initialize_game_objects();
-        player = player_info();
+        player = player_info("new");
 
         // Title card
         std::cout << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl << std::endl;
@@ -34,6 +34,12 @@ int main()
 
         // Make the program wait until the user inputs any character
         get_input();
+
+        // Intro text
+        std::cout << "You awake in a sandy desert. Your head is throbbing, and you don't remember much."
+        " What you do know, however, is that your name is Vir Khabar, a human."
+        " When your vision starts to come back to you, you sit up slowly to check if anything is around you."
+        " You spot a town that appears to be 'abandoned' in the north." << std::endl;
 
         // Main gameplay loop; if player dies, break loop to restart
         while(true) 
