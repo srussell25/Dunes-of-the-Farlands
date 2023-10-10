@@ -47,7 +47,7 @@ int main()
             // If there is invalid input, skip to next loop iteration
             if (get<1>(parserOutput) == emptyGameObj) 
             {
-                std::cout << "Invalid input; type 'HELP' for a list of all commands." << std::endl;
+                std::cout << "Invalid input; type 'help' for a list of all commands." << std::endl;
                 continue;
             }
 

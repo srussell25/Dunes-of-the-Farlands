@@ -10,7 +10,7 @@ std::string get_input()
     // Reads user input into temp until a newline character is reached
     getline(std::cin, temp);
     // Simply converts input into uppercase for easy matching
-    std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
+    std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
     // Returns the player input
     return temp;
 }
