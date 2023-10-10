@@ -10,8 +10,9 @@ std::string use(game_object obj, player_info &playerChar)
         return "You used the chestKey.";
     }
     else if (obj.get_object_name() == "drink"){
-        if (obj.get_object_flag("at tavern") == "at tavern")
+        if (obj.get_object_flag("at_object") == "at_object")
         {
+            playerChar.remove_item
             return "man that drink was pretty good.";
         }
         else
@@ -31,7 +32,7 @@ std::string take(game_object obj, player_info &playerChar)
         return "chestKey added to inventory.";
     }
     else if(obj.get_object_name() == "drink")  {
-        if (obj.get_object_flag("at tavern") == "at tavern")
+        if (obj.get_object_flag("at_object") == "at_object")
         {
             playerChar.add_item(obj);
             return "drink was added to inventory.";
@@ -44,7 +45,33 @@ std::string take(game_object obj, player_info &playerChar)
     }
     return "";
 }
+std::string go_to(game_object obj, player_info &playerChar)
+{
+    if (obj.get_object_name() == "oasis")
+    {
+       if (playerChar.get_location().get_object_name() == "gameStart")
+       {
+        playerChar.set_location(obj) = oasis; ;
+        return "you got to the oasis. when you make it there a frog jumps onto your legs and poisons you,"
+         "you die in seconds.";
+         playerChar.set_player_state(false);
+       }
+    }
+    else if (obj.get_object_name() == "tavern")
+    {
+        if (playerChar.get_location().get_object_name() == "abandonedTown"){
 
+        
+        barKeep.add_object_flag("nearCharacter");
+        bandit.add_object_flag("nearCharacter");
+        tavern.add_object_flag("at_tavern");
+        drink.add_object_flag("at_object")
+    return "you entered into the taver. it is full with towns people. you go up to the bar to ask for directions."
+    "unfortunalty as your walking up to the counter you step on you you accidentally step on someones foot "
+    "they stand up and draw there swords. what do you do?";
+        }
+    return "";
+}
 
 
 
@@ -149,16 +176,24 @@ std::string main_action(std::string act, game_object obj, player_info &playerCha
     {
         result = take(obj, playerChar);
     }
-    else if (act == "look"){
+    else if (act == "go to")
+    {
+        result = go_to(obj, playerChar);
+    }
+    else if (act == "look")
+    {
         result = look(obj, playerChar);
     }
-    else if (act == "read"){
+    else if (act == "read")
+    {
         result = read(obj, playerChar);
     }
-    else if (act == "get"){
+    else if (act == "get")
+    {
         result = get(obj, playerChar);
     }
-    else if (act == "grab"){
+    else if (act == "grab")
+    {
         result = grab(obj, playerChar);
     }
     return result;
