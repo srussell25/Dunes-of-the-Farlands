@@ -200,6 +200,10 @@ std::string main_action(std::string act, game_object &obj, player_info &playerCh
     {
         result = talk_to(obj, playerChar);
     }
+    else if (act == "attack")
+    {
+        result = attack(obj, playerChar);
+    }
     else
     {
         result = "This action has not been implemented yet, sorry!";
