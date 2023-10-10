@@ -77,9 +77,14 @@ std::vector<game_object> mainObjects = {};
 //       and its description at minimum. Optionally, you can also add a vector of strings containing various flags
 //       for that object, but keep in mind you can always add (and remove) flags at a later point if needed.
 
-// This function initializes all game objects at the start of the program's runtime. If you 
-// think of any items, locations, or characters you want to add, feel free to add them below.
+// This function initializes all game objects at the start of the program's runtime.
 void initialize_game_objects() {
+    // Check if game has already started; if mainObjects is not empty then
+    // clear mainObjects & re-add objects in their default state to restart game.
+    if (!mainObjects.empty()) {
+        mainObjects.clear();
+    }
+
     // Initializing items (objects of type "item")
     mainObjects.insert(mainObjects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
     "it's not pretty, but it gets the job done."));
