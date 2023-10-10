@@ -54,11 +54,6 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
         returnStr = "talk to";
         iterVal = 8;
     }
-    else if (input.size() > 8 && input.substr(0, 8) == "talk to ")
-    {
-        returnStr = "talk to";
-        iterVal = 8;
-    }
     else if (input.size() > 7 && input.substr(0, 7) == "attack ")
     {
         returnStr = "attack";

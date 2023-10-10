@@ -61,7 +61,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     }
     else if (obj.get_object_name() == "abandoned town")
     {
-        if (playerChar.get_location() == gameStart)
+        if (playerChar.get_location() == gameStart || playerChar.get_location() == tavern)
         {
             playerChar.set_location(abandonedTown); 
             oldLady.add_object_flag("near_character");
@@ -77,6 +77,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     {
         if (playerChar.get_location() == abandonedTown)
         {
+            playerChar.set_location(tavern);
             barkeep.add_object_flag("near_character");
             bandit.add_object_flag("near_character");
             tavern.add_object_flag("at_location");

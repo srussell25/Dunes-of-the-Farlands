@@ -39,7 +39,8 @@ int main()
         narrator("You awake in a sandy desert. Your head is throbbing, and you don't remember much."
         " What you do know, however, is that your name is Vir Khabar, a human."
         " When your vision starts to come back to you, you sit up slowly to check if anything is around you."
-        " You spot a town that appears to be 'abandoned' in the north.");
+        " You spot a town that appears to be 'abandoned' in the north,"
+        " but also see what appears to be an oasis nearby.");
 
         // Main gameplay loop; if player dies, break loop to restart
         while(true) 
