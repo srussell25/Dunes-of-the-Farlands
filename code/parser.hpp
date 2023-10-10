@@ -39,10 +39,10 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
         returnStr = "go to";
         iterVal = 6;
     }
-    else if (input.size() > 5 && input.substr(0, 5) == "look ")
+    else if (input.size() > 8 && input.substr(0, 8) == "look at ")
     {
-        returnStr = "look";
-        iterVal = 5;
+        returnStr = "look at";
+        iterVal = 8;
     }
     else if (input.size() > 5 && input.substr(0, 5) == "read ")
     {
@@ -53,6 +53,26 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
     {
         returnStr = "talk to";
         iterVal = 8;
+    }
+    else if (input.size() > 8 && input.substr(0, 8) == "talk to ")
+    {
+        returnStr = "talk to";
+        iterVal = 8;
+    }
+    else if (input.size() >= 4 && input.substr(0, 4) == "help")
+    {
+        returnStr = "help";
+        return std::tuple<std::string, game_object>{returnStr, returnObj};
+    }
+    else if (input.size() >= 9 && input.substr(0, 9) == "inventory")
+    {
+        returnStr = "inventory";
+        return std::tuple<std::string, game_object>{returnStr, returnObj};
+    }
+    else if (input.size() >= 4 && input.substr(0, 4) == "exit")
+    {
+        returnStr = "exit";
+        return std::tuple<std::string, game_object>{returnStr, returnObj};
     }
     else
     {

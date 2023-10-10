@@ -11,8 +11,8 @@ class player_info
         game_object currentLocation;
         std::vector<game_object> inventory;
         std::vector<std::string> flags;
-        std::vector<game_object>::iterator invIter;
-        std::vector<std::string>::iterator flagIter;
+        //std::vector<game_object>::iterator invIter;
+        //std::vector<std::string>::iterator flagIter;
         bool isAlive;
     
     public:
@@ -35,31 +35,41 @@ class player_info
         {
             return currentLocation;
         }
+        // TODO: Fix player inventory
         void add_item(game_object item)
         {
             inventory.insert(inventory.end(), item);
         }
         void remove_item(game_object item)
         {
-            invIter = std::find(inventory.begin(), inventory.end(), item);
-            inventory.erase(invIter);
+            if (std::find(inventory.begin(), inventory.end(), item) != inventory.end())
+            {
+                inventory.erase(std::find(inventory.begin(), inventory.end(), item));
+            }
         }
         game_object find_item(game_object item) 
         {
             return *std::find(inventory.begin(), inventory.end(), item);
         }
+        // TODO: Fix player flags
         void add_flag(std::string flag) 
         {
             flags.insert(flags.end(), flag);
         }
         void remove_flag(std::string flag) 
         {
-            flagIter = std::find(flags.begin(), flags.end(), flag);
-            flags.erase(flagIter);
+            if (std::find(flags.begin(), flags.end(), flag) != flags.end()) 
+            {
+                flags.erase(std::find(flags.begin(), flags.end(), flag));
+            }
         }
         std::string find_flag(std::string flag) 
         {
-            return *std::find(flags.begin(), flags.end(), flag);
+            if (std::find(flags.begin(), flags.end(), flag) != flags.end()) 
+            {
+                return *std::find(flags.begin(), flags.end(), flag);
+            }
+            return "flag_not_found";
         }
         bool get_player_state()
         {

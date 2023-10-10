@@ -32,7 +32,7 @@ void npc_text(std::string dialogue, std::string npcName, std::string format = ":
 // Method for returning all non-dialogue information to the screen
 void narrator(std::string text)
 {
-    std::cout << "[" + text + "]" << std::endl;
+    std::cout << std::endl << "[" + text + "]" << std::endl;
 }
 
 // Method for prompting the user whether they want to exit the game or not
