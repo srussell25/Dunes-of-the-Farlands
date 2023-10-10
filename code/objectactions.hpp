@@ -90,12 +90,26 @@ std::string go_to(game_object obj, player_info &playerChar)
 }
 }
 
-std::string talk_to(game_object obj, player_info &playerChar){
-        if(obj.get_object_flag("bartender") == "bartender" ||obj.get_object_flag("barkeep") == "barkeep" ){
-            if (obj.get_object_flag("nearCharacter") == "nearCharacter"){
-            return "hey im the bartender of the Sand Dune Saloon.";
-         }
+std::string talk_to(game_object obj, player_info &playerChar)
+{
+        if(obj.get_object_name() == "bartender" ||obj.get_object_name("barkeep") == "barkeep" )
+        {
+            if (obj.get_object_flag("nearCharacter") == "nearCharacter")
+            {
+            return "hey im the bartender of the Sand Dune Saloon. here is a drink. there is nothing here for you at the is town unless you want to get yourself kill"
+            "i would recommend going to east to the Farlands, but be on your guard. Some of the people in that area are no good.";
+
+            }
         }
+        else if obj.get_object_flag() == "oldlady"{
+            if (obj.get_object_flag("nearCharacter") == "nearCharacter"){
+                return "you try to talk to the old lady but then she stabs you and takes your stuff. looks like the lady wasn't week after all"
+                playerChar.set_player_state(false);
+            }
+
+        }
+        
+        return "";
 }
 
 
