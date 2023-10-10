@@ -79,13 +79,13 @@ game_object oasis;
 game_object tavern;
 game_object bandit;
 game_object oldLady;
-game_object barKeep;
 game_object sword;
 game_object shield;
 game_object chestkey;
 game_object chest;
 game_object note;
 game_object drink;
+game_object barKeep;
 
 // NOTE: When making a game_object you must set its name, its type (either "item", "location", or "character"),
 //       and its description at minimum. Optionally, you can also add a vector of strings containing various flags
@@ -122,10 +122,10 @@ void initialize_game_objects() {
     mainObjects.insert(mainObjects.end(), drink);
 
     // Initializing locations (objects of type "location")
-    gameStart = game_object("location", "gameStart", "It's shabby and a place of calm tension.");
-    abandonedTown = game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.", {"at abandonedTown"});
-    oasis = game_object("location", "oasis", "This oasis looks beautiful and peaceful.", {"at oasis"});
-    tavern = game_object("location", "tavern", "It's tavern full of drinks and food", {"at tavern"});
+    gameStart = game_object("location", "gameStart", "It's shabby and a place of calm tension.", {"at_start"});
+    abandonedTown = game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.");
+    oasis = game_object("location", "oasis", "This oasis looks beautiful and peaceful.");
+    tavern = game_object("location", "tavern", "It's tavern full of drinks and food");
 
     mainObjects.insert(mainObjects.begin(), gameStart);
     mainObjects.insert(mainObjects.end(), abandonedTown);

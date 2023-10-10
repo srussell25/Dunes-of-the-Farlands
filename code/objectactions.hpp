@@ -93,7 +93,7 @@ std::string go_to(game_object obj, player_info &playerChar)
 std::string talk_to(game_object obj, player_info &playerChar){
         if(obj.get_object_flag("bartender") == "bartender" ||obj.get_object_flag("barkeep") == "barkeep" ){
             if (obj.get_object_flag("nearCharacter") == "nearCharacter"){
-            return "hey im the bartender of the Sand Dune Saloon."
+            return "hey im the bartender of the Sand Dune Saloon.";
          }
         }
 }
