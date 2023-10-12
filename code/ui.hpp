@@ -10,7 +10,7 @@ std::string get_input()
     // Reads user input into temp until a newline character is reached
     getline(std::cin, temp);
     // Simply converts input into uppercase for easy matching
-    std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
+    std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
     // Returns the player input
     return temp;
 }
@@ -32,7 +32,7 @@ void npc_text(std::string dialogue, std::string npcName, std::string format = ":
 // Method for returning all non-dialogue information to the screen
 void narrator(std::string text)
 {
-    std::cout << "[" + text + "]" << std::endl;
+    std::cout << std::endl << "[" + text + "]" << std::endl;
 }
 
 // Method for prompting the user whether they want to exit the game or not

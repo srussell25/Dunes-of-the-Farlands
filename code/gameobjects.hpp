@@ -9,7 +9,7 @@ class game_object
         std::string objectName;
         std::string objectDescription; 
         std::vector<std::string> objectFlags;
-        std::vector<std::string>::iterator flagIter;
+        //std::vector<std::string>::iterator flagIter;
 
     public:
         // Public default constructor
@@ -20,6 +20,7 @@ class game_object
             objectType = oType;
             objectName = oName;
             objectDescription = oDesc;
+            objectFlags = {};
         }
         // Public constructor which sets a game_object's type, name, description, as well as its flags.
         game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags)
@@ -55,9 +56,14 @@ class game_object
         {
             return objectDescription;
         }
+        // TODO: Fix object flags
         std::string get_object_flag(std::string flag) 
         {
-            return *std::find(objectFlags.begin(), objectFlags.end(), flag);
+            if (std::find(objectFlags.begin(), objectFlags.end(), flag) != objectFlags.end()) 
+            {
+                return *std::find(objectFlags.begin(), objectFlags.end(), flag);
+            }
+            return "flag_not_found";
         }
         void add_object_flag(std::string flag)
         {
@@ -65,8 +71,10 @@ class game_object
         }
         void remove_object_flag(std::string flag)
         {
-            flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
-            objectFlags.erase(flagIter);
+            if (std::find(objectFlags.begin(), objectFlags.end(), flag) != objectFlags.end())
+            {
+                objectFlags.erase(std::find(objectFlags.begin(), objectFlags.end(), flag));
+            }
         }
 };
 
@@ -113,8 +121,8 @@ void initialize_game_objects() {
     note = game_object("item", "note", "The note reads: 'January 18th. "
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
     " my job to keep this chest protected, but I won't make it out here much longer.'");
-    drink = game_object("item", "drink", "It's the drink the bartender gave you at the tavern."
-    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_tavern"});
+    drink = game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
+    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"});
 
     mainObjects.insert(mainObjects.end(), sword);
     mainObjects.insert(mainObjects.end(), shield);
@@ -124,8 +132,8 @@ void initialize_game_objects() {
     mainObjects.insert(mainObjects.end(), drink);
 
     // Initializing locations (objects of type "location")
-    gameStart = game_object("location", "gameStart", "It's shabby and a place of calm tension.", {"at_start"});
-    abandonedTown = game_object("location", "abandonedTown", "This town seems abandoned. Everything here is old and rusty.");
+    gameStart = game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"});
+    abandonedTown = game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings.");
     oasis = game_object("location", "oasis", "You look at what seems to be a beautiful oasis.");
     tavern = game_object("location", "tavern", "It's a tavern; I wonder if there's anyone inside?");
 
@@ -138,7 +146,7 @@ void initialize_game_objects() {
     bandit = game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"});
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-    oldLady = game_object("character", "oldLady", "You see an old lady who seems to be having trouble with something,"
+    oldLady = game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
     " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?");
     barkeep = game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.");
 

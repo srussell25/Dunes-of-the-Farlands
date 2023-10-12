@@ -26,14 +26,21 @@ int main()
     {
         // Setting up all the game objects & player character
         initialize_game_objects();
-        player = player_info();
+        player = player_info("new");
 
         // Title card
-        std::cout << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl << std::endl;
-        std::cout << "Enter any letter to start!" << std::endl;
+        std::cout << std::endl << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl;
+        std::cout << "Press enter to start!" << std::endl << std::endl;
 
         // Make the program wait until the user inputs any character
         get_input();
+
+        // Intro text
+        narrator("You awake in a sandy desert. Your head is throbbing, and you don't remember much."
+        " What you do know, however, is that your name is Vir Khabar, a human."
+        " When your vision starts to come back to you, you sit up slowly to check if anything is around you."
+        " You spot a town that appears to be 'abandoned' in the north,"
+        " but also see what appears to be an oasis nearby.");
 
         // Main gameplay loop; if player dies, break loop to restart
         while(true) 
@@ -45,9 +52,31 @@ int main()
             parserOutput = game_input_parser(inputText);
 
             // If there is invalid input, skip to next loop iteration
-            if (get<1>(parserOutput) == emptyGameObj) 
+            if (get<0>(parserOutput) == "help")
             {
-                std::cout << "Invalid input; type 'HELP' for a list of all commands." << std::endl;
+                std::cout << std::endl << "Available commands: use, take, get, grab, go to, look at, read, talk to, inventory, help, exit" << std::endl;
+                continue;
+            }
+            else if (get<0>(parserOutput) == "inventory")
+            {
+                // TODO: Fix inventory lookup & return
+                std::cout << std::endl << "Your inventory is currently empty." << std::endl;
+                continue;
+            }
+            else if (get<0>(parserOutput) == "exit")
+            {
+                if (exit_seq() == true)
+                {
+                    exit(0);
+                }
+                else
+                {
+                    std::cin.ignore();
+                }
+            }
+            else if (get<1>(parserOutput) == emptyGameObj) 
+            {
+                std::cout << std::endl << "Invalid input; type 'help' for a list of all commands." << std::endl;
                 continue;
             }
 
@@ -66,8 +95,7 @@ int main()
 
         // Game Over loop; if player answers no, quit the game
         std::cout << std::endl << "Game Over!" << std::endl;
-        std::cin.ignore();
-        if (!exit_seq("Try again?"))
+        if (!exit_seq("Would you like to try again?"))
         {
             break;
         }
