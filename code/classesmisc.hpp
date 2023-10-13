@@ -1,5 +1,5 @@
-#ifndef PLAYERCHARACTER_HPP
-#define PLAYERCHARACTER_HPP
+#ifndef CLASSESMISC_HPP
+#define CLASSESMISC_HPP
 
 // This class contains all info about the player, 
 // including their current location, their inventory, 
@@ -79,6 +79,14 @@ class player_info
         {
             isAlive = state;
         }
+};
+
+// TODO: Implement game_flags class with two private variables, 
+// flag name (string) and flag status (bool), and then add
+// public functions to access & modify those variables
+class game_flags 
+{
+    // code goes here
 };
 
 #endif

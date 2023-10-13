@@ -4,5 +4,6 @@
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
+#include "classesmisc.hpp"
 
 // Include tests below

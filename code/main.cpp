@@ -11,7 +11,7 @@
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
-#include "playercharacter.hpp"
+#include "classesmisc.hpp"
 
 int main()
 {

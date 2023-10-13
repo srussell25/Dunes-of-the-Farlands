@@ -1,7 +1,7 @@
 #ifndef OBJECTACTIONS_HPP
 #define OBJECTACTIONS_HPP
 
-#include "playercharacter.hpp"
+#include "classesmisc.hpp"
 
 std::string use(game_object &obj, player_info &playerChar)
 {
