@@ -32,13 +32,13 @@ void npc_text(std::string dialogue, std::string npcName, std::string format = ":
 // Method for returning all non-dialogue information to the screen
 void narrator(std::string text)
 {
-    std::cout << std::endl << "[" + text + "]" << std::endl;
+    std::cout << "\n[" + text + "]\n";
 }
 
 // Method for prompting the user whether they want to exit the game or not
 bool exit_seq(std::string outputText = "Are you sure?")
 {
-    std::cout << outputText + " (Y/N)" << std::endl;
+    std::cout << outputText + " (Y/N)\n";
     // Creates a loop that continuously gets the next character until it finds either a Y or N reply
     while (true)
     {

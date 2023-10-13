@@ -86,7 +86,7 @@ class player_info
 // public functions to access & modify those variables
 class game_flags 
 {
-    // code goes here
+    // unimplemented
 };
 
 #endif

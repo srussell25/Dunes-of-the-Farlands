@@ -29,8 +29,7 @@ int main()
         player = player_info("new");
 
         // Title card
-        std::cout << std::endl << "DUNES OF THE FARLANDS" << std::endl << "=====================" << std::endl;
-        std::cout << "Press enter to start!" << std::endl << std::endl;
+        std::cout << "\nDUNES OF THE FARLANDS\n=====================\nPress enter to start!\n\n";
 
         // Make the program wait until the user inputs any character
         get_input();
@@ -43,7 +42,7 @@ int main()
         " but also see what appears to be an oasis nearby.");
 
         // Main gameplay loop; if player dies, break loop to restart
-        while(true) 
+        while(player.get_player_state()) 
         {
             // Get the player's current input
             inputText = get_input();
@@ -54,13 +53,13 @@ int main()
             // If there is invalid input, skip to next loop iteration
             if (get<0>(parserOutput) == "help")
             {
-                std::cout << std::endl << "Available commands: use, take, get, grab, go to, look at, read, talk to, inventory, help, exit" << std::endl;
+                std::cout << "\nAvailable commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, exit.\n";
                 continue;
             }
             else if (get<0>(parserOutput) == "inventory")
             {
                 // TODO: Fix inventory lookup & return
-                std::cout << std::endl << "Your inventory is currently empty." << std::endl;
+                std::cout << "\nYour inventory is currently empty.\n";
                 continue;
             }
             else if (get<0>(parserOutput) == "exit")
@@ -76,7 +75,7 @@ int main()
             }
             else if (get<1>(parserOutput) == emptyGameObj) 
             {
-                std::cout << std::endl << "Invalid input; type 'help' for a list of all commands." << std::endl;
+                std::cout << "\nInvalid input; type 'help' for a list of all commands.\n";
                 continue;
             }
 
@@ -85,16 +84,10 @@ int main()
 
             // Output text to terminal
             narrator(outputText);
-
-            // Nested break for the loop to ensure all text is outputted to the console.
-            if (!player.get_player_state())
-            {
-                break;
-            }
         }
 
         // Game Over loop; if player answers no, quit the game
-        std::cout << std::endl << "Game Over!" << std::endl;
+        std::cout << "\nGame Over!\n";
         if (!exit_seq("Would you like to try again?"))
         {
             break;
