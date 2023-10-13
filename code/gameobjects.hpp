@@ -9,7 +9,7 @@ class game_object
         std::string objectName;
         std::string objectDescription; 
         std::vector<std::string> objectFlags;
-        //std::vector<std::string>::iterator flagIter;
+        std::vector<std::string>::iterator flagIter;
 
     public:
         // Public default constructor
@@ -37,7 +37,7 @@ class game_object
         }
         friend bool operator!=(game_object const& x, game_object const& y)
         {
-            return !(x == y);
+            return !(x.objectName == y.objectName);
         }
         // Other methods
         void set_object_name(std::string name)
@@ -56,14 +56,17 @@ class game_object
         {
             return objectDescription;
         }
-        // TODO: Fix object flags
         std::string get_object_flag(std::string flag) 
         {
-            if (std::find(objectFlags.begin(), objectFlags.end(), flag) != objectFlags.end()) 
+            flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
+            if (flagIter != objectFlags.end()) 
             {
-                return *std::find(objectFlags.begin(), objectFlags.end(), flag);
+                return *flagIter;
             }
-            return "flag_not_found";
+            else
+            {
+                return "flag_not_found";
+            }
         }
         void add_object_flag(std::string flag)
         {
@@ -71,9 +74,10 @@ class game_object
         }
         void remove_object_flag(std::string flag)
         {
-            if (std::find(objectFlags.begin(), objectFlags.end(), flag) != objectFlags.end())
+            flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
+            if (flagIter != objectFlags.end()) 
             {
-                objectFlags.erase(std::find(objectFlags.begin(), objectFlags.end(), flag));
+                objectFlags.erase(flagIter);
             }
         }
 };

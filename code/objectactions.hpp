@@ -64,7 +64,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
         if (playerChar.get_location() == gameStart || playerChar.get_location() == tavern)
         {
             playerChar.set_location(abandonedTown); 
-            oldLady.add_object_flag("near_character");
+            find_object("old lady").add_object_flag("near_character");
             abandonedTown.add_object_flag("at_location");
             gameStart.remove_object_flag("at_start");
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
@@ -94,7 +94,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
 
 std::string talk_to(game_object &obj, player_info &playerChar)
 {
-    if (obj.get_object_name() == "barkeep" )
+    if (obj.get_object_name() == "barkeep")
     {
         if (playerChar.get_location() == tavern)
         {
@@ -119,14 +119,14 @@ std::string talk_to(game_object &obj, player_info &playerChar)
 // If there is an object to look at, call this function for the description.
 std::string look_at(game_object &obj, player_info &playerChar)
 {
-    //if (obj.get_object_flag("at_start") == "at_start" || obj.get_object_flag("at_location") == "at_location" || obj.get_object_flag("near_character") == "near_character")
-    //{
+    if (obj.get_object_flag("at_location") == "at_location")
+    {
         return obj.get_object_description();
-    //}
-    //else
-    //{
-    //    return "It seems like you can't see any " + obj.get_object_name();
-    //}
+    }
+    else
+    {
+        return "It seems like you can't see any " + obj.get_object_name();
+    }
 }
 
 // Check for the specified character, then attack if possible; else, return fail message
