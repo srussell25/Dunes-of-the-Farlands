@@ -19,12 +19,12 @@ STUDENT_TEST("Check to see that flags are properly set during gameplay")
 {
     initialize_game_objects();
     player_info player = player_info("new");
-    std::tuple<std::string, game_object> parserOutput = {"go to", abandonedTown};
+    std::tuple<std::string, game_object> parserOutput = {"go to", find_object("abandoned town")};
 
     main_action(get<0>(parserOutput), get<1>(parserOutput), player);
 
-    std::cout << "Current Object #1: " + find_object("old lady").get_object_name() << std::endl;
-    std::cout << "Current Object #2: " + find_object("abandoned town").get_object_name() << std::endl;
+    // std::cout << "Current Object #1: " + find_object("old lady").get_object_name() << std::endl;
+    // std::cout << "Current Object #2: " + find_object("abandoned town").get_object_name() << std::endl;
     
     CHECK(find_object("old lady").get_object_flag("at_location") == "at_location");
     CHECK(find_object("abandoned town").get_object_flag("at_location") == "at_location");

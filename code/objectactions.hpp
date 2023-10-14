@@ -53,7 +53,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     {
         if (playerChar.get_location() == find_object("game start"))
         {
-            playerChar.set_location(oasis);
+            playerChar.set_location(find_object("oasis"));
             playerChar.set_player_state(false);
             return "You make your way over to the oasis, but when you get there, a frog suddenly jumps onto your leg. "
             "It's a poisonous frog. You die in seconds.";
@@ -63,7 +63,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     {
         if (playerChar.get_location() == find_object("game start") || playerChar.get_location() == find_object("tavern"))
         {
-            playerChar.set_location(abandonedTown); 
+            playerChar.set_location(find_object("abandoned town")); 
             find_object("old lady").add_object_flag("at_location");
             find_object("abandoned town").add_object_flag("at_location");
             find_object("game start").remove_object_flag("at_location");
@@ -77,7 +77,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     {
         if (playerChar.get_location() == find_object("abandoned town"))
         {
-            playerChar.set_location(tavern);
+            playerChar.set_location(find_object("tavern"));
             find_object("barkeep").add_object_flag("at_location");
             find_object("bandit").add_object_flag("at_location");
             find_object("tavern").add_object_flag("at_location");
