@@ -65,8 +65,8 @@ std::string go_to(game_object &obj, player_info &playerChar)
         {
             playerChar.set_location(abandonedTown); 
             find_object("old lady").add_object_flag("at_location");
-            abandonedTown.add_object_flag("at_location");
-            gameStart.remove_object_flag("at_location");
+            find_object("abandoned town").add_object_flag("at_location");
+            find_object("game start").remove_object_flag("at_location");
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
             " but it's overrun by thugs and bandits. The walls are broken, and people have"
             " malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby,"
@@ -78,12 +78,12 @@ std::string go_to(game_object &obj, player_info &playerChar)
         if (playerChar.get_location() == abandonedTown)
         {
             playerChar.set_location(tavern);
-            barkeep.add_object_flag("at_location");
-            bandit.add_object_flag("at_location");
-            tavern.add_object_flag("at_location");
-            drink.add_object_flag("at_location");
-            abandonedTown.remove_object_flag("at_location");
-            oldLady.remove_object_flag("at_location");   
+            find_object("barkeep").add_object_flag("at_location");
+            find_object("bandit").add_object_flag("at_location");
+            find_object("tavern").add_object_flag("at_location");
+            find_object("drink").add_object_flag("at_location");
+            find_object("abandoned town").remove_object_flag("at_location");
+            find_object("old lady").remove_object_flag("at_location");   
             return "You enter into the tavern. You try to go up to the bar to ask for directions,"
             " but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot."
             " He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
@@ -136,7 +136,7 @@ std::string attack(game_object &obj, player_info &playerChar)
     {
         if(obj.get_object_name() == "bandit")
         {
-            bandit.remove_object_flag("is_alive");
+            find_object("bandit").remove_object_flag("is_alive");
             return "You take out your sword, and with a mighty slash, you defeat the bandit."
             " His 'friends' take one look at you and decide to run away. Meanwhile, the rest"
             " of the bar doesn't seem to take any notice of your actions, except for the barkeep."
