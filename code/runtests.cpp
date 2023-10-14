@@ -18,14 +18,19 @@
 STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
 {
     initialize_game_objects();
-    CHECK(find_object("old lady") != game_object());
+    CHECK(find_object("game start") == mainObjects.at(0));
     CHECK(find_object("this doesn't exist") == game_object());
 }
 
 STUDENT_TEST("Check to see that object flags are added to an object correctly")
 {
     initialize_game_objects();
-    CHECK_FALSE(find_object("old lady").get_object_flag("at_location") == "at_location");
+
+    // Add flag to object with non-empty vector
+    find_object("game start").add_object_flag("temp_flag");
+    CHECK(find_object("game start").get_object_flag("temp_flag") == "temp_flag");
+
+    // Add flag to object with empty vector
     find_object("old lady").add_object_flag("at_location");
     CHECK(find_object("old lady").get_object_flag("at_location") == "at_location");
 }

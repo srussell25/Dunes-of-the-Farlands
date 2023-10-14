@@ -85,10 +85,12 @@ class game_object
 // The master list of all objects in the game; add objects to this vector after creation.
 std::vector<game_object> mainObjects = {};
 
+game_object emptyObject;
+
 // This function takes in a string meant to represent the name of a game_object, and then 
 // searches within the vector mainObjects to see if that game_object exists. If it exists, 
 // the function returns the game_object; otherwise, it returns an empty game_object.
-game_object find_object(std::string objName)
+game_object& find_object(std::string objName)
 {
     std::vector<game_object>::iterator iter = std::find_if(mainObjects.begin(), mainObjects.end(), 
     [objName](game_object obj){ return obj.get_object_name() == objName; });
@@ -99,7 +101,7 @@ game_object find_object(std::string objName)
     }
     else
     {
-        return game_object();
+        return emptyObject;
     }
 }
 
