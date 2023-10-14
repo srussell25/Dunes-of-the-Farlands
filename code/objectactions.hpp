@@ -64,9 +64,9 @@ std::string go_to(game_object &obj, player_info &playerChar)
         if (playerChar.get_location() == gameStart || playerChar.get_location() == tavern)
         {
             playerChar.set_location(abandonedTown); 
-            find_object("old lady").add_object_flag("near_character");
+            find_object("old lady").add_object_flag("at_location");
             abandonedTown.add_object_flag("at_location");
-            gameStart.remove_object_flag("at_start");
+            gameStart.remove_object_flag("at_location");
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
             " but it's overrun by thugs and bandits. The walls are broken, and people have"
             " malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby,"
@@ -78,12 +78,12 @@ std::string go_to(game_object &obj, player_info &playerChar)
         if (playerChar.get_location() == abandonedTown)
         {
             playerChar.set_location(tavern);
-            barkeep.add_object_flag("near_character");
-            bandit.add_object_flag("near_character");
+            barkeep.add_object_flag("at_location");
+            bandit.add_object_flag("at_location");
             tavern.add_object_flag("at_location");
             drink.add_object_flag("at_location");
             abandonedTown.remove_object_flag("at_location");
-            oldLady.remove_object_flag("near_character");   
+            oldLady.remove_object_flag("at_location");   
             return "You enter into the tavern. You try to go up to the bar to ask for directions,"
             " but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot."
             " He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
