@@ -15,28 +15,34 @@
 
 // NOTE: This file is meant for running tests; build this seperately from main.cpp.
 
-/* NOTE: Don't include this test until flags have been re-implemented & the test is redone.
+STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
+{
+    initialize_game_objects();
+    CHECK(find_object("game start") == mainObjects.at(0));
+    CHECK(find_object("this doesn't exist") == game_object());
+}
+
+STUDENT_TEST("Check to see that object flags are added to an object correctly")
+{
+    initialize_game_objects();
+
+    // Add flag to object with non-empty vector
+    find_object("game start").add_object_flag("temp_flag");
+    CHECK(find_object("game start").get_object_flag("temp_flag") == "temp_flag");
+
+    // Add flag to object with empty vector
+    find_object("old lady").add_object_flag("at_location");
+    CHECK(find_object("old lady").get_object_flag("at_location") == "at_location");
+}
+
 STUDENT_TEST("Check to see that flags are properly set during gameplay")
 {
     initialize_game_objects();
     player_info player = player_info("new");
-    std::tuple<std::string, game_object> parserOutput = {"go to", abandonedTown};
+    std::tuple<std::string, game_object> parserOutput = {"go to", find_object("abandoned town")};
 
     main_action(get<0>(parserOutput), get<1>(parserOutput), player);
-
-    std::cout << "Current Object #1: " + mainObjects.at(11).get_object_name() << std::endl;
-    std::cout << "Current Object #2: " + mainObjects.at(7).get_object_name() << std::endl;
-
-    CHECK_FALSE(oldLady.get_object_flag("near_character") == "near_character");
-    CHECK(mainObjects.at(11).get_object_flag("near_character") == "near_character");
-    CHECK_FALSE(abandonedTown.get_object_flag("at_location") == "at_location");
-    CHECK(mainObjects.at(7).get_object_flag("at_location") == "at_location");
-}
-*/
-
-STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
-{
-    initialize_game_objects();
-    CHECK(find_object("old lady") != game_object());
-    CHECK(find_object("this doesn't exist") == game_object());
+    
+    CHECK(find_object("old lady").get_object_flag("at_location") == "at_location");
+    CHECK(find_object("abandoned town").get_object_flag("at_location") == "at_location");
 }

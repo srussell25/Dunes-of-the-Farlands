@@ -81,51 +81,51 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
 
     if (input.size() >= (iterVal + 14) && input.substr(iterVal, iterVal + 14) == "abandoned town")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), abandonedTown);
+        returnObj = find_object("abandoned town");
     }
     else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "oasis")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), oasis);
+        returnObj = find_object("oasis");
     }
     else if (input.size() >= (iterVal + 6) && input.substr(iterVal, iterVal + 6) == "tavern")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), tavern);
+        returnObj = find_object("tavern");
     }
     else if (input.size() >= (iterVal + 6) && input.substr(iterVal, iterVal + 6) == "bandit")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), bandit);
+        returnObj = find_object("bandit");
     }
     else if (input.size() >= (iterVal + 8) && input.substr(iterVal, iterVal + 8) == "old lady")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), oldLady);
+        returnObj = find_object("old lady");
     }
     else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "sword")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), sword);
+        returnObj = find_object("sword");
     }
     else if (input.size() >= (iterVal + 6) && input.substr(iterVal, iterVal + 6) == "shield")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), shield);
+        returnObj = find_object("shield");
     }
     else if (input.size() >= (iterVal + 9) && input.substr(iterVal, iterVal + 9) == "chest key")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), chestkey);
+        returnObj = find_object("chestkey");
     }
     else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "chest")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), chest);
+        returnObj = find_object("chest");
     }
     else if (input.size() >= (iterVal + 4) && input.substr(iterVal, iterVal + 4) == "note")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), note);
+        returnObj = find_object("note");
     }
     else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "drink")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), drink);
+        returnObj = find_object("drink");
     }
     else if (input.size() >= (iterVal + 7) && input.substr(iterVal, iterVal + 7) == "barkeep")
     {
-        returnObj = *std::find(mainObjects.begin(), mainObjects.end(), barkeep);
+        returnObj = find_object("barkeep");
     }
 
     return std::tuple<std::string, game_object>{returnStr, returnObj};
