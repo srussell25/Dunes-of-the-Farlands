@@ -51,7 +51,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
 {
     if (obj.get_object_name() == "oasis")
     {
-        if (playerChar.get_location() == find_object("game start"))
+        if (playerChar.get_location().get_object_name() == "game start")
         {
             playerChar.set_location(find_object("oasis"));
             playerChar.set_player_state(false);
@@ -61,7 +61,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     }
     else if (obj.get_object_name() == "abandoned town")
     {
-        if (playerChar.get_location() == find_object("game start") || playerChar.get_location() == find_object("tavern"))
+        if (playerChar.get_location().get_object_name() == "game start" || playerChar.get_location().get_object_name() == "tavern")
         {
             playerChar.set_location(find_object("abandoned town")); 
             find_object("old lady").add_object_flag("at_location");
@@ -75,7 +75,7 @@ std::string go_to(game_object &obj, player_info &playerChar)
     }
     else if (obj.get_object_name() == "tavern")
     {
-        if (playerChar.get_location() == find_object("abandoned town"))
+        if (playerChar.get_location().get_object_name() == "abandoned town")
         {
             playerChar.set_location(find_object("tavern"));
             find_object("barkeep").add_object_flag("at_location");
@@ -96,17 +96,17 @@ std::string talk_to(game_object &obj, player_info &playerChar)
 {
     if (obj.get_object_name() == "barkeep")
     {
-        if (playerChar.get_location() == find_object("tavern"))
+        if (playerChar.get_location().get_object_name() == "tavern")
         {
-        return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people."
-        " I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by"
-        " one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its"
-        " own right, but you'll find more to do over in that region.";
+            return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people."
+            " I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by"
+            " one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its"
+            " own right, but you'll find more to do over in that region.";
         }
     }
     else if (obj.get_object_name() == "old lady")
     {
-        if (playerChar.get_location() == find_object("abandoned town"))
+        if (playerChar.get_location().get_object_name() == "abandoned town")
         {
             playerChar.set_player_state(false);
             return "You try to talk to the old lady, but as you walk over, she suddenly turns around and stabs you."
@@ -132,7 +132,7 @@ std::string look_at(game_object &obj, player_info &playerChar)
 // Check for the specified character, then attack if possible; else, return fail message
 std::string attack(game_object &obj, player_info &playerChar)
 {
-    if (obj.get_object_type() == "character" && playerChar.get_location() == find_object("tavern"))
+    if (obj.get_object_type() == "character" && playerChar.get_location().get_object_name() == "tavern")
     {
         if(obj.get_object_name() == "bandit")
         {

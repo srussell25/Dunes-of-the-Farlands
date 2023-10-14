@@ -117,7 +117,6 @@ void initialize_game_objects() {
     }
 
     // Initializing items (objects of type "item")
-
     mainObjects.insert(mainObjects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
     "it's not pretty, but it gets the job done."));
     mainObjects.insert(mainObjects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
@@ -134,7 +133,6 @@ void initialize_game_objects() {
     " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}));
 
     // Initializing locations (objects of type "location")
-
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"}));
     mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings."));
     mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems to be a beautiful oasis."));
@@ -143,7 +141,6 @@ void initialize_game_objects() {
     // Initializing characters (objects of type "character")
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-
     mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}));
     mainObjects.insert(mainObjects.end(), game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
     " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?"));
