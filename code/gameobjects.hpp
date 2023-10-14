@@ -105,19 +105,19 @@ game_object find_object(std::string objName)
 
 // TODO: Remove variables and store objects directly in mainObjects upon creation.
 // List of all game_object variables
-game_object gameStart;
-game_object abandonedTown;
-game_object oasis;
-game_object tavern;
-game_object bandit;
-game_object oldLady;
-game_object sword;
-game_object shield;
-game_object chestkey;
-game_object chest;
-game_object note;
-game_object drink;
-game_object barkeep;
+// game_object gameStart;
+// game_object abandonedTown;
+// game_object oasis;
+// game_object tavern;
+// game_object bandit;
+// game_object oldLady;
+// game_object sword;
+// game_object shield;
+// game_object chestkey;
+// game_object chest;
+// game_object note;
+// game_object drink;
+// game_object barkeep;
 
 // NOTE: When making a game_object you must set its name, its type (either "item", "location", or "character"),
 //       and its description at minimum. Optionally, you can also add a vector of strings containing various flags
@@ -133,50 +133,59 @@ void initialize_game_objects() {
     }
 
     // Initializing items (objects of type "item")
-    sword = game_object("item", "sword", "You look upon an ordinary sword; "
-    "it's not pretty, but it gets the job done.");
-    shield = game_object("item", "shield", "You look upon an ordinary shield; "
-    "it may be made out of wood, but it'll protect you well enough. Maybe.");
-    chestkey = game_object("item", "chestkey", "This is, almost certainly, "
-    "the key to the chest. The engraving on the side says 'chest key';"
-    " I'd be surprised if it was for anything else.");
-    chest = game_object("item", "chest", "You look at the chest and see "
-    "that it is... a chest. What, did you expect a mimic or something?");
-    note = game_object("item", "note", "The note reads: 'January 18th. "
-    "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
-    " my job to keep this chest protected, but I won't make it out here much longer.'");
-    drink = game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
-    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"});
+    // sword = game_object("item", "sword", "You look upon an ordinary sword; "
+    // "it's not pretty, but it gets the job done.");
+    // shield = game_object("item", "shield", "You look upon an ordinary shield; "
+    // "it may be made out of wood, but it'll protect you well enough. Maybe.");
+    // chestkey = game_object("item", "chestkey", "This is, almost certainly, "
+    // "the key to the chest. The engraving on the side says 'chest key';"
+    // " I'd be surprised if it was for anything else.");
+    // chest = game_object("item", "chest", "You look at the chest and see "
+    // "that it is... a chest. What, did you expect a mimic or something?");
+    // note = game_object("item", "note", "The note reads: 'January 18th. "
+    // "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
+    // " my job to keep this chest protected, but I won't make it out here much longer.'");
+    // drink = game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
+    // " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"});
 
-    mainObjects.insert(mainObjects.end(), sword);
-    mainObjects.insert(mainObjects.end(), shield);
-    mainObjects.insert(mainObjects.end(), chestkey);
-    mainObjects.insert(mainObjects.end(), chest);
-    mainObjects.insert(mainObjects.end(), note); 
-    mainObjects.insert(mainObjects.end(), drink);
+    mainObjects.insert(mainObjects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
+    "it's not pretty, but it gets the job done."));
+    mainObjects.insert(mainObjects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
+    "it may be made out of wood, but it'll protect you well enough. Maybe."));
+    mainObjects.insert(mainObjects.end(), game_object("item", "chestkey", "This is, almost certainly, "
+    "the key to the chest. The engraving on the side says 'chest key';"
+    " I'd be surprised if it was for anything else."));
+    mainObjects.insert(mainObjects.end(), game_object("item", "chest", "You look at the chest and see "
+    "that it is... a chest. What, did you expect a mimic or something?"));
+    mainObjects.insert(mainObjects.end(), game_object("item", "note", "The note reads: 'January 18th. "
+    "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
+    " my job to keep this chest protected, but I won't make it out here much longer.'")); 
+    mainObjects.insert(mainObjects.end(), game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
+    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}));
 
     // Initializing locations (objects of type "location")
-    gameStart = game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"});
-    abandonedTown = game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings.");
-    oasis = game_object("location", "oasis", "You look at what seems to be a beautiful oasis.");
-    tavern = game_object("location", "tavern", "It's a tavern; I wonder if there's anyone inside?");
+    // gameStart = game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"});
+    // abandonedTown = game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings.");
+    // oasis = game_object("location", "oasis", "You look at what seems to be a beautiful oasis.");
+    // tavern = game_object("location", "tavern", "It's a tavern; I wonder if there's anyone inside?");
 
-    mainObjects.insert(mainObjects.begin(), gameStart);
-    mainObjects.insert(mainObjects.end(), abandonedTown);
-    mainObjects.insert(mainObjects.end(), oasis);
-    mainObjects.insert(mainObjects.end(), tavern);
+    mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings."));
+    mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems to be a beautiful oasis."));
+    mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "It's a tavern; I wonder if there's anyone inside?"));
 
     // Initializing characters (objects of type "character")
-    bandit = game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"});
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-    oldLady = game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
-    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?");
-    barkeep = game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.");
+    // bandit = game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"});
+    // oldLady = game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
+    // " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?");
+    // barkeep = game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.");
 
-    mainObjects.insert(mainObjects.end(), bandit);
-    mainObjects.insert(mainObjects.end(), oldLady);
-    mainObjects.insert(mainObjects.end(), barkeep);
+    mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}));
+    mainObjects.insert(mainObjects.end(), game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
+    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?"));
+    mainObjects.insert(mainObjects.end(), game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses."));
 }
 
 #endif
