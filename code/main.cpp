@@ -71,6 +71,7 @@ int main()
                 else
                 {
                     std::cin.ignore();
+                    continue;
                 }
             }
             else if (get<1>(parserOutput) == emptyGameObj) 
