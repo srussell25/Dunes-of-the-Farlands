@@ -25,7 +25,7 @@ class game_object
             objectFlags = oFlags;
         }
         // Public constructor which sets a game_object's type, name, description, as well as its flags & location.
-        game_object(std::string oType, std::string oName, std::string oDesc, std::string oLoc, std::vector<std::string> oFlags)
+        game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags, std::string oLoc)
         {
             objectType = oType;
             objectName = oName;
