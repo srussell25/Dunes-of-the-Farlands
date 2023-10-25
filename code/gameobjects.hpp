@@ -7,7 +7,8 @@ class game_object
     private:
         std::string objectType;
         std::string objectName;
-        std::string objectDescription; 
+        std::string objectDescription;
+        std::string objectLocation; 
         std::vector<std::string> objectFlags;
         std::vector<std::string>::iterator flagIter;
 
