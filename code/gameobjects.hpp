@@ -144,7 +144,7 @@ void initialize_game_objects() {
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
     " my job to keep this chest protected, but I won't make it out here much longer.'", {}, "location")); 
     mainObjects.insert(mainObjects.end(), game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
-    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}, "location"));
+    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}, "tavern"));
 
     // Initializing locations (objects of type "location")
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"}));
@@ -155,10 +155,10 @@ void initialize_game_objects() {
     // Initializing characters (objects of type "character")
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-    mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}));
+    mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}, "tavern"));
     mainObjects.insert(mainObjects.end(), game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
-    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?", {}));
-    mainObjects.insert(mainObjects.end(), game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.", {}));
+    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?", {}, "abandoned town"));
+    mainObjects.insert(mainObjects.end(), game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.", {}, "tavern"));
 }
 
 #endif
