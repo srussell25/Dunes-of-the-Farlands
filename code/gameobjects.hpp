@@ -132,19 +132,19 @@ void initialize_game_objects() {
 
     // Initializing items (objects of type "item")
     mainObjects.insert(mainObjects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
-    "it's not pretty, but it gets the job done.", {}));
+    "it's not pretty, but it gets the job done.", {}, "location"));
     mainObjects.insert(mainObjects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
-    "it may be made out of wood, but it'll protect you well enough. Maybe.", {}));
+    "it may be made out of wood, but it'll protect you well enough. Maybe.", {}, "location"));
     mainObjects.insert(mainObjects.end(), game_object("item", "chestkey", "This is, almost certainly, "
     "the key to the chest. The engraving on the side says 'chest key';"
-    " I'd be surprised if it was for anything else.", {}));
+    " I'd be surprised if it was for anything else.", {}, "location"));
     mainObjects.insert(mainObjects.end(), game_object("item", "chest", "You look at the chest and see "
-    "that it is... a chest. What, did you expect a mimic or something?", {}));
+    "that it is... a chest. What, did you expect a mimic or something?", {}, "location"));
     mainObjects.insert(mainObjects.end(), game_object("item", "note", "The note reads: 'January 18th. "
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
-    " my job to keep this chest protected, but I won't make it out here much longer.'", {})); 
+    " my job to keep this chest protected, but I won't make it out here much longer.'", {}, "location")); 
     mainObjects.insert(mainObjects.end(), game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
-    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}));
+    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}, "location"));
 
     // Initializing locations (objects of type "location")
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"}));
