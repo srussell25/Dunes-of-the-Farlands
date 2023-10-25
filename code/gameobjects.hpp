@@ -7,27 +7,30 @@ class game_object
     private:
         std::string objectType;
         std::string objectName;
-        std::string objectDescription; 
+        std::string objectDescription;
+        std::string objectLocation; 
         std::vector<std::string> objectFlags;
         std::vector<std::string>::iterator flagIter;
 
     public:
         // Public default constructor
         game_object() {}
-        // Public constructor which sets a game_object's type, name & description only.
-        game_object(std::string oType, std::string oName, std::string oDesc)
-        {
-            objectType = oType;
-            objectName = oName;
-            objectDescription = oDesc;
-            objectFlags = {};
-        }
         // Public constructor which sets a game_object's type, name, description, as well as its flags.
         game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags)
         {
             objectType = oType;
             objectName = oName;
             objectDescription = oDesc;
+            objectLocation = "";
+            objectFlags = oFlags;
+        }
+        // Public constructor which sets a game_object's type, name, description, as well as its flags & location.
+        game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags, std::string oLoc)
+        {
+            objectType = oType;
+            objectName = oName;
+            objectDescription = oDesc;
+            objectLocation = oLoc;
             objectFlags = oFlags;
         }
         // Comparison operators
@@ -80,6 +83,15 @@ class game_object
                 objectFlags.erase(flagIter);
             }
         }
+        std::string get_location() 
+        {
+            return objectLocation;
+        }
+        void set_location(std::string newLoc)
+        {
+            objectLocation = newLoc;
+        }
+
 };
 
 // The master list of all objects in the game; add objects to this vector after creation.
@@ -120,33 +132,40 @@ void initialize_game_objects() {
 
     // Initializing items (objects of type "item")
     mainObjects.insert(mainObjects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
-    "it's not pretty, but it gets the job done."));
+    "it's not pretty, but it gets the job done.", {}, "game start"));
     mainObjects.insert(mainObjects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
-    "it may be made out of wood, but it'll protect you well enough. Maybe."));
+    "it may be made out of wood, but it'll protect you well enough. Maybe.", {}, "game start"));
     mainObjects.insert(mainObjects.end(), game_object("item", "chestkey", "This is, almost certainly, "
     "the key to the chest. The engraving on the side says 'chest key';"
-    " I'd be surprised if it was for anything else."));
+    " I'd be surprised if it was for anything else.", {}, "")); // haven't decided
     mainObjects.insert(mainObjects.end(), game_object("item", "chest", "You look at the chest and see "
-    "that it is... a chest. What, did you expect a mimic or something?"));
+    "that it is... a chest. What, did you expect a mimic or something?", {}, "")); // haven't decided
     mainObjects.insert(mainObjects.end(), game_object("item", "note", "The note reads: 'January 18th. "
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of"
-    " my job to keep this chest protected, but I won't make it out here much longer.'")); 
+    " my job to keep this chest protected, but I won't make it out here much longer.'", {}, "outside palace")); 
     mainObjects.insert(mainObjects.end(), game_object("item", "drink", "It's the drink the barkeep gave you at the tavern."
-    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}));
+    " You get the feeling it'd be nice to take a drink within the tavern.", {"at_location"}, "tavern"));
 
     // Initializing locations (objects of type "location")
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings."));
-    mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems to be a beautiful oasis."));
-    mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "It's a tavern; I wonder if there's anyone inside?"));
+    mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems to be a beautiful oasis.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "outside palace", "", {})); //haven't decided
+    mainObjects.insert(mainObjects.end(), game_object("location", "inside palace", "", {})); //haven't decided
+    mainObjects.insert(mainObjects.end(), game_object("location", "gate", "The gate is wooden, Egyptian-styled, and at least 15 feet tall.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "city square", "Entering the heart of the city, shops are spread out before you and King Akhem's palace can be seen in the distance as well.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "general store", "Right ahead is a huge tent, this tent is full of things like clothes, shoes, toys, and hats", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "coffee shop", "The shop itself seems very old at first glance, with cracked walls and faded windows. Though the locals inside look happy to be there", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "Sarabi's Egyptian Cuisine", "The outside of the building seems pretty plain but as one walks in, structure inside is rather beautifiul", {}));
+
 
     // Initializing characters (objects of type "character")
     // NOTE: The "is_alive" string is an example of a flag being set; in this case, it's used for checking if the bandit is alive 
     //       (if the string exists, the flag is "set"; if the flag doesn't exist, it's not "set".)
-    mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}));
+    mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "This guy is looking rather shifty hanging out over there.", {"is_alive"}, "tavern"));
     mainObjects.insert(mainObjects.end(), game_object("character", "old lady", "You see an old lady who seems to be having trouble with something,"
-    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?"));
-    mainObjects.insert(mainObjects.end(), game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses."));
+    " although you can't quite make out what it is she's having trouble with. Maybe you should try talking to her?", {}, "abandoned town"));
+    mainObjects.insert(mainObjects.end(), game_object("character", "barkeep", "The barkeep is keeping themselves occupied by wiping down glasses.", {}, "tavern"));
 }
 
 #endif
