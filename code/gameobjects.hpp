@@ -15,31 +15,16 @@ class game_object
     public:
         // Public default constructor
         game_object() {}
-        // Public constructor which sets a game_object's type, name & description only.
-        game_object(std::string oType, std::string oName, std::string oDesc)
-        {
-            objectType = oType;
-            objectName = oName;
-            objectDescription = oDesc;
-            objectFlags = {};
-        }
         // Public constructor which sets a game_object's type, name, description, as well as its flags.
         game_object(std::string oType, std::string oName, std::string oDesc, std::vector<std::string> oFlags)
         {
             objectType = oType;
             objectName = oName;
             objectDescription = oDesc;
+            objectLocation = "";
             objectFlags = oFlags;
         }
-        // added oLoc(objectLocation which is private value)
-        game_object(std::string oType, std::string oName, std::string oDesc, std::string oLoc)
-        {
-            objectType = oType;
-            objectName = oName;
-            objectDescription = oDesc;
-            objectLocation = oLoc;
-            objectFlags = {};
-        }
+        // Public constructor which sets a game_object's type, name, description, as well as its flags & location.
         game_object(std::string oType, std::string oName, std::string oDesc, std::string oLoc, std::vector<std::string> oFlags)
         {
             objectType = oType;
@@ -97,6 +82,14 @@ class game_object
             {
                 objectFlags.erase(flagIter);
             }
+        }
+        std::string get_location() 
+        {
+            return objectLocation;
+        }
+        void set_location(std::string oLoc)
+        {
+            objectLocation = oLoc;
         }
 };
 
