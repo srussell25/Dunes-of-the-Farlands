@@ -150,13 +150,13 @@ void initialize_game_objects() {
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place of calm tension.", {"at_start"}));
     mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems abandoned. All you can see is dilapidated buildings.", {}));
     mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems to be a beautiful oasis.", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "outside palace", "", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "inside palace", "", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "gate", "", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "city square", "", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "general store", "", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "coffee shop", "", {}));
-    mainObjects.insert(mainObjects.end(), game_object("location", "Sarabi's Egyptian Cuisine", "", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "outside palace", "", {})); //haven't decided
+    mainObjects.insert(mainObjects.end(), game_object("location", "inside palace", "", {})); //haven't decided
+    mainObjects.insert(mainObjects.end(), game_object("location", "gate", "The gate is wooden, Egyptian-styled, and at least 15 feet tall.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "city square", "Entering the heart of the city, shops are spread out before you and King Akhem's palace can be seen in the distance as well.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "general store", "Right ahead is a huge tent, this tent is full of things like clothes, shoes, toys, and hats", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "coffee shop", "The shop itself seems very old at first glance, with cracked walls and faded windows. Though the locals inside look happy to be there", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "Sarabi's Egyptian Cuisine", "The outside of the building seems pretty plain but as one walks in, structure inside is rather beautifiul", {}));
 
 
     // Initializing characters (objects of type "character")
