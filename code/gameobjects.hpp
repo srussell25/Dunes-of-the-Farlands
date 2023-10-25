@@ -31,6 +31,23 @@ class game_object
             objectDescription = oDesc;
             objectFlags = oFlags;
         }
+        // added oLoc(objectLocation which is private value)
+        game_object(std::string oType, std::string oName, std::string oDesc, std::string oLoc)
+        {
+            objectType = oType;
+            objectName = oName;
+            objectDescription = oDesc;
+            objectLocation = oLoc;
+            objectFlags = {};
+        }
+        game_object(std::string oType, std::string oName, std::string oDesc, std::string oLoc, std::vector<std::string> oFlags)
+        {
+            objectType = oType;
+            objectName = oName;
+            objectDescription = oDesc;
+            objectLocation = oLoc;
+            objectFlags = oFlags;
+        }
         // Comparison operators
         friend bool operator==(game_object const& x, game_object const& y)
         {
