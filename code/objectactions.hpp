@@ -44,6 +44,26 @@ std::string take(game_object &obj, player_info &playerChar)
             return "Take a drink? I don't see a drink around here, do you?";
         }
     }
+    else if (obj.get_object_name() == "clothes" || "toys" || "shoes") 
+    {
+        if (obj.get_object_flag("at_location") == "at_location")
+        {
+            return "The shopkeeper slaps your hand and says you need to pay for that before picking it up. You apologize and bow out of respect."
+             "She decides to forgive you. Maybe you should try a different approach.";
+        }
+        else return "that is not a item at this location. maybe you should try and pick up something that actually exist";
+    }
+    else if (obj.get_object_name() == "coffee")
+    {
+       if (obj.get_object_flag("at_location") == "at_location")
+        {
+            playerChar.set_player_state(false);
+            return "You grab a coffee that was made for someone else. The server hits you in the head with a wooden barrel."
+            "You get a huge knot on your head and die instantly after. Learn coffee house manners  next time.";
+
+        }
+        else return "that is not a item at this location. maybe you should try and pick up something that actually exist";
+    }
     return "Invalid action & object combination; try again.";
 }
 
@@ -150,6 +170,7 @@ std::string attack(game_object &obj, player_info &playerChar)
         {
             return "Hey, you've only just met the guy, have some self discipline!";
         }
+
     }
     return "Invalid action & object combination; try again.";
 }
