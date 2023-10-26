@@ -27,15 +27,15 @@ class player_info
             isAlive = true;
         }
         // Class methods
-        void set_location(game_object location)
+        void set_location(game_object &location)
         {
             currentLocation = location;
         }
-        game_object get_location()
+        game_object& get_location()
         {
             return currentLocation;
         }
-        game_object find_item(game_object item) 
+        game_object& find_item(game_object &item) 
         {
             invIter = std::find(inventory.begin(), inventory.end(), item);
             if (invIter != inventory.end()) 
@@ -44,14 +44,14 @@ class player_info
             }
             else
             {
-                return game_object();
+                return emptyObject;
             }
         }
-        void add_item(game_object item)
+        void add_item(game_object &item)
         {
             inventory.insert(inventory.end(), item);
         }
-        void remove_item(game_object item)
+        void remove_item(game_object &item)
         {
             invIter = std::find(inventory.begin(), inventory.end(), item);
             if (invIter != inventory.end()) 
