@@ -68,7 +68,7 @@ class game_object
             }
             else
             {
-                return "flag_not_found";
+                return "not found";
             }
         }
         void add_object_flag(std::string flag)
@@ -117,9 +117,21 @@ game_object& find_object(std::string objName)
     }
 }
 
-// This function initializes all game objects at the start of the program's runtime.
-void initialize_game_objects() {
+// This function takes in a reference to a game_object 
+// and attempts to erase it from the mainObjects vector.
+void remove_object(game_object &objToRemove)
+{
+    std::vector<game_object>::iterator iter = std::find_if(mainObjects.begin(), mainObjects.end(), objToRemove);
 
+    if (iter != mainObjects.end()) 
+    {
+        mainObjects.erase(iter);
+    }
+}
+
+// This function initializes all game objects at the start of the program's runtime.
+void initialize_game_objects() 
+{
     // Check if game has already started; if mainObjects is not empty then
     // clear mainObjects & re-add objects in their default state to restart game.
     if (!mainObjects.empty()) {
@@ -128,7 +140,7 @@ void initialize_game_objects() {
 
     // Initializing locations (objects of type "location")
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place "
-    "of calm tension.", {"at_start"}));
+    "of calm tension.", {}));
     mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems "
     "abandoned. All you can see is dilapidated buildings.", {}));
     mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems "
@@ -160,7 +172,7 @@ void initialize_game_objects() {
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of "
     "my job to keep this chest protected, but I won't make it out here much longer.'", {}, "outside palace")); 
     mainObjects.insert(mainObjects.end(), game_object("item", "drink", "Well, it wouldn't be a tavern without any "
-    "drinks. It looks like a shot of whisky - why not take a drink?", {"at_location"}, "tavern"));
+    "drinks. It looks like a shot of whisky - why not take a drink?", {}, "tavern"));
 
     // Initializing characters (objects of type "character")
     mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "He looks ragged, with "

@@ -3,15 +3,23 @@
 
 #include "classesmisc.hpp"
 
-std::string use(game_object &obj, player_info &playerChar)
+// Add function description here
+std::string use(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_name() == "chestKey")
+    if (currObjName == "chestKey")
     {
-        return "You used the chestKey.";
+        if (playerChar.get_location() == "not implemented") // figure out location for chest
+        {
+            return "You used the chestKey.";
+        }
+        else
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    else if (obj.get_object_name() == "drink")
+    else if (currObjName == "drink")
     {
-        if (obj.get_object_flag("at_location") == "at_location")
+        if (playerChar.get_location() == "tavern")
         {
             playerChar.remove_item(obj);
             return "Man, that was a pretty good drink!";
@@ -22,19 +30,27 @@ std::string use(game_object &obj, player_info &playerChar)
             "drinking this in the tavern... maybe I should go back?";
         }
     }
-    return "Invalid action & object combination; try again.";
 }
 
-std::string take(game_object &obj, player_info &playerChar)
+// Add function description here
+std::string take(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_name() == "chestKey")
+    if (currObjName == "chestKey")
     {
-        playerChar.add_item(obj);
-        return "Key to the chest added to your inventory.";
+        if (playerChar.get_location() == "not implemented") // figure out location for chest key
+        {
+            playerChar.add_item(obj);
+            //remove_object(obj);
+            return "Key to the chest added to your inventory.";
+        }
+        else
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    else if (obj.get_object_name() == "drink")  
+    else if (currObjName == "drink")  
     {
-        if (obj.get_object_flag("at_location") == "at_location")
+        if (playerChar.get_location() == "tavern")
         {
             playerChar.add_item(obj);
             return "The drink was added to your inventory.";
@@ -44,149 +60,177 @@ std::string take(game_object &obj, player_info &playerChar)
             return "Take a drink? I don't see a drink around here, do you?";
         }
     }
-    else if (obj.get_object_name() == "clothes" || "toys" || "shoes") 
+    else if (currObjName == "clothes" || currObjName == "toys" || currObjName == "shoes") 
     {
-        if (obj.get_object_flag("at_location") == "at_location")
+        if (playerChar.get_location() == "general store")
         {
-            return "The shopkeeper slaps your hand and says you need to pay for that before picking it up. You apologize and bow out of respect."
-             "She decides to forgive you. Maybe you should try a different approach.";
+            return "The shopkeeper slaps your hand and says you need to pay for that before picking it up. "
+            "You apologize and bow out of respect; luckily, she forgives you. Maybe you should try a different approach.";
         }
-        else return "that is not a item at this location. maybe you should try and pick up something that actually exist";
+        else 
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    else if (obj.get_object_name() == "coffee")
+    else if (currObjName == "coffee")
     {
-       if (obj.get_object_flag("at_location") == "at_location")
+       if (playerChar.get_location() == "coffee shop")
         {
             playerChar.set_player_state(false);
-            return "You grab a coffee that was made for someone else. The server hits you in the head with a wooden barrel."
-            "You get a huge knot on your head and die instantly after. Learn coffee house manners  next time.";
-
+            return "You grab a coffee that was made for someone else. The server doesn't miss this, and immediately throws a "
+            "wooden barrel at you. Out of surprise, you don't even try to dodge. The impact of the barrel breaks multiple bones, "
+            "and you drop to the ground. Learn your manners, kids.";
         }
-        else return "that is not a item at this location. maybe you should try and pick up something that actually exist";
+        else
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    return "Invalid action & object combination; try again.";
 }
 
-std::string go_to(game_object &obj, player_info &playerChar)
+// Add function description here
+std::string go_to(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_name() == "oasis")
-    {
-        if (playerChar.get_location().get_object_name() == "game start")
+    if (currObjName == "oasis")
+    {   
+        if (playerChar.get_location() == "game start")
         {
-            playerChar.set_location(find_object("oasis"));
+            playerChar.set_location("oasis");
             playerChar.set_player_state(false);
             return "You make your way over to the oasis, but when you get there, a frog suddenly jumps onto your leg. "
             "It's a poisonous frog. You die in seconds.";
         }
-    }
-    else if (obj.get_object_name() == "abandoned town")
-    {
-        if (playerChar.get_location().get_object_name() == "game start" || playerChar.get_location().get_object_name() == "tavern")
+        else
         {
-            playerChar.set_location(find_object("abandoned town")); 
-            find_object("old lady").add_object_flag("at_location");
-            find_object("abandoned town").add_object_flag("at_location");
-            find_object("game start").remove_object_flag("at_location");
+            return "unique fail state"; // add unique fail text
+        }
+    }
+    else if (currObjName == "abandoned town")
+    {
+        if (playerChar.get_location() == "game start" || playerChar.get_location() == "tavern")
+        {
+            playerChar.set_location("abandoned town");
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
             " but it's overrun by thugs and bandits. The walls are broken, and people have"
             " malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby,"
             " but your gaze also happens upon an old lady who seems to be struggling.";
         }
-    }
-    else if (obj.get_object_name() == "tavern")
-    {
-        if (playerChar.get_location().get_object_name() == "abandoned town")
+        else
         {
-            playerChar.set_location(find_object("tavern"));
-            find_object("barkeep").add_object_flag("at_location");
-            find_object("bandit").add_object_flag("at_location");
-            find_object("tavern").add_object_flag("at_location");
-            find_object("drink").add_object_flag("at_location");
-            find_object("abandoned town").remove_object_flag("at_location");
-            find_object("old lady").remove_object_flag("at_location");   
+            return "unique fail state"; // add unique fail text
+        }
+    }
+    else if (currObjName == "tavern")
+    {
+        if (playerChar.get_location() == "abandoned town")
+        {
+            playerChar.set_location("tavern");
             return "You enter into the tavern. You try to go up to the bar to ask for directions,"
             " but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot."
             " He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
         }
+        else
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    return "Invalid action & object combination; try again.";
 }
 
-std::string talk_to(game_object &obj, player_info &playerChar)
+// Add function description here
+std::string talk_to(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_name() == "barkeep")
+    if (currObjName == "barkeep")
     {
-        if (playerChar.get_location().get_object_name() == "tavern")
+        if (playerChar.get_location() == "tavern")
         {
             return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people."
             " I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by"
             " one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its"
             " own right, but you'll find more to do over in that region.";
         }
+        else
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    else if (obj.get_object_name() == "old lady")
+    else if (currObjName == "old lady")
     {
-        if (playerChar.get_location().get_object_name() == "abandoned town")
+        if (playerChar.get_location() == "abandoned town")
         {
             playerChar.set_player_state(false);
             return "You try to talk to the old lady, but as you walk over, she suddenly turns around and stabs you."
             " She takes all of your items, and then runs off. Looks like she didn't need any help after all...";
         }
+        else
+        {
+            return "unique fail state"; // add unique fail text
+        }
     }
-    return "Invalid action & object combination; try again.";
 }
 
 // If there is an object to look at, call this function for the description.
-std::string look_at(game_object &obj, player_info &playerChar)
+std::string look_at(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_flag("at_location") == "at_location")
+    if (playerChar.get_location() == currObjName)
     {
         return obj.get_object_description();
     }
     else
     {
-        return "It seems like you can't see any " + obj.get_object_name();
+        return "It seems like you can't see any " + currObjName;
     }
 }
 
-// Check for the specified character, then attack if possible; else, return fail message
-std::string attack(game_object &obj, player_info &playerChar)
+// Check for the specified character, then attack if possible; otherwise, return a fail message.
+std::string attack(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_type() == "character" && playerChar.get_location().get_object_name() == "tavern")
+    if (obj.get_object_type() == "character")
     {
-        if(obj.get_object_name() == "bandit")
+        if (playerChar.get_location() == "abandoned town")
         {
-            find_object("bandit").remove_object_flag("is_alive");
-            return "You take out your sword, and with a mighty slash, you defeat the bandit."
-            " His 'friends' take one look at you and decide to run away. Meanwhile, the rest"
-            " of the bar doesn't seem to take any notice of your actions, except for the barkeep."
-            " He beckons you over to the bar, and sets a drink down in front of you.";
+            if (currObjName == "old lady" && playerChar.find_flag("knowsEvilOldLady") == "not found")
+            {
+                return "Attacking an old lady? You can't be serious!";
+            }
+            // add text for if you discover the old lady is 'evil'
         }
-        else if(obj.get_object_name() == "old lady")
+        else if (playerChar.get_location() == "tavern")
         {
-            return "Attacking an old lady? You can't be serious!";
+            if (currObjName == "bandit")
+            {
+                if (obj.get_object_flag("is_alive") != "flag_not_found")
+                {
+                    obj.remove_object_flag("is_alive");
+                    return "You take out your sword, and with a mighty slash, you defeat the bandit."
+                    " His 'friends' take one look at you and decide to run away. Meanwhile, the rest"
+                    " of the bar doesn't seem to take any notice of your actions, except for the barkeep."
+                    " He beckons you over to the bar, and sets a drink down in front of you.";
+                }
+            }
+            else if (currObjName == "barkeep")
+            {
+                return "Hey, you've only just met the guy, have some self discipline!";
+            }
         }
-        else if(obj.get_object_name() == "barkeep")
-        {
-            return "Hey, you've only just met the guy, have some self discipline!";
-        }
-
+        // add more cases here
     }
-    return "Invalid action & object combination; try again.";
+    else if (obj.get_object_type() == "item")
+    {
+        // add text related to attacking items here
+    }
 }
 
 // Read things like books, notes, etc.
-std::string read(game_object &obj, player_info &playerChar)
+std::string read(game_object &obj, std::string currObjName, player_info &playerChar)
 {
-    if (obj.get_object_type() == "item")
+    if (obj.get_object_type() == "item" && playerChar.get_location() == obj.get_location())
     {
-        if (obj.get_object_flag("at_location") == "at_location")
-        {
-            return obj.get_object_description();
-        }
+        return obj.get_object_description();
     }
-    
-    return "There's nothing to read over here.";
+    else
+    {
+        return "There's nothing to read over here.";
+    }
 }
 
 // This function will take in an action as a string and the current 
@@ -197,40 +241,49 @@ std::string read(game_object &obj, player_info &playerChar)
 std::string main_action(std::string act, game_object &obj, player_info &playerChar) 
 {
     std::string result = "";
+    std::string objName = obj.get_object_name();
     
     if (act == "use")
     { 
-        result = use(obj, playerChar);
+        result = use(obj, objName, playerChar);
     }
     else if (act == "take" || act == "get" || act == "grab")
     {
-        result = take(obj, playerChar);
+        result = take(obj, objName, playerChar);
     }
     else if (act == "go to")
     {
-        result = go_to(obj, playerChar);
+        result = go_to(obj, objName, playerChar);
     }
     else if (act == "look at")
     {
-        result = look_at(obj, playerChar);
+        result = look_at(obj, objName, playerChar);
     }
     else if (act == "read")
     {
-        result = read(obj, playerChar);
+        result = read(obj, objName, playerChar);
     }
     else if (act == "talk to")
     {
-        result = talk_to(obj, playerChar);
+        result = talk_to(obj, objName, playerChar);
     }
     else if (act == "attack")
     {
-        result = attack(obj, playerChar);
+        result = attack(obj, objName, playerChar);
     }
     else
     {
         result = "This action has not been implemented yet, sorry!";
     }
-    return result;
+
+    if (result == "")
+    {
+        return "Invalid action & object combination; try again.";
+    }
+    else
+    {
+        return result;
+    }
 }
 
 #endif

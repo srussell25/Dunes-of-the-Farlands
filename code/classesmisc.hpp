@@ -27,13 +27,13 @@ class player_info
             isAlive = true;
         }
         // Class methods
-        void set_location(game_object &location)
+        void set_location(std::string newLoc)
         {
-            currentLocation = location;
+            currentLocation = find_object(newLoc);
         }
-        game_object& get_location()
+        std::string get_location()
         {
-            return currentLocation;
+            return currentLocation.get_object_name();
         }
         game_object& find_item(game_object &item) 
         {
@@ -68,7 +68,7 @@ class player_info
             }
             else
             {
-                return "flag_not_found";
+                return "not found";
             }
         }
         void add_flag(std::string flag) 
