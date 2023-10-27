@@ -1,21 +1,73 @@
 #ifndef GAMEOBJECTS_HPP
 #define GAMEOBJECTS_HPP
 
-// This class contains information about all of the game's objects
+// Finds the iterator for an object in a vector of the same type.
+template <typename A, typename B>
+std::vector<A>::iterator find_iter(std::vector<A> &vecToCheck, B &objToFind)
+{
+    return std::find(vecToCheck.begin(), vecToCheck.end(), objToFind);
+}
+
+// Searches for an object in the vector argument, then attempts
+// to return the object if it exists in the vector. Returns the
+// default constructor of the type within the vector if unsuccessful.
+template <typename A, typename B> 
+A get_object(std::vector<A> &vecToCheck, B &objToGet)
+{
+    typename std::vector<A>::iterator vecIter = find_iter(vecToCheck, objToGet);
+    if (vecIter != vecToCheck.end())
+    {
+        return *vecIter;
+    }
+    else
+    {
+        return A();
+    }
+}
+
+// Attempts to add an object to a vector; fails if the item is equivalent
+// to the default constructor of the argument type.
+template <typename A>
+bool add_object(std::vector<A> &vecToCheck, A &objToAdd)
+{
+    if (objToAdd != A())
+    {
+        vecToCheck.insert(vecToCheck.end(), objToAdd);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Searches for an object in the vector argument, then attempts to remove
+// the object if it exists in the vector. Returns true if successful,
+// otherwise returns false.
+template <typename A, typename B>
+bool remove_object(std::vector<A> &vecToCheck, B &objToRemove)
+{
+    typename std::vector<A>::iterator vecIter = find_iter(vecToCheck, objToRemove);
+    if (vecIter != vecToCheck.end()) 
+    {
+        vecToCheck.erase(vecIter);
+        return true;
+    }
+    {
+        return false;
+    }
+}
+
+// This class contains information about one of the game's objects,
+// including its type, name, description, location, and set flags.
 class game_object
 {
     private:
         std::string objectType;
         std::string objectName;
         std::string objectDescription;
-        std::string objectLocation; 
+        std::string objectLocation;
         std::vector<std::string> objectFlags;
-        
-        // Find iterator for object inside objectFlags vector
-        std::vector<std::string>::iterator find_flag_iter(std::string flagToFind) 
-        {
-            return std::find(objectFlags.begin(), objectFlags.end(), flagToFind);
-        }
 
     public:
         // Public default constructor
@@ -70,30 +122,18 @@ class game_object
         }
         std::string get_object_flag(std::string flagToGet) 
         {
-            std::vector<std::string>::iterator flagIter = find_flag_iter(flagToGet);
-            if (flagIter != objectFlags.end()) 
-            {
-                return *flagIter;
-            }
-            else
-            {
-                return "not_found";
-            }
+            return get_object(objectFlags, flagToGet);
         }
         void add_object_flag(std::string flagToAdd)
         {
-            if (flagToAdd != "not_found")
+            if (!flagToAdd.empty())
             {
                 objectFlags.insert(objectFlags.begin(), flagToAdd);
             }
         }
         void remove_object_flag(std::string flagToRemove)
         {
-            std::vector<std::string>::iterator flagIter = find_flag_iter(flagToRemove);
-            if (flagIter != objectFlags.end()) 
-            {
-                objectFlags.erase(flagIter);
-            }
+            remove_object(objectFlags, flagToRemove);
         }
         std::string get_object_loc() 
         {
@@ -135,20 +175,7 @@ game_object& find_object(std::string objName)
     }
 }
 
-// This function takes in a game_object and attempts to erase it from the mainObjects vector.
-void remove_object(game_object &objToRemove)
-{
-    using namespace specificvars;
-    
-    std::vector<game_object>::iterator iter = std::find(mainObjects.begin(), mainObjects.end(), objToRemove);
-
-    if (iter != mainObjects.end()) 
-    {
-        mainObjects.erase(iter);
-    }
-}
-
-// This function initializes all game objects at the start of the program's runtime.
+// This function is intended to initialize all game objects at the start of the program's runtime.
 void initialize_game_objects() 
 {
     using namespace specificvars;

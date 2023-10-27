@@ -21,7 +21,7 @@ std::string use(game_object &obj, std::string currObjName, player_info &playerCh
     {
         if (playerChar.get_inv_item("drink") == obj && playerChar.get_player_loc() == "tavern")
         {
-            playerChar.remove_inv_item(obj);
+            playerChar.remove_inv_item(currObjName, true);
             return "Man, that was a pretty good drink!";
         }
         else if (playerChar.get_inv_item("drink") == obj)
@@ -41,9 +41,16 @@ std::string use(game_object &obj, std::string currObjName, player_info &playerCh
 // Add function description here
 std::string take(game_object &obj, std::string currObjName, player_info &playerChar)
 {
+    // Check item is not in player inventory already
+    if (obj.get_object_loc() == "playerinventory")
+    {
+        return "Are you seriously trying to take an item from your own inventory?";
+    }
+    
+    // Continue checks
     if (currObjName == "chestkey")
     {
-        if (playerChar.get_player_loc() == "notimplemented") // figure out location for chest key
+        if (playerChar.get_player_loc() == obj.get_object_loc())
         {
             playerChar.add_inv_item(obj);
             return "Key to the chest added to your inventory.";
@@ -55,7 +62,7 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
     }
     else if (currObjName == "drink")  
     {
-        if (playerChar.get_player_loc() == "tavern")
+        if (playerChar.get_player_loc() == obj.get_object_loc())
         {
             playerChar.add_inv_item(obj);
             return "The drink was added to your inventory.";
@@ -199,7 +206,7 @@ std::string attack(game_object &obj, std::string currObjName, player_info &playe
     {
         if (playerChar.get_player_loc() == "abandoned town")
         {
-            if (currObjName == "old lady" && playerChar.get_player_flag("oldlady_is_evil") == "not_found")
+            if (currObjName == "old lady" && playerChar.get_player_flag("oldlady_is_evil").empty())
             {
                 return "Attacking an old lady? You can't be serious!";
             }
@@ -209,7 +216,7 @@ std::string attack(game_object &obj, std::string currObjName, player_info &playe
         {
             if (currObjName == "bandit")
             {
-                if (obj.get_object_flag("is_alive") != "not_found")
+                if (!obj.get_object_flag("is_alive").empty())
                 {
                     obj.remove_object_flag("is_alive");
                     return "You take out your sword, and with a mighty slash, you defeat the bandit."

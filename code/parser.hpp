@@ -8,7 +8,7 @@
 
 // TODO: Completely rewrite this function, it's currently way too hardcoded
 // This function takes in user input & parses it
-std::tuple<std::string, game_object> game_input_parser(std::string input)
+std::pair<std::string, game_object> game_input_parser(std::string input)
 {
     std::string returnStr;
     game_object returnObj;
@@ -16,7 +16,7 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
 
     if (input.empty())
     {
-       return std::tuple<std::string, game_object>{returnStr, returnObj};
+       return std::make_pair(returnStr, returnObj);
     }
 
     if (input.size() > 4 && input.substr(0, 4) == "use ")
@@ -62,21 +62,21 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
     else if (input.size() >= 4 && input.substr(0, 4) == "help")
     {
         returnStr = "help";
-        return std::tuple<std::string, game_object>{returnStr, returnObj};
+        return std::make_pair(returnStr, returnObj);
     }
     else if (input.size() >= 9 && input.substr(0, 9) == "inventory")
     {
         returnStr = "inventory";
-        return std::tuple<std::string, game_object>{returnStr, returnObj};
+        return std::make_pair(returnStr, returnObj);
     }
     else if (input.size() >= 4 && input.substr(0, 4) == "exit")
     {
         returnStr = "exit";
-        return std::tuple<std::string, game_object>{returnStr, returnObj};
+        return std::make_pair(returnStr, returnObj);
     }
     else
     {
-        return std::tuple<std::string, game_object>{returnStr, returnObj};
+        return std::make_pair(returnStr, returnObj);
     }
 
     if (input.size() >= (iterVal + 14) && input.substr(iterVal, iterVal + 14) == "abandoned town")
@@ -128,7 +128,7 @@ std::tuple<std::string, game_object> game_input_parser(std::string input)
         returnObj = find_object("barkeep");
     }
 
-    return std::tuple<std::string, game_object>{returnStr, returnObj};
+    return std::make_pair(returnStr, returnObj);
 }
 
 #endif
