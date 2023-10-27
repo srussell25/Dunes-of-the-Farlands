@@ -61,6 +61,30 @@ class player_info
                 remove_object(specificvars::mainObjects, find_object(itemToRemove));
             }
         }
+        // Returns a string containing the names of all items in the player's inventory
+        std::string get_inv_string()
+        {
+            std::string str;
+            for (std::string s : inventory)
+            {
+                if (s == *inventory.begin())
+                {
+                    str.append("Current inventory: " + s);
+                }
+                else
+                {
+                    str.append(", " + s);
+                }
+            }
+            if (str.empty())
+            {
+                return "Inventory is currently empty!";
+            }
+            else
+            {
+                return str + ".";
+            }
+        }
         std::string get_player_flag(std::string flagToGet)
         {
             return get_object(playerFlags, flagToGet);
