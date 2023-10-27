@@ -18,33 +18,92 @@
 STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
 {
     initialize_game_objects();
-    CHECK(find_object("game start") == mainObjects.at(0));
-    CHECK(find_object("this doesn't exist") == game_object());
+
+    // Try to find game_object, check that the return values match expected behavior
+    CHECK(find_object("game start") == specificvars::mainObjects.at(0));
+    CHECK_FALSE(find_object("tavern") == specificvars::emptyObject);
+    CHECK(find_object("fake object") == specificvars::emptyObject);
 }
 
-STUDENT_TEST("Check to see that object flags are added to an object correctly")
+STUDENT_TEST("Check to see that game_object flags can be retrieved, added, & removed.")
 {
     initialize_game_objects();
 
-    // Add flag to object with non-empty vector
-    find_object("game start").add_object_flag("temp_flag");
-    CHECK(find_object("game start").get_object_flag("temp_flag") == "temp_flag");
+    // Try to find game_object flags, check that the return values match expected behavior
+    CHECK_FALSE(find_object("game start").get_object_flag("temp_flag") == "temp_flag"); // empty flag vector
+    CHECK(find_object("game start").get_object_flag("temp_flag") == "not_found"); // correct behavior
+    CHECK(find_object("bandit").get_object_flag("is_alive") == "is_alive"); // non-empty flag vector
 
-    // Add flag to object with empty vector
-    find_object("old lady").add_object_flag("at_location");
-    CHECK(find_object("old lady").get_object_flag("at_location") == "at_location");
+    // Try to add a flag to a game_object, check if successful
+    find_object("tavern").add_object_flag("temp_flag");
+    CHECK(find_object("tavern").get_object_flag("temp_flag") == "temp_flag"); // empty flag vector
+    find_object("old lady").add_object_flag("temp_flag");
+    CHECK(find_object("old lady").get_object_flag("temp_flag") == "temp_flag"); // non-empty flag vector
+
+    // Try to remove a flag from a game_object, check if successful
+    find_object("barkeep").remove_object_flag("is_alive");
+    CHECK_FALSE(find_object("barkeep").get_object_flag("is_alive") == "is_alive"); // non-empty flag vector
 }
 
-/*  Test won't work with new non-flag location system; modify test to check another flag
-STUDENT_TEST("Check to see that flags are properly set during gameplay")
+STUDENT_TEST("Flag Set Check #1: Attacking the bandit in the tavern.")
 {
     initialize_game_objects();
     player_info player = player_info("new");
-    std::tuple<std::string, game_object> parserOutput = {"go to", find_object("abandoned town")};
-
-    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+    std::tuple<std::string, game_object> parserOutput;
     
-    CHECK(find_object("old lady").get_object_flag("at_location") == "at_location");
-    CHECK(find_object("abandoned town").get_object_flag("at_location") == "at_location");
+    // Check that the bandit exists and is alive (has "is_alive" flag)
+    CHECK(find_object("bandit").get_object_flag("is_alive") == "is_alive");
+    CHECK(find_object("bandit").get_object_flag("is_alive") != "not_found"); // alternate style of check
+
+    // Simulate gameplay loop
+    parserOutput = {"go to", find_object("abandoned town")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    parserOutput = {"go to", find_object("tavern")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    parserOutput = {"attack", find_object("bandit")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    // Check that the bandit exists and is dead (no "is_alive" flag)
+    CHECK(find_object("bandit").get_object_flag("is_alive") == "not_found");
+    CHECK_FALSE(find_object("bandit").get_object_flag("is_alive") != "not_found"); // alternate style of check
 }
-*/
+
+STUDENT_TEST("Inventory Check #1: Taking the drink from the barkeep and using it.")
+{
+    initialize_game_objects();
+    player_info player = player_info("new");
+    std::tuple<std::string, game_object> parserOutput;
+
+    // Check that the drink exists, is not in the player inventory, & is located in the tavern
+    CHECK_FALSE(find_object("drink") == specificvars::emptyObject);
+    CHECK(player.get_inv_item("drink") == specificvars::emptyObject);
+    CHECK(find_object("drink").get_object_loc() == "tavern");
+
+    // Simulate gameplay loop
+    parserOutput = {"go to", find_object("abandoned town")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    parserOutput = {"go to", find_object("tavern")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    parserOutput = {"attack", find_object("bandit")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    parserOutput = {"take", find_object("drink")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    // Check that the drink exists, is added to the player inventory, & is not located in the tavern
+    CHECK_FALSE(find_object("drink") == specificvars::emptyObject);
+    CHECK_FALSE(player.get_inv_item("drink") == specificvars::emptyObject);
+    CHECK_FALSE(find_object("drink").get_object_loc() == "tavern");
+
+    parserOutput = {"use", find_object("drink")};
+    main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+
+    // Check that the drink does not exist, is not in the player inventory, & is not located in the tavern
+    CHECK(find_object("drink") == specificvars::emptyObject);
+    CHECK(player.get_inv_item("drink") == specificvars::emptyObject);
+    CHECK_FALSE(find_object("drink").get_object_loc() == "tavern");
+}

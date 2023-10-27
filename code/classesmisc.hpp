@@ -10,77 +10,101 @@ class player_info
     private:
         game_object currentLocation;
         std::vector<game_object> inventory;
-        std::vector<std::string> flags;
-        std::vector<game_object>::iterator invIter;
-        std::vector<std::string>::iterator flagIter;
+        std::vector<std::string> playerFlags;
         bool isAlive;
     
+        // Find iterator for object inside inventory vector
+        std::vector<game_object>::iterator find_inv_iter(game_object &itemToFind) 
+        {
+            return std::find(inventory.begin(), inventory.end(), itemToFind);
+        }
+        // Find iterator for object inside playerFlags vector
+        std::vector<std::string>::iterator find_flag_iter(std::string flagToFind) 
+        {
+            return std::find(playerFlags.begin(), playerFlags.end(), flagToFind);
+        }
+
     public:
         // Public default constructor
         player_info() {}
         // Public constructor called by main
         player_info(std::string str)
         {
-            currentLocation = *mainObjects.begin();
+            currentLocation = find_object("game start");
             inventory = {};
-            flags = {};
+            playerFlags = {};
             isAlive = true;
+
+            // Add certain items immediately to player inventory
+            inventory.insert(inventory.end(), find_object("sword"));
+            inventory.insert(inventory.end(), find_object("shield"));
         }
         // Class methods
-        void set_location(std::string newLoc)
-        {
-            currentLocation = find_object(newLoc);
-        }
-        std::string get_location()
+        std::string get_player_loc()
         {
             return currentLocation.get_object_name();
         }
-        game_object& find_item(game_object &item) 
+        void set_player_loc(game_object &newLoc)
         {
-            invIter = std::find(inventory.begin(), inventory.end(), item);
-            if (invIter != inventory.end()) 
+            if (newLoc != specificvars::emptyObject)
+            {
+                currentLocation = newLoc;
+            }
+        }
+        game_object& get_inv_item(std::string itemToGet)
+        {
+            std::vector<game_object>::iterator invIter = find_inv_iter(find_object(itemToGet));
+            if (invIter != inventory.end())
             {
                 return *invIter;
             }
             else
             {
-                return emptyObject;
+                return specificvars::emptyObject;
             }
         }
-        void add_item(game_object &item)
+        void add_inv_item(game_object &itemToAdd)
         {
-            inventory.insert(inventory.end(), item);
+            if (itemToAdd != specificvars::emptyObject)
+            {
+                itemToAdd.set_object_loc("playerinventory");
+                inventory.insert(inventory.end(), itemToAdd);
+            }
         }
-        void remove_item(game_object &item)
+        void remove_inv_item(game_object &itemToRemove)
         {
-            invIter = std::find(inventory.begin(), inventory.end(), item);
-            if (invIter != inventory.end()) 
+            std::vector<game_object>::iterator invIter = find_inv_iter(itemToRemove);
+            if (invIter != inventory.end())
             {
                 inventory.erase(invIter);
+                remove_object(itemToRemove);
             }
         }
-        std::string find_flag(std::string flag) 
+        std::string get_player_flag(std::string flagToGet)
         {
-            flagIter = std::find(flags.begin(), flags.end(), flag);
-            if (flagIter != flags.end()) 
+            std::vector<std::string>::iterator flagIter = find_flag_iter(flagToGet);
+            if (flagIter != playerFlags.end())
             {
                 return *flagIter;
             }
             else
             {
-                return "not found";
+                return "not_found";
             }
         }
-        void add_flag(std::string flag) 
+        void add_player_flag(std::string flagToAdd)
         {
-            flags.insert(flags.end(), flag);
-        }
-        void remove_flag(std::string flag) 
-        {
-            flagIter = std::find(flags.begin(), flags.end(), flag);
-            if (flagIter != flags.end()) 
+            if (flagToAdd != "not_found")
             {
-                flags.erase(flagIter);
+                playerFlags.insert(playerFlags.end(), flagToAdd);
+            }
+        }
+        void remove_player_flag(std::string flagToRemove)
+        {
+            std::vector<std::string>::iterator flagIter = find_flag_iter(flagToRemove);
+            if (flagIter != playerFlags.end())
+            {
+                playerFlags.erase(flagIter);
             }
         }
         bool get_player_state()
