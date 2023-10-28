@@ -8,7 +8,7 @@ std::string use(game_object &obj, std::string currObjName, player_info &playerCh
 {
     if (currObjName == "chestkey")
     {
-        if (playerChar.get_inv_item("chestkey") == obj && playerChar.get_player_loc() == "notimplemented") // figure out location for chest
+        if (playerChar.get_inv_item(currObjName) && playerChar.get_player_loc() == "notimplemented") // figure out location for chest
         {
             return "You used the chest key.";
         }
@@ -19,12 +19,12 @@ std::string use(game_object &obj, std::string currObjName, player_info &playerCh
     }
     else if (currObjName == "drink")
     {
-        if (playerChar.get_inv_item("drink") == obj && playerChar.get_player_loc() == "tavern")
+        if (playerChar.get_inv_item(currObjName) && playerChar.get_player_loc() == "tavern")
         {
             playerChar.remove_inv_item(currObjName, true);
             return "Man, that was a pretty good drink!";
         }
-        else if (playerChar.get_inv_item("drink") == obj)
+        else if (playerChar.get_inv_item(currObjName))
         {
             return "Hmm, I feel like I'm missing out by not "
             "drinking this in the tavern... maybe I should go back?";

@@ -48,20 +48,20 @@ STUDENT_TEST("Flag Set Check #1: Attacking the bandit in the tavern.")
 {
     initialize_game_objects();
     player_info player = player_info("new");
-    std::pair<std::string, game_object> parserOutput;
+    std::pair<std::string, game_object&> parserOutput(std::string(), specificvars::emptyObject);
     
     // Check that the bandit exists and is alive (has "is_alive" flag)
     CHECK(find_object("bandit").get_object_flag("is_alive") == "is_alive");
     CHECK(!find_object("bandit").get_object_flag("is_alive").empty()); // alternate style of check
 
     // Simulate gameplay loop
-    parserOutput = std::make_pair("go to", find_object("abandoned town"));
+    parserOutput = {"go to", find_object("abandoned town")};
     main_action(parserOutput.first, parserOutput.second, player);
 
-    parserOutput = std::make_pair("go to", find_object("tavern"));
+    parserOutput = {"go to", find_object("tavern")};
     main_action(parserOutput.first, parserOutput.second, player);
 
-    parserOutput = std::make_pair("attack", find_object("bandit"));
+    parserOutput = {"attack", find_object("bandit")};
     main_action(parserOutput.first, parserOutput.second, player);
 
     // Check that the bandit exists and is dead (no "is_alive" flag)
@@ -73,36 +73,36 @@ STUDENT_TEST("Inventory Check #1: Taking the drink from the barkeep and using it
 {
     initialize_game_objects();
     player_info player = player_info("new");
-    std::pair<std::string, game_object> parserOutput;
+    std::pair<std::string, game_object&> parserOutput(std::string(), specificvars::emptyObject);
 
     // Check that the drink exists, is not in the player inventory, & is located in the tavern
     CHECK_FALSE(find_object("drink") == specificvars::emptyObject);
-    CHECK(player.get_inv_item("drink") == specificvars::emptyObject);
+    CHECK(player.get_inv_item("drink"));
     CHECK(find_object("drink").get_object_loc() == "tavern");
 
     // Simulate gameplay loop
-    parserOutput = std::make_pair("go to", find_object("abandoned town"));
+    parserOutput = {"go to", find_object("abandoned town")};
     main_action(parserOutput.first, parserOutput.second, player);
 
-    parserOutput = std::make_pair("go to", find_object("tavern"));
+    parserOutput = {"go to", find_object("tavern")};
     main_action(parserOutput.first, parserOutput.second, player);
 
-    parserOutput = std::make_pair("attack", find_object("bandit"));
+    parserOutput = {"attack", find_object("bandit")};
     main_action(parserOutput.first, parserOutput.second, player);
 
-    parserOutput = std::make_pair("take", find_object("drink"));
+    parserOutput = {"take", find_object("drink")};
     main_action(parserOutput.first, parserOutput.second, player);
 
     // Check that the drink exists, is added to the player inventory, & is not located in the tavern
     CHECK_FALSE(find_object("drink") == specificvars::emptyObject);
-    CHECK_FALSE(player.get_inv_item("drink") == specificvars::emptyObject);
+    CHECK_FALSE(player.get_inv_item("drink"));
     CHECK_FALSE(find_object("drink").get_object_loc() == "tavern");
 
-    parserOutput = std::make_pair("use", find_object("drink"));
+    parserOutput = {"use", find_object("drink")};
     main_action(parserOutput.first, parserOutput.second, player);
 
     // Check that the drink does not exist, is not in the player inventory, & is not located in the tavern
     CHECK(find_object("drink") == specificvars::emptyObject);
-    CHECK(player.get_inv_item("drink") == specificvars::emptyObject);
+    CHECK(player.get_inv_item("drink"));
     CHECK_FALSE(find_object("drink").get_object_loc() == "tavern");
 }

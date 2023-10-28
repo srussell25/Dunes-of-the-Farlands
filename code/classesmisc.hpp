@@ -8,7 +8,7 @@
 class player_info 
 {
     private:
-        game_object currentLocation;
+        std::vector<game_object>::iterator currentLocation;
         std::vector<std::string> inventory;
         std::vector<std::string> playerFlags;
         bool isAlive;
@@ -19,7 +19,7 @@ class player_info
         // Public constructor called by main
         player_info(std::string str)
         {
-            currentLocation = find_object("game start");
+            currentLocation = specificvars::mainObjects.begin();
             inventory = {};
             playerFlags = {};
             isAlive = true;
@@ -31,22 +31,29 @@ class player_info
         // Class methods
         std::string get_player_loc()
         {
-            return currentLocation.get_object_name();
+            return (*currentLocation).get_object_name();
         }
         void set_player_loc(game_object &newLoc)
         {
             if (newLoc != specificvars::emptyObject)
             {
-                currentLocation = newLoc;
+                currentLocation = find_iter(specificvars::mainObjects, newLoc);
             }
         }
-        game_object& get_inv_item(std::string itemToGet)
+        bool get_inv_item(std::string itemToGet)
         {
-            return find_object(get_object(inventory, itemToGet));
+            if (get_object(inventory, itemToGet) == std::string())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         void add_inv_item(game_object &itemToAdd)
         {
-            if (!itemToAdd.get_object_name().empty())
+            if (itemToAdd != specificvars::emptyObject)
             {
                 itemToAdd.set_object_loc("playerinventory");
                 inventory.insert(inventory.end(), itemToAdd.get_object_name());

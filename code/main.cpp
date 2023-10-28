@@ -16,7 +16,7 @@ int main()
 {
     std::string inputText;
     std::string outputText;
-    std::pair<std::string, game_object> parserOutput;
+    std::pair<std::string, game_object&> parserOutput(std::string(), specificvars::emptyObject);
     player_info player;
 
     // Main program loop
