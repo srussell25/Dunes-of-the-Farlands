@@ -8,80 +8,97 @@
 class player_info 
 {
     private:
-        game_object currentLocation;
-        std::vector<game_object> inventory;
-        std::vector<std::string> flags;
-        std::vector<game_object>::iterator invIter;
-        std::vector<std::string>::iterator flagIter;
+        std::vector<game_object>::iterator currentLocation;
+        std::vector<std::string> inventory;
+        std::vector<std::string> playerFlags;
         bool isAlive;
-    
+
     public:
         // Public default constructor
         player_info() {}
         // Public constructor called by main
         player_info(std::string str)
         {
-            currentLocation = *mainObjects.begin();
+            currentLocation = specificvars::mainObjects.begin();
             inventory = {};
-            flags = {};
+            playerFlags = {};
             isAlive = true;
+
+            // Add certain items immediately to player inventory
+            inventory.insert(inventory.end(), "sword");
+            inventory.insert(inventory.end(), "shield");
         }
         // Class methods
-        void set_location(game_object &location)
+        std::string get_player_loc()
         {
-            currentLocation = location;
+            return (*currentLocation).get_object_name();
         }
-        game_object& get_location()
+        void set_player_loc(game_object &newLoc)
         {
-            return currentLocation;
-        }
-        game_object& find_item(game_object &item) 
-        {
-            invIter = std::find(inventory.begin(), inventory.end(), item);
-            if (invIter != inventory.end()) 
+            if (newLoc != specificvars::emptyObject)
             {
-                return *invIter;
+                currentLocation = find_iter(specificvars::mainObjects, newLoc);
+            }
+        }
+        bool get_inv_item(std::string itemToGet)
+        {
+            return !(get_object(inventory, itemToGet).empty());
+        }
+        void add_inv_item(game_object &itemToAdd)
+        {
+            if (itemToAdd != specificvars::emptyObject)
+            {
+                itemToAdd.set_object_loc("playerinventory");
+                inventory.insert(inventory.end(), itemToAdd.get_object_name());
+            }
+        }
+        // Removes an item from the players inventory and 
+        // (optionally) removes it permanently from the mainObjects vector
+        void remove_inv_item(std::string itemToRemove, bool permRemove)
+        {
+            if (remove_object(inventory, itemToRemove) && permRemove)
+            {
+                remove_object(specificvars::mainObjects, find_object(itemToRemove));
+            }
+        }
+        // Returns a string containing the names of all items in the player's inventory
+        std::string get_inv_string()
+        {
+            std::string str;
+            for (std::string s : inventory)
+            {
+                if (s == *inventory.begin())
+                {
+                    str.append("Current inventory: " + s);
+                }
+                else
+                {
+                    str.append(", " + s);
+                }
+            }
+            if (str.empty())
+            {
+                return "Inventory is currently empty!";
             }
             else
             {
-                return emptyObject;
+                return str + ".";
             }
         }
-        void add_item(game_object &item)
+        std::string get_player_flag(std::string flagToGet)
         {
-            inventory.insert(inventory.end(), item);
+            return get_object(playerFlags, flagToGet);
         }
-        void remove_item(game_object &item)
+        void add_player_flag(std::string flagToAdd)
         {
-            invIter = std::find(inventory.begin(), inventory.end(), item);
-            if (invIter != inventory.end()) 
+            if (!flagToAdd.empty())
             {
-                inventory.erase(invIter);
+                playerFlags.insert(playerFlags.end(), flagToAdd);
             }
         }
-        std::string find_flag(std::string flag) 
+        void remove_player_flag(std::string flagToRemove)
         {
-            flagIter = std::find(flags.begin(), flags.end(), flag);
-            if (flagIter != flags.end()) 
-            {
-                return *flagIter;
-            }
-            else
-            {
-                return "flag_not_found";
-            }
-        }
-        void add_flag(std::string flag) 
-        {
-            flags.insert(flags.end(), flag);
-        }
-        void remove_flag(std::string flag) 
-        {
-            flagIter = std::find(flags.begin(), flags.end(), flag);
-            if (flagIter != flags.end()) 
-            {
-                flags.erase(flagIter);
-            }
+            remove_object(playerFlags, flagToRemove);
         }
         bool get_player_state()
         {

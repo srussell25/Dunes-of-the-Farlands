@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <string>
 #include <stdio.h>
-#include <tuple>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -17,14 +16,13 @@ int main()
 {
     std::string inputText;
     std::string outputText;
-    std::tuple<std::string, game_object> parserOutput;
-    game_object emptyGameObj;
+    std::pair<std::string, std::reference_wrapper<game_object>> parserOutput = {"", specificvars::emptyObject};
     player_info player;
 
     // Main program loop
     while(true)
     {
-        // Setting up all the game objects & player character
+        // Initializing game objects & player character to a specific state
         initialize_game_objects();
         player = player_info("new");
 
@@ -50,19 +48,18 @@ int main()
             // Send input to parser
             parserOutput = game_input_parser(inputText);
 
-            // If there is invalid input, skip to next loop iteration
-            if (get<0>(parserOutput) == "help")
+            // If there is invalid input or a special command, skip to next loop iteration
+            if (parserOutput.first == "help")
             {
                 std::cout << "\nAvailable commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, exit.\n";
                 continue;
             }
-            else if (get<0>(parserOutput) == "inventory")
+            else if (parserOutput.first == "inventory")
             {
-                // TODO: Fix inventory lookup & return
-                std::cout << "\nYour inventory is currently empty.\n";
+                narrator(player.get_inv_string());
                 continue;
             }
-            else if (get<0>(parserOutput) == "exit")
+            else if (parserOutput.first == "exit")
             {
                 if (exit_seq() == true)
                 {
@@ -74,14 +71,14 @@ int main()
                     continue;
                 }
             }
-            else if (get<1>(parserOutput) == emptyGameObj) 
+            else if (parserOutput.second == specificvars::emptyObject) 
             {
                 std::cout << "\nInvalid input; type 'help' for a list of all commands.\n";
                 continue;
             }
 
             // Send currentAction & currentGameObject to mainAction, get output
-            outputText = main_action(get<0>(parserOutput), get<1>(parserOutput), player);
+            outputText = main_action(parserOutput.first, (parserOutput.second).get(), player);
 
             // Output text to terminal
             narrator(outputText);

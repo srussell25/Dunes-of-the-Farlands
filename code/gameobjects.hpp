@@ -1,16 +1,73 @@
 #ifndef GAMEOBJECTS_HPP
 #define GAMEOBJECTS_HPP
 
-// This class contains information about all of the game's objects
+// Finds the iterator for an object in a vector of the same type.
+template <typename A, typename B>
+std::vector<A>::iterator find_iter(std::vector<A> &vecToCheck, B &objToFind)
+{
+    return std::find(vecToCheck.begin(), vecToCheck.end(), objToFind);
+}
+
+// Searches for an object in the vector argument, then attempts
+// to return the object if it exists in the vector. Returns the
+// default constructor of the type within the vector if unsuccessful.
+template <typename A, typename B> 
+A get_object(std::vector<A> &vecToCheck, B &objToGet)
+{
+    typename std::vector<A>::iterator vecIter = find_iter(vecToCheck, objToGet);
+    if (vecIter != vecToCheck.end())
+    {
+        return *vecIter;
+    }
+    else
+    {
+        return A();
+    }
+}
+
+// Attempts to add an object to a vector; fails if the item is equivalent
+// to the default constructor of the argument type.
+template <typename A>
+bool add_object(std::vector<A> &vecToCheck, A &objToAdd)
+{
+    if (objToAdd != A())
+    {
+        vecToCheck.insert(vecToCheck.end(), objToAdd);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Searches for an object in the vector argument, then attempts to remove
+// the object if it exists in the vector. Returns true if successful,
+// otherwise returns false.
+template <typename A, typename B>
+bool remove_object(std::vector<A> &vecToCheck, B &objToRemove)
+{
+    typename std::vector<A>::iterator vecIter = find_iter(vecToCheck, objToRemove);
+    if (vecIter != vecToCheck.end()) 
+    {
+        vecToCheck.erase(vecIter);
+        return true;
+    }
+    {
+        return false;
+    }
+}
+
+// This class contains information about one of the game's objects,
+// including its type, name, description, location, and set flags.
 class game_object
 {
     private:
         std::string objectType;
         std::string objectName;
         std::string objectDescription;
-        std::string objectLocation; 
+        std::string objectLocation;
         std::vector<std::string> objectFlags;
-        std::vector<std::string>::iterator flagIter;
 
     public:
         // Public default constructor
@@ -42,7 +99,7 @@ class game_object
         {
             return !(x.objectName == y.objectName);
         }
-        // Other methods
+        // Class methods
         std::string get_object_type()
         {
             return objectType;
@@ -51,59 +108,60 @@ class game_object
         {
             return objectName;
         }
-        void set_object_name(std::string name)
+        void set_object_name(std::string newName)
         {
-            objectName = name;
+            objectName = newName;
         }
-        std::string get_object_description()
+        std::string get_object_desc()
         {
             return objectDescription;
         }
-        std::string get_object_flag(std::string flag) 
+        void set_object_desc(std::string newDesc)
         {
-            flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
-            if (flagIter != objectFlags.end()) 
-            {
-                return *flagIter;
-            }
-            else
-            {
-                return "flag_not_found";
-            }
+            objectDescription = newDesc;
         }
-        void add_object_flag(std::string flag)
+        std::string get_object_flag(std::string flagToGet) 
         {
-            objectFlags.insert(objectFlags.begin(), flag);
+            return get_object(objectFlags, flagToGet);
         }
-        void remove_object_flag(std::string flag)
+        void add_object_flag(std::string flagToAdd)
         {
-            flagIter = std::find(objectFlags.begin(), objectFlags.end(), flag);
-            if (flagIter != objectFlags.end()) 
+            if (!flagToAdd.empty())
             {
-                objectFlags.erase(flagIter);
+                objectFlags.insert(objectFlags.begin(), flagToAdd);
             }
         }
-        std::string get_location() 
+        void remove_object_flag(std::string flagToRemove)
+        {
+            remove_object(objectFlags, flagToRemove);
+        }
+        std::string get_object_loc() 
         {
             return objectLocation;
         }
-        void set_location(std::string newLoc)
+        void set_object_loc(std::string newLoc)
         {
             objectLocation = newLoc;
         }
 };
 
-// The master list of all objects in the game; add objects to this vector after creation.
-std::vector<game_object> mainObjects = {};
+// Specifying mainObjects and emptyObject inside of a namespace to keep them out of the global scope
+namespace specificvars
+{
+    // The master list of all objects in the game; add objects to this vector after creation.
+    std::vector<game_object> mainObjects = {};
 
-// Example of an empty game_object used for comparison
-game_object emptyObject;
+    // Example of an empty game_object used for comparison.
+    game_object emptyObject = game_object();
+};
 
 // This function takes in a string meant to represent the name of a game_object, and then 
 // searches within the vector mainObjects to see if that game_object exists. If it exists, 
-// the function returns the game_object; otherwise, it returns an empty game_object.
+// the function returns the game_object by reference; otherwise, it returns emptyObject by reference.
 game_object& find_object(std::string objName)
 {
+    using namespace specificvars;
+
     std::vector<game_object>::iterator iter = std::find_if(mainObjects.begin(), mainObjects.end(), 
     [objName](game_object obj){ return obj.get_object_name() == objName; });
 
@@ -117,8 +175,10 @@ game_object& find_object(std::string objName)
     }
 }
 
-// This function initializes all game objects at the start of the program's runtime.
-void initialize_game_objects() {
+// This function is intended to initialize all game objects at the start of the program's runtime.
+void initialize_game_objects() 
+{
+    using namespace specificvars;
 
     // Check if game has already started; if mainObjects is not empty then
     // clear mainObjects & re-add objects in their default state to restart game.
@@ -128,11 +188,13 @@ void initialize_game_objects() {
 
     // Initializing locations (objects of type "location")
     mainObjects.insert(mainObjects.begin(), game_object("location", "game start", "It's shabby, and a place "
-    "of calm tension.", {"at_start"}));
+    "of calm tension.", {}));
     mainObjects.insert(mainObjects.end(), game_object("location", "abandoned town", "The town seems "
     "abandoned. All you can see is dilapidated buildings.", {}));
     mainObjects.insert(mainObjects.end(), game_object("location", "oasis", "You look at what seems "
     "to be a beautiful oasis.", {}));
+    mainObjects.insert(mainObjects.end(), game_object("location", "tavern", "It's a tavern; "
+    "I wonder if there's anyone inside?", {}));
     mainObjects.insert(mainObjects.end(), game_object("location", "outside palace", "", {})); // description undecided
     mainObjects.insert(mainObjects.end(), game_object("location", "inside palace", "", {})); // description undecided
     mainObjects.insert(mainObjects.end(), game_object("location", "gate", "The gate is wooden, "
@@ -148,10 +210,12 @@ void initialize_game_objects() {
     "outside of the building seems pretty plain, but another glance reveals quite the beautiful entryway.", {}));
 
     // Initializing items (objects of type "item")
+    // Initial player inventory items
     mainObjects.insert(mainObjects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
-    "it's not pretty, but it gets the job done.", {}, "game start"));
+    "it's not pretty, but it gets the job done.", {}, "playerinventory"));
     mainObjects.insert(mainObjects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
-    "it may be made out of wood, but it'll protect you well enough. Maybe.", {}, "game start"));
+    "it may be made out of wood, but it'll protect you well enough. Maybe.", {}, "playerinventory"));
+    // Other game items
     mainObjects.insert(mainObjects.end(), game_object("item", "chestkey", "This is, almost certainly, "
     "the key to a chest. It's quite hard to miss the engraving on the key that says \"Chest Key\".", {}, "")); // location undecided
     mainObjects.insert(mainObjects.end(), game_object("item", "chest", "You look at the chest and see "
@@ -160,7 +224,7 @@ void initialize_game_objects() {
     "Seen some bandits around here recently. Trying to stay out of sight. I know it's part of "
     "my job to keep this chest protected, but I won't make it out here much longer.'", {}, "outside palace")); 
     mainObjects.insert(mainObjects.end(), game_object("item", "drink", "Well, it wouldn't be a tavern without any "
-    "drinks. It looks like a shot of whisky - why not take a drink?", {"at_location"}, "tavern"));
+    "drinks. It looks like a shot of whisky - why not take a drink?", {}, "tavern"));
 
     // Initializing characters (objects of type "character")
     mainObjects.insert(mainObjects.end(), game_object("character", "bandit", "He looks ragged, with "
