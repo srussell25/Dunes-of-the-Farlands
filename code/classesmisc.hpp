@@ -42,14 +42,7 @@ class player_info
         }
         bool get_inv_item(std::string itemToGet)
         {
-            if (get_object(inventory, itemToGet) == std::string())
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return !(get_object(inventory, itemToGet).empty());
         }
         void add_inv_item(game_object &itemToAdd)
         {

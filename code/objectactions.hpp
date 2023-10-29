@@ -50,7 +50,7 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
     // Continue checks
     if (currObjName == "chestkey")
     {
-        if (playerChar.get_player_loc() == obj.get_object_loc())
+        if (playerChar.get_player_loc() == "notimplemented")
         {
             playerChar.add_inv_item(obj);
             return "Key to the chest added to your inventory.";
@@ -62,7 +62,7 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
     }
     else if (currObjName == "drink")  
     {
-        if (playerChar.get_player_loc() == obj.get_object_loc())
+        if (playerChar.get_player_loc() == "tavern")
         {
             playerChar.add_inv_item(obj);
             return "The drink was added to your inventory.";

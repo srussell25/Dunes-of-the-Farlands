@@ -16,7 +16,7 @@ int main()
 {
     std::string inputText;
     std::string outputText;
-    std::pair<std::string, game_object&> parserOutput(std::string(), specificvars::emptyObject);
+    std::pair<std::string, std::reference_wrapper<game_object>> parserOutput = {"", specificvars::emptyObject};
     player_info player;
 
     // Main program loop
@@ -78,7 +78,7 @@ int main()
             }
 
             // Send currentAction & currentGameObject to mainAction, get output
-            outputText = main_action(parserOutput.first, parserOutput.second, player);
+            outputText = main_action(parserOutput.first, (parserOutput.second).get(), player);
 
             // Output text to terminal
             narrator(outputText);
