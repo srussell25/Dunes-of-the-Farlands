@@ -16,7 +16,7 @@ std::string get_input()
 }
 
 // Function for returning npc dialogue to the screen
-void npc_text(std::string dialogue, std::string npcName, std::string format = ": ")
+void npc_text(std::string dialogue, std::string npc_name, std::string format = ": ")
 {
     int wrap = 100;
     // Default formatting takes the style [Name: dialogue], however the format field was included
@@ -25,7 +25,7 @@ void npc_text(std::string dialogue, std::string npcName, std::string format = ":
     {
         // unimplemented
     }
-    std::string output = npcName + format + dialogue;
+    std::string output = npc_name + format + dialogue;
     std::cout << output << std::endl;
 }
 
@@ -36,9 +36,9 @@ void narrator(std::string text)
 }
 
 // Method for prompting the user whether they want to exit the game or not
-bool exit_seq(std::string outputText = "Are you sure?")
+bool exit_seq(std::string output_text = "Are you sure?")
 {
-    std::cout << outputText + " (Y/N)\n";
+    std::cout << output_text + " (Y/N)\n";
     // Creates a loop that continuously gets the next character until it finds either a Y or N reply
     while (true)
     {

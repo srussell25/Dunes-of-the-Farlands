@@ -10,125 +10,125 @@
 // This function takes in user input & parses it
 std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(std::string input)
 {
-    std::string returnStr;
-    std::reference_wrapper<game_object> returnObj = specificvars::emptyObject;
-    int iterVal;
+    std::string return_str;
+    std::reference_wrapper<game_object> return_obj = specificvars::empty_object;
+    int iter_val;
 
     if (input.empty())
     {
-       return {returnStr, returnObj};
+       return {return_str, return_obj};
     }
 
     if (input.size() > 4 && input.substr(0, 4) == "use ")
     {
-        returnStr = "use";
-        iterVal = 4;
+        return_str = "use";
+        iter_val = 4;
     }
     else if (input.size() > 5 && input.substr(0, 5) == "take ")
     {
-        returnStr = "take";
-        iterVal = 5;
+        return_str = "take";
+        iter_val = 5;
     }
     else if (input.size() > 5 && input.substr(0, 5) == "grab ")
     {
-        returnStr = "grab";
-        iterVal = 5;
+        return_str = "grab";
+        iter_val = 5;
     }
     else if (input.size() > 6 && input.substr(0, 6) == "go to ")
     {
-        returnStr = "go to";
-        iterVal = 6;
+        return_str = "go to";
+        iter_val = 6;
     }
     else if (input.size() > 8 && input.substr(0, 8) == "look at ")
     {
-        returnStr = "look at";
-        iterVal = 8;
+        return_str = "look at";
+        iter_val = 8;
     }
     else if (input.size() > 5 && input.substr(0, 5) == "read ")
     {
-        returnStr = "read";
-        iterVal = 5;
+        return_str = "read";
+        iter_val = 5;
     }
     else if (input.size() > 8 && input.substr(0, 8) == "talk to ")
     {
-        returnStr = "talk to";
-        iterVal = 8;
+        return_str = "talk to";
+        iter_val = 8;
     }
     else if (input.size() > 7 && input.substr(0, 7) == "attack ")
     {
-        returnStr = "attack";
-        iterVal = 7;
+        return_str = "attack";
+        iter_val = 7;
     }
     else if (input.size() >= 4 && input.substr(0, 4) == "help")
     {
-        returnStr = "help";
-        return {returnStr, returnObj};
+        return_str = "help";
+        return {return_str, return_obj};
     }
     else if (input.size() >= 9 && input.substr(0, 9) == "inventory")
     {
-        returnStr = "inventory";
-        return {returnStr, returnObj};
+        return_str = "inventory";
+        return {return_str, return_obj};
     }
     else if (input.size() >= 4 && input.substr(0, 4) == "exit")
     {
-        returnStr = "exit";
-        return {returnStr, returnObj};
+        return_str = "exit";
+        return {return_str, return_obj};
     }
     else
     {
-        return {returnStr, returnObj};
+        return {return_str, return_obj};
     }
 
-    if (input.size() >= (iterVal + 14) && input.substr(iterVal, iterVal + 14) == "abandoned town")
+    if (input.size() >= (iter_val + 14) && input.substr(iter_val, iter_val + 14) == "abandoned town")
     {
-        returnObj = find_object("abandoned town");
+        return_obj = find_object("abandoned town");
     }
-    else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "oasis")
+    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "oasis")
     {
-        returnObj = find_object("oasis");
+        return_obj = find_object("oasis");
     }
-    else if (input.size() >= (iterVal + 6) && input.substr(iterVal, iterVal + 6) == "tavern")
+    else if (input.size() >= (iter_val + 6) && input.substr(iter_val, iter_val + 6) == "tavern")
     {
-        returnObj = find_object("tavern");
+        return_obj = find_object("tavern");
     }
-    else if (input.size() >= (iterVal + 6) && input.substr(iterVal, iterVal + 6) == "bandit")
+    else if (input.size() >= (iter_val + 6) && input.substr(iter_val, iter_val + 6) == "bandit")
     {
-        returnObj = find_object("bandit");
+        return_obj = find_object("bandit");
     }
-    else if (input.size() >= (iterVal + 8) && input.substr(iterVal, iterVal + 8) == "old lady")
+    else if (input.size() >= (iter_val + 8) && input.substr(iter_val, iter_val + 8) == "old lady")
     {
-        returnObj = find_object("old lady");
+        return_obj = find_object("old lady");
     }
-    else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "sword")
+    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "sword")
     {
-        returnObj = find_object("sword");
+        return_obj = find_object("sword");
     }
-    else if (input.size() >= (iterVal + 6) && input.substr(iterVal, iterVal + 6) == "shield")
+    else if (input.size() >= (iter_val + 6) && input.substr(iter_val, iter_val + 6) == "shield")
     {
-        returnObj = find_object("shield");
+        return_obj = find_object("shield");
     }
-    else if (input.size() >= (iterVal + 9) && input.substr(iterVal, iterVal + 9) == "chest key")
+    else if (input.size() >= (iter_val + 9) && input.substr(iter_val, iter_val + 9) == "chest key")
     {
-        returnObj = find_object("chestkey");
+        return_obj = find_object("chestkey");
     }
-    else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "chest")
+    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "chest")
     {
-        returnObj = find_object("chest");
+        return_obj = find_object("chest");
     }
-    else if (input.size() >= (iterVal + 4) && input.substr(iterVal, iterVal + 4) == "note")
+    else if (input.size() >= (iter_val + 4) && input.substr(iter_val, iter_val + 4) == "note")
     {
-        returnObj = find_object("note");
+        return_obj = find_object("note");
     }
-    else if (input.size() >= (iterVal + 5) && input.substr(iterVal, iterVal + 5) == "drink")
+    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "drink")
     {
-        returnObj = find_object("drink");
+        return_obj = find_object("drink");
     }
-    else if (input.size() >= (iterVal + 7) && input.substr(iterVal, iterVal + 7) == "barkeep")
+    else if (input.size() >= (iter_val + 7) && input.substr(iter_val, iter_val + 7) == "barkeep")
     {
-        returnObj = find_object("barkeep");
+        return_obj = find_object("barkeep");
     }
 
-    return {returnStr, returnObj};
+    return {return_str, return_obj};
 }
 
 #endif

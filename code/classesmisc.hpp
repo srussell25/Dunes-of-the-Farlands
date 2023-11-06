@@ -8,10 +8,9 @@
 class player_info 
 {
     private:
-        std::vector<game_object>::iterator currentLocation;
-        std::vector<std::string> inventory;
-        std::vector<std::string> playerFlags;
-        bool isAlive;
+        std::vector<game_object>::iterator player_location;
+        std::vector<std::string> player_inv;
+        std::unordered_map<std::string, bool> player_flags;
 
     public:
         // Public default constructor
@@ -19,55 +18,54 @@ class player_info
         // Public constructor called by main
         player_info(std::string str)
         {
-            currentLocation = specificvars::mainObjects.begin();
-            inventory = {};
-            playerFlags = {};
-            isAlive = true;
+            player_location = specificvars::main_objects.begin();
+            player_inv = {};
+            player_flags.insert_or_assign("is_alive", true);
 
-            // Add certain items immediately to player inventory
-            inventory.insert(inventory.end(), "sword");
-            inventory.insert(inventory.end(), "shield");
+            // Add items immediately to inventory upon construction
+            player_inv.insert(player_inv.end(), "sword");
+            player_inv.insert(player_inv.end(), "shield");
         }
         // Class methods
         std::string get_player_loc()
         {
-            return (*currentLocation).get_object_name();
+            return (*player_location).get_object_name();
         }
-        void set_player_loc(game_object &newLoc)
+        void set_player_loc(game_object &loc)
         {
-            if (newLoc != specificvars::emptyObject)
+            if (loc != specificvars::empty_object)
             {
-                currentLocation = find_iter(specificvars::mainObjects, newLoc);
+                player_location = find_iter(specificvars::main_objects, loc);
             }
         }
-        bool get_inv_item(std::string itemToGet)
+        bool get_inv_item(std::string item_to_get)
         {
-            return !(get_object(inventory, itemToGet).empty());
+            return !(get_object(player_inv, item_to_get).empty());
         }
-        void add_inv_item(game_object &itemToAdd)
+        void add_inv_item(game_object &item_to_add)
         {
-            if (itemToAdd != specificvars::emptyObject)
+            if (item_to_add != specificvars::empty_object)
             {
-                itemToAdd.set_object_loc("playerinventory");
-                inventory.insert(inventory.end(), itemToAdd.get_object_name());
+                item_to_add.set_object_loc("playerinventory");
+                player_inv.insert(player_inv.end(), item_to_add.get_object_name());
             }
         }
         // Removes an item from the players inventory and 
-        // (optionally) removes it permanently from the mainObjects vector
-        void remove_inv_item(std::string itemToRemove, bool permRemove)
+        // (optionally) removes it permanently from the main_objects vector
+        void remove_inv_item(std::string item_to_rem, bool remove_perm)
         {
-            if (remove_object(inventory, itemToRemove) && permRemove)
+            if (remove_object(player_inv, item_to_rem) && remove_perm)
             {
-                remove_object(specificvars::mainObjects, find_object(itemToRemove));
+                remove_object(specificvars::main_objects, find_object(item_to_rem));
             }
         }
         // Returns a string containing the names of all items in the player's inventory
         std::string get_inv_string()
         {
             std::string str;
-            for (std::string s : inventory)
+            for (std::string s : player_inv)
             {
-                if (s == *inventory.begin())
+                if (s == *player_inv.begin())
                 {
                     str.append("Current inventory: " + s);
                 }
@@ -85,37 +83,36 @@ class player_info
                 return str + ".";
             }
         }
-        std::string get_player_flag(std::string flagToGet)
+        // If flag exists, returns true; otherwise, returns false.
+        bool get_player_flag(std::string flag)
         {
-            return get_object(playerFlags, flagToGet);
-        }
-        void add_player_flag(std::string flagToAdd)
-        {
-            if (!flagToAdd.empty())
+            if (player_flags.count(flag) != 0)
             {
-                playerFlags.insert(playerFlags.end(), flagToAdd);
+                return player_flags.at(flag);
+            }
+            else
+            {
+                return false;
             }
         }
-        void remove_player_flag(std::string flagToRemove)
+        // Either adds a new flag with the key `name` and value `val`,
+        // or sets the value of the existing key `name` to `val`.
+        void set_player_flag(std::string name, bool val)
         {
-            remove_object(playerFlags, flagToRemove);
+            player_flags.insert_or_assign(name, val);
+        }
+        void remove_player_flag(std::string flag)
+        {
+            player_flags.erase(flag);
         }
         bool get_player_state()
         {
-            return isAlive;
+            return player_flags.at("is_alive");
         }
         void set_player_state(bool state)
         {
-            isAlive = state;
+            player_flags.insert_or_assign("is_alive", state);
         }
-};
-
-// TODO: Implement game_flags class with two private variables, 
-// flag name (string) and flag status (bool), and then add
-// public functions to access & modify those variables
-class game_flags 
-{
-    // unimplemented
 };
 
 #endif
