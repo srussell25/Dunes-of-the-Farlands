@@ -4,11 +4,11 @@
 #include "classesmisc.hpp"
 
 // Add function description here
-std::string use(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string use(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (currObjName == "chestkey")
+    if (obj_name == "chestkey")
     {
-        if (playerChar.get_inv_item(currObjName) && playerChar.get_player_loc() == "notimplemented") // figure out location for chest
+        if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "notimplemented") // figure out location for chest
         {
             return "You used the chest key.";
         }
@@ -17,14 +17,14 @@ std::string use(game_object &obj, std::string currObjName, player_info &playerCh
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if (currObjName == "drink")
+    else if (obj_name == "drink")
     {
-        if (playerChar.get_inv_item(currObjName) && playerChar.get_player_loc() == "tavern")
+        if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "tavern")
         {
-            playerChar.remove_inv_item(currObjName, true);
+            player_char.remove_inv_item(obj_name, true);
             return "Man, that was a pretty good drink!";
         }
-        else if (playerChar.get_inv_item(currObjName))
+        else if (player_char.get_inv_item(obj_name))
         {
             return "Hmm, I feel like I'm missing out by not "
             "drinking this in the tavern... maybe I should go back?";
@@ -39,7 +39,7 @@ std::string use(game_object &obj, std::string currObjName, player_info &playerCh
 }
 
 // Add function description here
-std::string take(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string take(game_object &obj, std::string obj_name, player_info &player_char)
 {
     // Check item is not in player inventory already
     if (obj.get_object_loc() == "playerinventory")
@@ -48,11 +48,11 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
     }
     
     // Continue checks
-    if (currObjName == "chestkey")
+    if (obj_name == "chestkey")
     {
-        if (playerChar.get_player_loc() == "notimplemented")
+        if (player_char.get_player_loc() == "notimplemented")
         {
-            playerChar.add_inv_item(obj);
+            player_char.add_inv_item(obj);
             return "Key to the chest added to your inventory.";
         }
         else
@@ -60,11 +60,11 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if (currObjName == "drink")  
+    else if (obj_name == "drink")  
     {
-        if (playerChar.get_player_loc() == "tavern")
+        if (player_char.get_player_loc() == "tavern")
         {
-            playerChar.add_inv_item(obj);
+            player_char.add_inv_item(obj);
             return "The drink was added to your inventory.";
         }
         else 
@@ -72,9 +72,9 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
             return "Take a drink? I don't see a drink around here, do you?";
         }
     }
-    else if (currObjName == "clothes" || currObjName == "toys" || currObjName == "shoes") 
+    else if (obj_name == "clothes" || obj_name == "toys" || obj_name == "shoes") 
     {
-        if (playerChar.get_player_loc() == "general store")
+        if (player_char.get_player_loc() == "general store")
         {
             return "The shopkeeper slaps your hand and says you need to pay for that before picking it up. "
             "You apologize and bow out of respect; luckily, she forgives you. Maybe you should try a different approach.";
@@ -84,11 +84,11 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if (currObjName == "coffee")
+    else if (obj_name == "coffee")
     {
-       if (playerChar.get_player_loc() == "coffee shop")
+       if (player_char.get_player_loc() == "coffee shop")
         {
-            playerChar.set_player_state(false);
+            player_char.set_player_state(false);
             return "You grab a coffee that was made for someone else. The server doesn't miss this, and immediately throws a "
             "wooden barrel at you. Out of surprise, you don't even try to dodge. The impact of the barrel breaks multiple bones, "
             "and you drop to the ground. Learn your manners, kids.";
@@ -103,14 +103,14 @@ std::string take(game_object &obj, std::string currObjName, player_info &playerC
 }
 
 // Add function description here
-std::string go_to(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string go_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (currObjName == "oasis")
+    if (obj_name == "oasis")
     {   
-        if (playerChar.get_player_loc() == "game start")
+        if (player_char.get_player_loc() == "game start")
         {
-            playerChar.set_player_loc(obj);
-            playerChar.set_player_state(false);
+            player_char.set_player_loc(obj);
+            player_char.set_player_state(false);
             return "You make your way over to the oasis, but when you get there, a frog suddenly jumps onto your leg. "
             "It's a poisonous frog. You die in seconds.";
         }
@@ -119,11 +119,11 @@ std::string go_to(game_object &obj, std::string currObjName, player_info &player
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if (currObjName == "abandoned town")
+    else if (obj_name == "abandoned town")
     {
-        if (playerChar.get_player_loc() == "game start" || playerChar.get_player_loc() == "tavern")
+        if (player_char.get_player_loc() == "game start" || player_char.get_player_loc() == "tavern")
         {
-            playerChar.set_player_loc(obj);
+            player_char.set_player_loc(obj);
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
             " but it's overrun by thugs and bandits. The walls are broken, and people have"
             " malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby,"
@@ -134,11 +134,11 @@ std::string go_to(game_object &obj, std::string currObjName, player_info &player
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if (currObjName == "tavern")
+    else if (obj_name == "tavern")
     {
-        if (playerChar.get_player_loc() == "abandoned town")
+        if (player_char.get_player_loc() == "abandoned town")
         {
-            playerChar.set_player_loc(obj);
+            player_char.set_player_loc(obj);
             return "You enter into the tavern. You try to go up to the bar to ask for directions,"
             " but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot."
             " He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
@@ -153,11 +153,11 @@ std::string go_to(game_object &obj, std::string currObjName, player_info &player
 }
 
 // Add function description here
-std::string talk_to(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (currObjName == "barkeep")
+    if (obj_name == "barkeep")
     {
-        if (playerChar.get_player_loc() == "tavern")
+        if (player_char.get_player_loc() == "tavern")
         {
             return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people."
             " I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by"
@@ -169,11 +169,11 @@ std::string talk_to(game_object &obj, std::string currObjName, player_info &play
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if (currObjName == "old lady")
+    else if (obj_name == "old lady")
     {
-        if (playerChar.get_player_loc() == "abandoned town")
+        if (player_char.get_player_loc() == "abandoned town")
         {
-            playerChar.set_player_state(false);
+            player_char.set_player_state(false);
             return "You try to talk to the old lady, but as you walk over, she suddenly turns around and stabs you."
             " She takes all of your items, and then runs off. Looks like she didn't need any help after all...";
         }
@@ -187,36 +187,36 @@ std::string talk_to(game_object &obj, std::string currObjName, player_info &play
 }
 
 // If there is an object to look at, call this function for the description.
-std::string look_at(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string look_at(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (playerChar.get_player_loc() == currObjName)
+    if (player_char.get_player_loc() == obj_name)
     {
         return obj.get_object_desc();
     }
     else
     {
-        return "It seems like you can't see any " + currObjName;
+        return "It seems like you can't see any " + obj_name;
     }
 }
 
 // Check for the specified character, then attack if possible; otherwise, return a fail message.
-std::string attack(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string attack(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj.get_object_type() == "character")
     {
-        if (playerChar.get_player_loc() == "abandoned town")
+        if (player_char.get_player_loc() == "abandoned town")
         {
-            if (currObjName == "old lady" && playerChar.get_player_flag("oldlady_is_evil").empty())
+            if (obj_name == "old lady" && obj.get_object_flag("known_evil"))
             {
                 return "Attacking an old lady? You can't be serious!";
             }
             // add text for if you discover the old lady is 'evil'
         }
-        else if (playerChar.get_player_loc() == "tavern")
+        else if (player_char.get_player_loc() == "tavern")
         {
-            if (currObjName == "bandit")
+            if (obj_name == "bandit")
             {
-                if (!obj.get_object_flag("is_alive").empty())
+                if (obj.get_object_flag("is_alive"))
                 {
                     obj.remove_object_flag("is_alive");
                     return "You take out your sword, and with a mighty slash, you defeat the bandit."
@@ -225,7 +225,7 @@ std::string attack(game_object &obj, std::string currObjName, player_info &playe
                     " He beckons you over to the bar, and sets a drink down in front of you.";
                 }
             }
-            else if (currObjName == "barkeep")
+            else if (obj_name == "barkeep")
             {
                 return "Hey, you've only just met the guy, have some self discipline!";
             }
@@ -241,9 +241,9 @@ std::string attack(game_object &obj, std::string currObjName, player_info &playe
 }
 
 // Read things like books, notes, etc.
-std::string read(game_object &obj, std::string currObjName, player_info &playerChar)
+std::string read(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj.get_object_type() == "item" && playerChar.get_player_loc() == obj.get_object_loc())
+    if (obj.get_object_type() == "item" && player_char.get_player_loc() == obj.get_object_loc())
     {
         return obj.get_object_desc();
     }
@@ -258,38 +258,38 @@ std::string read(game_object &obj, std::string currObjName, player_info &playerC
 // action via a set of if statements doing string comparisons, and once 
 // it finds a match, it will send the game object through to a 
 // dedicated function for the action being called upon.
-std::string main_action(std::string act, game_object &obj, player_info &playerChar) 
+std::string main_action(std::string act, game_object &obj, player_info &player_char) 
 {
     std::string result = "";
-    std::string objName = obj.get_object_name();
+    std::string obj_name = obj.get_object_name();
     
     if (act == "use")
     { 
-        result = use(obj, objName, playerChar);
+        result = use(obj, obj_name, player_char);
     }
     else if (act == "take" || act == "get" || act == "grab")
     {
-        result = take(obj, objName, playerChar);
+        result = take(obj, obj_name, player_char);
     }
     else if (act == "go to")
     {
-        result = go_to(obj, objName, playerChar);
+        result = go_to(obj, obj_name, player_char);
     }
     else if (act == "look at")
     {
-        result = look_at(obj, objName, playerChar);
+        result = look_at(obj, obj_name, player_char);
     }
     else if (act == "read")
     {
-        result = read(obj, objName, playerChar);
+        result = read(obj, obj_name, player_char);
     }
     else if (act == "talk to")
     {
-        result = talk_to(obj, objName, playerChar);
+        result = talk_to(obj, obj_name, player_char);
     }
     else if (act == "attack")
     {
-        result = attack(obj, objName, playerChar);
+        result = attack(obj, obj_name, player_char);
     }
     else
     {

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string>
 #include <stdio.h>
+#include <unordered_map>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -14,9 +15,9 @@
 
 int main()
 {
-    std::string inputText;
-    std::string outputText;
-    std::pair<std::string, std::reference_wrapper<game_object>> parserOutput = {"", specificvars::emptyObject};
+    std::string input_text;
+    std::string output_text;
+    std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
     player_info player;
 
     // Main program loop
@@ -43,23 +44,23 @@ int main()
         while(player.get_player_state()) 
         {
             // Get the player's current input
-            inputText = get_input();
+            input_text = get_input();
 
             // Send input to parser
-            parserOutput = game_input_parser(inputText);
+            parser_output = game_input_parser(input_text);
 
             // If there is invalid input or a special command, skip to next loop iteration
-            if (parserOutput.first == "help")
+            if (parser_output.first == "help")
             {
                 std::cout << "\nAvailable commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, exit.\n";
                 continue;
             }
-            else if (parserOutput.first == "inventory")
+            else if (parser_output.first == "inventory")
             {
                 narrator(player.get_inv_string());
                 continue;
             }
-            else if (parserOutput.first == "exit")
+            else if (parser_output.first == "exit")
             {
                 if (exit_seq() == true)
                 {
@@ -71,17 +72,17 @@ int main()
                     continue;
                 }
             }
-            else if (parserOutput.second == specificvars::emptyObject) 
+            else if (parser_output.second == specificvars::empty_object) 
             {
                 std::cout << "\nInvalid input; type 'help' for a list of all commands.\n";
                 continue;
             }
 
             // Send currentAction & currentGameObject to mainAction, get output
-            outputText = main_action(parserOutput.first, (parserOutput.second).get(), player);
+            output_text = main_action(parser_output.first, (parser_output.second).get(), player);
 
             // Output text to terminal
-            narrator(outputText);
+            narrator(output_text);
         }
 
         // Game Over loop; if player answers no, quit the game
