@@ -48,7 +48,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
     }
     
     // Continue checks
-    if (obj_name == "chestkey")
+    if (obj_name == "chest key")
     {
         if (player_char.get_player_loc() == "notimplemented")
         {
@@ -98,54 +98,46 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if(currObjName == "book"){
-        if(playerChar.get_player_loc() == "Potion Room")
-        {
-            return "You cant read? It says not to take the book silly. Try something else";
-        }
-        else
-        {
-            return "You cannot perform this action here. Try something else"; //unique fail test
-        }
-    }
-    else if(currObjName == "Spyro"){
-        if(playerChar.get_player_loc() == "Spyro's Lair")
+    else if (obj_name == "book")
     {
-        playerChar.set_player_state(false);
-        return "You try and grab Spyro by the leg, to which he takes his leg and repeatedly stomps you until you "
-        "are one with the stone under his feet";
+        if (player_char.get_player_loc() == "potion room")
+        {
+            return "Can't you read the sign? It says don't read the book, ya bozo.";
+        }
     }
-    else
+    else if (obj_name == "spyro")
     {
-        return "This action cannot be performed here. Try something else."; //unique fail test
-    }
-}
-    else if(currObjName == "King Akhem"){
-        if(playerChar.get_player_loc() == "The King's Throne")
+        if (player_char.get_player_loc() == "spyro's lair")
         {
-            playerChar.set_player_state(false);
-            return "You lunge at King Akhem to grab him by the arm. He flings you off like a piece of "
-            "spaghetti. This knocks you out cold, and he throws you out of the palace.";
-        }
-        else
-        {
-            return "This action cannot be performed here. Try something else."; //unique fail test
+            player_char.set_player_state(false);
+            return "You try and grab Spyro by the leg, to which he responds by kicking you away - "
+            "away into a wall I should specify, killing you instantly. Nice job there, pal.";
         }
     }
-    else if(currObjName == "Paper"){
-        if(playerChar.get_player_loc() == "outside palace")
+    else if (obj_name == "king akhem")
+    {
+        if (player_char.get_player_loc() == "the king's throne")
         {
-            return "You grab the paper. Seems to have some important script on it.";
+            player_char.set_player_state(false);
+            return "You attempt to grab King Akhem by the arm. He flings you off like a piece of "
+            "spaghetti, and you're immediately swarmed by all the guards. Did you really think "
+            "that was going to work?";
         }
-        else
+    }
+    else if (obj_name == "paper")
+    {
+        if (player_char.get_player_loc() == "outside palace")
         {
-            return "This action cannot be performed here. Try something else."; //unique fail test
+            player_char.add_inv_item(obj);
+            return "The paper was added to your inventory. It seems to have some important script, "
+            "maybe you should try reading it?";
         }
     }
 
-    return "Invalid action & object combination; try again."; // Fallback return
+    return "This action cannot be performed here. Try something else."; // Fallback return
 }
 
+// TODO: Proof read all text and rewrite to work with location system once implemented
 // Add function description here
 std::string go_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
@@ -204,7 +196,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
            player_char.set_player_loc(obj);
            return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
            "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
-           "statue of what appears to be the city’s god, Atum the Almighty. Your only way into the city is through the "
+           "statue of what appears to be the city's god, Atum the Almighty. Your only way into the city is through the "
            "doors that are guarded by 2 large guards who do not look so friendly. ";
         }
         else 
@@ -234,11 +226,11 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
 			return "what guards are you talking";
 		}
     }
-    else if(currObjName == "coffee shop")
+    else if (obj_name == "coffee shop")
     {
-        if(playerChar.get_player_loc() == "city square")
+        if (player_char.get_player_loc() == "city square")
 		{
-			playerChar.set_player_loc(obj);
+			player_char.set_player_loc(obj);
 			return "You enter the coffee shop by walking through the front door.";
 		}
 		else
@@ -246,11 +238,11 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
 			return "This action cannot be performed in the coffee shop. Try talking to some of the locals.";
 		}
 	}
-    else if(currObjName == "general store")
+    else if (obj_name == "general store")
     {
-        if(playerChar.get_player_loc() == "city square")
+        if (player_char.get_player_loc() == "city square")
         {
-            playerChar.set_player_loc(obj);
+            player_char.set_player_loc(obj);
             return "You enter the store.";
         }
         else
@@ -258,11 +250,11 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             return "This action cannot be performed at the general store. Try talking to the shopkeep."; 
         }
     }
-    else if(currObjName == "Sarabi's Egyptian Cuisine")
+    else if (obj_name == "sarabi's egyptian cuisine")
     {
-        if(playerChar.get_player_loc() == "city square")
+        if (player_char.get_player_loc() == "city square")
         {
-            playerChar.set_player_loc(obj);
+            player_char.set_player_loc(obj);
             return "You enter the restaurant. Smells good in here.";
         }
         else
@@ -270,18 +262,21 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             return "This action cannot be performed at Sarabi's Egyptian Cuisine. Try talking to the locals.";
         }
     }
-    // else if(currObjName == "Palace" && playerChar.get_player_loc() == "city square") //going to need to update this version to get this one done.
-    // {
-        
-    //     {
-    //         return "You arrive to the walls outside the Kingdom. This place seems heavily"
-    //         "guarded… better be on alert. Should probably examine the area before going in.";
-    //     }
-    //     else
-    //     {
-
-    //     }
-    // }
+    else if (obj_name == "palace")
+    {
+        if (player_char.get_player_loc() == "city square")
+        {
+            player_char.set_player_loc(obj); // NOTE: Is this right?
+            return "You arrive to the walls outside the Kingdom. This place seems heavily "
+            "guarded... better be on alert. Should probably examine the area around before going in.";
+        }
+        else
+        {
+            return "unique fail text"; // Add unique fail text
+        }
+    }
+    
+    return "Invalid action & object combination; try again."; // Fallback return
 }
 
 // Add function description here
@@ -292,14 +287,14 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         if (player_char.get_player_loc() == "tavern")
         {
             obj.set_object_flag("talked_to", true);
-            return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people."
-            " I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by"
-            " one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its"
-            " own right, but you'll find more to do over in that region.";
+            return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people. "
+            "I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by "
+            "one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its "
+            "own right, but you'll find more to do over in that region.";
         }
-        else if (playerChar.get_player_loc() != "tavern")
+        else
         {
-            return "The barkeep is in the tavern, not in this area"; // add unique fail text
+            return "The barkeep is in the tavern, not here.";
         }
     }
     else if (obj_name == "old lady")
@@ -308,98 +303,103 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         {
             player_char.set_player_state(false);
             return "You try to talk to the old lady, but as you walk over, she suddenly turns around and stabs you."
-            " She takes all of your items, and then runs off. Looks like she didn't need any help after all... \n "
-            "Game Over, Try Again.";
+            " She takes all of your items, and then runs off. Looks like she didn't need any help after all... ";
         }
         else
         {
             return "The old lady is not in this area."; 
         }
     }
-    else if(currObjName == "locals")
+    else if (obj_name == "locals")
     {
-		if(playerChar.get_player_loc() == "Sarabi's Egyptian Cuisine" )
+		if (player_char.get_player_loc() == "sarabi's egyptian cuisine")
         {
-            return "You pass a woman eating. She mentions that she cannot stand King Akhem. "
-            "She says she does not care if she gets arrested for saying so. ‘People like him are less "
-            "than the dirt under my feet when I step foot outside’ she says.";
+            return "You pass by a woman and her friend talking over food. Before you even think about eavesdropping, "
+            "she does the hard work for you by loudly stating that she can't stand King Akhem. 'I don't care if "
+            "I get arrested by saying this!', she rages. 'People like him are lesser than the dirt under my feet "
+            "when I step foot outside!'";
         }
-        else if(playerChar.get_player_loc() == "coffee shop")
+        else if (player_char.get_player_loc() == "coffee shop")
 		{
-            return "You come across a man who is having a coffee. You ask if you can sit down,"
-            "and he accepts. He orders you a coffee as well. You guys make small talk about where you" 
+            player_char.add_inv_item(find_object("coffee"));
+            return "You come across a man who is having a coffee. You ask if you can sit down, "
+            "and he accepts. He orders you a coffee as well. You guys make small talk about where you " 
             "are both from and what to do in the Farlands. He lets you know that you should not go near the "
             "Palace unless you want to get in trouble. He says that King Akhem will kill anyone who gets in "
-            "his way and will obtain power by any means possible. You thank him for his time and get up from "
+            "his way and will obtain power by any means possible. You thank him for his time, and get up from "
             "the table with your coffee.";
         }
         else
         {
-            return "There are no locals in the area that you are in. Try something else. "; 
-            //this is if they try talking to anyone else other than the locals
+            return "There are no locals in the area that you are in. Maybe try looking somewhere else.";
         }
     }
-    else if(currObjName == "shopkeeper"){
-        if(playerChar.get_player_loc() == "general store")
+    else if (obj_name == "shopkeeper")
+    {
+        if (player_char.get_player_loc() == "general store")
         {
             return "You approach the shopkeeper and say hello. She gives a shy hello back and asks what she "
             "could do for her. You begin to ask about the town and what it has to offer. She replies saying "
             "that she doesn't like this town because of King Akhem, and that she wishes that someone would put "
             "a stop to him. She takes notice that you are somewhat of a warrior and sees that you lack any type of "
-            "armor. She pulls out the Armor of Torren, and says, ‘You must take this and find a way to defeat King "
-            "Akhem, you are the chosen one. Please… you are our only hope. Here, please take this gift' You "
+            "armor. She pulls out the Armor of Torren, and says, 'You must take this and find a way to defeat King "
+            "Akhem, you are the chosen one. Please... you are our only hope. Here, please take this gift.' You "
             "are offered to take the armor.";
             
         }
-        else if(playerChar.get_player_loc() != "general store")
+        else if (player_char.get_player_loc() != "general store")
         {
-            return "Shopkeep is at the general store, not here silly.";
+            return "You're not at a store; where do you expect to see a shopkeeper?";
         }
     }
     else if (obj_name == "guards")
     {
-        if (player_char.get_player_loc() == "farlands" ||player_char.get_player_loc() == "gate") 
+        if (player_char.get_player_loc() == "farlands" || player_char.get_player_loc() == "gate") 
         {
-            obj.set_object_desc("The guards have large swords that could kill an unprepared civilian with only one swing. "
-            "There are a lot of guards, but one is by himself at side gate.");
+            // Set guards description and location for the palace later on
+            obj.set_object_desc("The guards have large swords that could kill an unprepared civilian "
+            "with only one swing. There are a lot of guards, but you do see one guard alone next "
+            "to a side gate. Might just be room for an opportunity here...");
             obj.set_object_loc("palace");
 
-            player_char.set_player_loc(obj);//need this to be change or talk to connor about this
+            // Continue with player actions
+            player_char.set_player_loc(find_object("city square"));
             return "You politely ask if you can get into the city. The guards ask you what your "
-            "business is here. You say that you are just passing by. A guard says, ‘if you cause "
-            "trouble here, we will find you’. These guys have such manners, don’t they? \n \n "
-            "Congratulations, you have entered the City Square of the Farlands. Maybe you should look around.";
+            "business is here. You say that you are just passing by. One of them responds with 'If you "
+            "cause any trouble here, we will find you. You've been warned'. These guys have such great "
+            "manners, don't they? Well, either way, congratulations! You've managed to reach the City "
+            "Square of the Farlands.";
         }
         else if (player_char.get_player_loc() == "palace")
         {
             player_char.set_player_state(false);
-            return "you attempt to talk to the big group of guards who are guarding the palace and with out warning "
-            "they surround you and and kill you. seems like these guards are really effective at keeping intruders out \n Game Over";
+            return "You attempt to talk to the big group of guards who are guarding the palace and, without warning, "
+            "you find yourself surrounded. These guards are really effective at keeping intruders out, huh?";
         }
         else 
         {
-            "there are no guards at your current location, maybe you will find some later.";
+            return "There aren't any guards at your current location. Maybe you'll see some later?";
         }
     }
     else if (obj_name == "guard")
     {
         if (player_char.get_player_loc() == "palace")
         {
-            return "The guard tells you, ‘State your business civilian, or I will have to resort in arresting "
-            "you for failing to obey the laws of King Akhem’. He examines you while saying this, "
+            return "The guard tells you, 'State your business civilian, or I will have to resort in arresting "
+            "you for failing to obey the laws of King Akhem'. He examines you while saying this, "
             "and spits at your feet.";
         }
-        else 
+        else
         {
-            return "there is not a guard at your current location, maybe you will find some at a later point";
+            return "There's no guard at your current location. Maybe you'll see one later, who knows?";
         }
     }
-    else if(currObjName == "Spyro")
+    else if (obj_name == "spyro")
     {
-        if(playerChar.get_player_loc() == "Spyro's Lair")
+        if (player_char.get_player_loc() == "spyro's lair")
         {
-            playerChar.set_player_state(false);
-            return "You try to talk to Spyro to distract him. You say, ‘What’s that over there?’ and point to"
+            player_char.set_player_state(false);
+            return "You try to talk to Spyro to distract him. You say, 'What's that over there?' and point to"
             "a wall. He does not fall for that trick, and flies toward you to bite your head off.\n Game Over,"
             "Try Again.";
         }
@@ -409,19 +409,19 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             "get to some of the good stuff, but I will not allow it.";
         }
     }
-    else if(currObjName == "King Akhem")
+    else if (obj_name == "king akhem")
     {
-        if(playerChar.get_player_loc() == "The King's Throne")
+        if (player_char.get_player_loc() == "the king's throne")
         {
-            playerChar.set_player_state(false);
-            return "You try and talk to King Akhem to distract him. Unfortunately, he does not pay "
-            "attention to your silly games, and strikes you in the face with Smough’s Hammer. This kills"
-            "you instantly. \n Game Over, Try Again.";
+            player_char.set_player_state(false);
+            return "You try and talk to King Akhem to distract him. Unfortunately, he does "
+            "not pay attention to your silly games, and strikes you in the face with " 
+            "Smough's Hammer. You die instantly.";
         }
         else
         {
-            return "You are not in the King's Throne room yet. Look at you trying to sneak in without "
-            "doing the other side missions first. For shame.";
+            return "You are not at the King's Throne yet. Look at you, trying to sneak in without "
+            "doing the other side missions first. For shame, for shame.";
         }
     }
 	
@@ -436,20 +436,20 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
     {
         return obj.get_object_desc();
     }
-    else if(playerChar.get_player_loc() == "coffee shop"  && currObjName == "locals")
+    else if (player_char.get_player_loc() == "coffee shop" && obj_name == "locals")
     {
-        obj.set_object_desc("These locals seem like they have had a long day. People have dirt all on their"
-    "clothes and in their hair, many are sleeping at the tables they're sitting at. However, the people seem"
-    "to have smiles on their faces.");
         obj.set_object_loc("coffee shop");
+        obj.set_object_desc("These locals seem like they have had a long day. People have dirt all on their "
+        "clothes and in their hair, many are sleeping at the tables they're sitting at. However, the people seem "
+        "to have smiles on their faces.");
         return obj.get_object_desc();
     }
-    else if(playerChar.get_player_loc() == "Sarabi's Egyptian Cuisine" && currObjName == "locals")
+    else if (player_char.get_player_loc() == "sarabi's egyptian cuisine" && obj_name == "locals")
     {
+        obj.set_object_loc("sarabi's egyptian cuisine");
         obj.set_object_desc("These locals seem to be wealthier than those at the coffee shop. They look at "
-        "you and scoff as if you are not worthy enough to be in the restaurant itself. Who do they think they"
-        "are?!");
-        obj.set_object_loc("Sarabi's Egyptian Cuisine");
+        "you and scoff as if you are not worthy enough to be in the restaurant itself. Who do they think they "
+        "are?");
         return obj.get_object_desc();
     }
     else
@@ -494,43 +494,44 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
             if (obj_name == "guards")
             {
                player_char.set_player_state(false);
-                return "Attacking two guards at one time? Bold move… \n"
+                return "Attacking two guards at one time? Bold move... \n"
                 "The guards are much stronger than someone with one sword and mediocre skills. "
-                "The guards beat you to death as soon as you try and unsheathe your sword. \n Game Over";
+                "They beat you to death as soon as you try and unsheathe your sword.";
             }
             else 
             {
-                return "whatever you are trying to attack its not here. look somewhere else.";
+                return "Whatever you are trying to attack, it's not here. Go look somewhere else.";
             }
         }
-        else if (player_char.get_player_loc() == "palace" )
+        else if (player_char.get_player_loc() == "palace")
         {
-             if (obj_name == "guards")
-             {
+            if (obj_name == "guards")
+            {
                 player_char.set_player_state(false);
                 return "You attempt to attack the guards head on. However, they stab you multiple "
                 "times, killing you. Did you really think that you were strong enough to take on "
-                "multiple Palace Soldiers? Feeble minded…\n Game Over";
-             }
-             if (obj_name == "guard") 
-             {
-                obj.set_object_flag("is_uncondcius",true);
-                return "The guard sees that his toga is becoming loose and drops his sword to tighten it. "
-                "you use this opertunity to hit the guard upside the head with the end of your sword knocking him unconscious "
-                "You see that a paper falls out of a part of his toga";
-             }
+                "multiple Palace Soldiers? Feeble minded...";
+            }
+            if (obj_name == "guard") 
+            {
+                obj.set_object_flag("is_unconscious", true);
+                return "The guard sees that his toga is becoming loose and drops his sword to "
+                "tighten it. You use this opportunity to hit the guard upside the head with "
+                "the end of your sword, rendering him unconscious. As he hits the ground, "
+                "you notice a paper falls out of his toga.";
+            }
         }
         else if (obj_name == "shopkeeper")
         {
-        if (player_char.get_player_loc() == "general store" )
+            if (player_char.get_player_loc() == "general store")
             {
                 player_char.set_player_state(false);
                 return "Your sword is strong. However, the shopkeeper takes one of the wooden toys and "
-                "hits you in the temple of your head, causing you to hit your head on a table and die. \n Game Over";
+                "hits you in the temple of your head, causing you to hit your head on a table and die.";
             }
             else 
             {
-                return "there is not a shopkeeper at your current location, maybe you will find one at a store. ";
+                return "There's no shopkeeper at your location. Maybe try looking in a store, eh?";
             }
         }
 		
@@ -539,8 +540,8 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
     else if (obj.get_object_type() == "item")
     {
         // add text related to attacking items here.
-		
-        return "you cannot attack this item you may need it later silly. try a different approch.";
+
+        return "Hey, you never know if you might need that item later on. Try something else first.";
     }
 
     return "Invalid action & object combination; try again."; // Fallback return
@@ -549,11 +550,11 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
 // Read things like books, notes, etc.
 std::string read(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj.get_object_type() == "item" && playerChar.get_player_loc() == obj.get_object_loc() && obj.get_object_name() != "book")
+    if (obj.get_object_name() != "book" && obj.get_object_type() == "item" && player_char.get_player_loc() == obj.get_object_loc())
     {
         return obj.get_object_desc();
     }
-    else if(obj.get_object_type() == "item" && playerChar.get_player_loc() == obj.get_object_loc() && obj.get_object_name() == "book")
+    else if (obj.get_object_name() == "book" && player_char.get_player_loc() == obj.get_object_loc())
     {
         return "Potion Room Project Log: \nFire Potion: When the liquid is exposed to air, the liquid turns into flying fire. \n"
         "This is a prototype, so we must be careful testing it (Color: Red. \n Smell: hot coals).\n "
