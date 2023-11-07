@@ -116,22 +116,27 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         }
         else
         {
-            return "unimplemented fail state"; // add unique fail text
+            return "That desert oasis is no longer near you."; // add unique fail text
         }
     }
     else if (obj_name == "abandoned town")
     {
-        if (player_char.get_player_loc() == "game start" || player_char.get_player_loc() == "tavern")
-        {
+        if (player_char.get_player_loc() == "game start" )
+        { // we add a flag to the location "abandoned town" and we have a seperate else to check for if we have been here already
+            obj.set_object_flag("been_to", true);
             player_char.set_player_loc(obj);
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned,"
             " but it's overrun by thugs and bandits. The walls are broken, and people have"
             " malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby,"
             " but your gaze also happens upon an old lady who seems to be struggling.";
         }
+        else if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("been_to") == true )
+        {
+            return "you are now in the abandoned town";
+        }
         else
         {
-            return "unimplemented fail state"; // add unique fail text
+            return "you can't go to the abandoned town from your location"; // add unique fail text
         }
     }
     else if (obj_name == "tavern")
@@ -145,8 +150,39 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         }
         else
         {
-            return "unimplemented fail state"; // add unique fail text
+            return "you try to go to a tavern for a nice drink, but there is no taverns that are near you."; // add unique fail text
         }
+    }
+    else if ( obj_name == "farlands")
+    {
+        if (player_char.get_player_loc() == "tavern"  )
+        {
+           player_char.set_player_loc(obj);
+           return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
+           "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
+           "statue of what appears to be the city’s god, Atum the Almighty. Your only way into the city is through the "
+           "doors that are guarded by 2 large guards who do not look so friendly. ";
+        }
+        else 
+        {
+            return "you cannot get to this location you do not know where it is.";
+        }
+    }
+    else if (obj_name == "gate")
+    {
+        if (player_char.get_player_loc() == "farlands")
+        {
+            return "You go to the gate and make eye contact with the guards.";
+        }
+        else "you cannot go to said gate from where you are";
+    }
+    else if (obj_name == "guards")
+    {
+        if (player_char.get_player_loc() == "farlands" || player_char.get_player_loc() == "gate")
+        {
+            return "You are already at the guards, try something else";
+        }
+        else "what guards are you talking";
     }
 
     return "Invalid action & object combination; try again."; // Fallback return
@@ -157,8 +193,9 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
 {
     if (obj_name == "barkeep")
     {
-        if (player_char.get_player_loc() == "tavern")
+        if (player_char.get_player_loc() == "tavern"   )
         {
+            obj.set_object_flag("talked_to", true);
             return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people."
             " I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by"
             " one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its"
@@ -166,7 +203,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else
         {
-            return "unimplemented fail state"; // add unique fail text
+            return "there are no barkeepers to talk to, maybe go find one."; // add unique fail text
         }
     }
     else if (obj_name == "old lady")
@@ -179,17 +216,61 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else
         {
-            return "unimplemented fail state"; // add unique fail text
+            return "there is not a old lady to talk to at this location, try again if you find one"; // add unique fail text
         }
     }
+    else if (obj_name == "guards")
+    {
+        if (player_char.get_player_loc() == "farlands" ||player_char.get_player_loc() == "gate") 
+        {
+            obj.set_object_desc("The guards have large swords that could kill an unprepared civilian with only one swing. "
+            "There are a lot of guards, but one is by himself at side gate.");
+            obj.set_object_loc("palace");
+
+            player_char.set_player_loc(obj);//need this to be change or talk to connor about this
+            return "You politely ask if you can get into the city. The guards ask you what your "
+            "business is here. You say that you are just passing by. A guard says, ‘if you cause "
+            "trouble here, we will find you’. These guys have such manners, don’t they? \n \n "
+            "Congratulations, you have entered the City Square of the Farlands. Maybe you should look around.";
+        }
+        else if (player_char.get_player_loc() == "palace")
+        {
+            player_char.set_player_state(false);
+            return "you attempt to talk to the big group of guards who are guarding the palace and with out warning "
+            "they surround you and and kill you. seems like these guards are really effective at keeping intruders out \n Game Over";
+        }
+        else 
+        {
+            "there are no guards at your current location, maybe you will find some later.";
+        }
+    }
+    else if (obj_name == "guard")
+    {
+        if (player_char.get_player_loc() == "palace" )
+        {
+            return "The guard tells you, ‘State your business civilian, or I will have to resort in arresting "
+            "you for failing to obey the laws of King Akhem’. He examines you while saying this, "
+            "and spits at your feet.";
+        }
+         
+        else 
+        {
+            return "there is not a guard at your current location, maybe you will find some at a later point";
+        }
+    }
+    
+    
+    
 
     return "Invalid action & object combination; try again."; // Fallback return
+    
 }
 
 // If there is an object to look at, call this function for the description.
 std::string look_at(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (player_char.get_player_loc() == obj_name)
+    //if (player_char.get_player_loc() == obj_name)
+    if (player_char.get_player_loc() == obj.get_object_loc() || player_char.get_player_loc() == obj_name)
     {
         return obj.get_object_desc();
     }
@@ -230,11 +311,59 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 return "Hey, you've only just met the guy, have some self discipline!";
             }
         }
+        else if (player_char.get_player_loc() == "farlands" || player_char.get_player_loc() == "gate")
+        {
+            if (obj_name == "guards")
+            {
+               player_char.set_player_state(false);
+                return "Attacking two guards at one time? Bold move… \n"
+                "The guards are much stronger than someone with one sword and mediocre skills. "
+                "The guards beat you to death as soon as you try and unsheathe your sword. \n Game Over";
+            }
+            else 
+            {
+                return "whatever you are trying to attack its not here. look somewhere else.";
+            }
+        }
+        else if (player_char.get_player_loc() == "palace" )
+        {
+             if (obj_name == "guards")
+             {
+                player_char.set_player_state(false);
+                return "You attempt to attack the guards head on. However, they stab you multiple "
+                "times, killing you. Did you really think that you were strong enough to take on "
+                "multiple Palace Soldiers? Feeble minded…\n Game Over";
+             }
+             if (obj_name == "guard") 
+             {
+                obj.set_object_flag("is_uncondcius",true);
+                return "The guard sees that his toga is becoming loose and drops his sword to tighten it. "
+                "you use this opertunity to hit the guard upside the head with the end of your sword knocking him unconscious "
+                "You see that a paper falls out of a part of his toga";
+             }
+        }
+        else if (obj_name == "shopkeeper")
+        {
+        if (player_char.get_player_loc() == "general store" )
+            {
+                player_char.set_player_state(false);
+                return "Your sword is strong. However, the shopkeeper takes one of the wooden toys and "
+                "hits you in the temple of your head, causing you to hit your head on a table and die. \n Game Over";
+            }
+            else 
+            {
+                return "there is not a shopkeeper at your current location, maybe you will find one at a store. ";
+            }
+        }
+
+        
+        
         // add more cases here
     }
     else if (obj.get_object_type() == "item")
     {
-        // add text related to attacking items here
+        // add text related to attacking items here. 
+        return "you cannot attack this item you may need it later silly. try a different approch.";
     }
 
     return "Invalid action & object combination; try again."; // Fallback return

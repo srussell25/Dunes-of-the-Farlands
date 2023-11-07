@@ -227,10 +227,9 @@ void initialize_game_objects()
     "to be a beautiful oasis."));
     main_objects.insert(main_objects.end(), game_object("location", "tavern", "It's a tavern; "
     "I wonder if there's anyone inside?"));
-    main_objects.insert(main_objects.end(), game_object("location", "outside palace", "")); // description undecided
+    main_objects.insert(main_objects.end(), game_object("location", "palace", "")); // description undecided
     main_objects.insert(main_objects.end(), game_object("location", "inside palace", "")); // description undecided
-    main_objects.insert(main_objects.end(), game_object("location", "gate", "The gate is wooden, "
-    "Egyptian-styled, and at least 15 feet tall."));
+    main_objects.insert(main_objects.end(), game_object("location", "farlands", "you are currently outside the walls of the farland."));
     main_objects.insert(main_objects.end(), game_object("location", "city square", "Entering the heart "
     "of the city, shops are spread out before you, and you can see King Akhem's palace in the distance."));
     main_objects.insert(main_objects.end(), game_object("location", "general store", "Right ahead of you "
@@ -240,6 +239,11 @@ void initialize_game_objects()
     "- you see many happy faces inside."));
     main_objects.insert(main_objects.end(), game_object("location", "Sarabi's Egyptian Cuisine", "The "
     "outside of the building seems pretty plain, but another glance reveals quite the beautiful entryway."));
+    main_objects.insert(main_objects.end(), game_object("location", "gate", "The gate is a light brown, probably from the hot sun beaming on it all day. "
+    "It’s a ginormous set of doors, about 15 feet. Its handles are made of sharp gold, imported. The symbols on the door resemble "
+    "Egyptian writing, indicating that this is an Egyptian town."));
+
+
 
     // Initializing items (objects of type "item")
     // Initial player inventory items
@@ -258,6 +262,7 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("item", "drink", "Well, it wouldn't be a tavern without any "
     "drinks. It looks like a shot of whisky - why not take a drink?", "tavern"));
 
+
     // Initializing characters (objects of type "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
     "torn clothes and a dented sword.", "tavern", {{"is_alive", true}, {"known_evil", true}}));
@@ -267,6 +272,10 @@ void initialize_game_objects()
     {{"is_alive", true}, {"known_evil", false}}));
     main_objects.insert(main_objects.end(), game_object("character", "barkeep", "The barkeep is keeping "
     "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}));
+    main_objects.insert(main_objects.end(), game_object("character", "guards", "these are some strong looking"
+    "guards best not to fight them", "gate", {{"is_alive", true}}));
+    main_objects.insert(main_objects.end(), game_object("character", "guard", "this soldier is currently by himself."
+    "he is guarding a side entrance to the palace. maybe this can be our way in?", "palace", {{"is_alive", true}}));
 }
 
 #endif
