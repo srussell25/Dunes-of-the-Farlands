@@ -1,6 +1,8 @@
 #ifndef CLASSESMISC_HPP
 #define CLASSESMISC_HPP
 
+#include "gameobjects.hpp"
+
 // This class contains all info about the player, 
 // including their current location, their inventory, 
 // and any flags they've set. It is instanced upon
@@ -82,6 +84,11 @@ class player_info
             {
                 return str + ".";
             }
+        }
+        // NOTE: DOES NOT PASS BY REFERENCE
+        std::vector<std::string> get_inv_vector()
+        {
+            return player_inv;
         }
         // If flag exists, returns true; otherwise, returns false.
         bool get_player_flag(std::string flag)
