@@ -14,6 +14,23 @@
 
 // NOTE: This file is meant for running tests; build this seperately from main.cpp.
 
+STUDENT_TEST("Parser behavior check")
+{
+    initialize_parser();
+    std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
+
+    // Check that string_splitter acts as expected
+    CHECK(string_splitter("haha yes temp") == (std::vector<std::string>) {"haha", "yes", "temp"});
+
+    // Check if unique commands are returned
+    parser_output = game_input_parser("inventory");
+    CHECK(parser_output.first == "inventory");
+    parser_output = game_input_parser("help");
+    CHECK(parser_output.first == "help");
+    parser_output = game_input_parser("exit");
+    CHECK(parser_output.first == "exit");
+}
+
 STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
 {
     initialize_game_objects();
