@@ -3,27 +3,28 @@
 
 #include "gameobjects.hpp"
 
-// NOTE: list of all commands: go to, look at, examine, attack, take, 
-// throw item, read, open, unlock, put, talk to, inventory, help, exit
-
-// Temp. namespace & initialize function until I can think of a better solution
-namespace tempspace
+// Temporary(?) namespace until I can think of a better solution
+namespace parserspace
 {
-    std::vector<std::string> unique_commands = {"inventory", "help", "exit"};
-    std::unordered_map<std::string, int> command_map;
+    std::set<std::string> unique_commands = {"exit", "help", "inventory"};
+    std::set<std::string> predicate_set = {"a", "an", "at", "to", "the"}; // TODO: Add more predicates as needed
+    std::unordered_map<std::string, bool> command_map;
 };
 
+// Temporary(?) initialize function until I can think of a better solution
 void initialize_parser()
 {
-    // TODO: test, then add more commands
-    assign_map_values(tempspace::command_map, {{"attack", 6}, {"take", 4}});
+    // TODO: check with story group to make sure these are all of the commands we need
+    assign_map_values(parserspace::command_map, {{"go", false},
+    {"look", false}, {"examine", false}, {"attack", true}, {"take", false},
+    {"get", false}, {"grab", false}, {"throw", true}, {"read", false},
+    {"open", false}, {"unlock", true}, {"put", false}, {"talk", false}});
 }
 
 // Takes in a string and returns a vector of substrings split by whitespace.
 std::vector<std::string> string_splitter(std::string str)
 {
     std::vector<std::string> return_vec;
-    std::string temp_str; // separate var right now for debug purposes
     std::size_t prev_index = 0;
     std::size_t cur_index = 1;
 
@@ -36,15 +37,13 @@ std::vector<std::string> string_splitter(std::string str)
     {
         cur_index = str.find(" ", prev_index);
         if (cur_index != std::string::npos)
-        {        
-            temp_str = str.substr(prev_index, cur_index - prev_index);
-            return_vec.insert(return_vec.end(), temp_str);
+        {
+            return_vec.insert(return_vec.end(), str.substr(prev_index, cur_index - prev_index));
             prev_index = cur_index + 1;
         }
         else if (cur_index == std::string::npos && !return_vec.empty())
         {
-            temp_str = str.substr(prev_index, str.size());
-            return_vec.insert(return_vec.end(), temp_str);
+            return_vec.insert(return_vec.end(), str.substr(prev_index, str.size()));
             break;
         }
         else
@@ -68,20 +67,46 @@ std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(st
        return {return_str, return_obj};
     }
 
-    std::vector<std::string>::iterator input_iter;
-    std::vector<std::string> input_as_vec = string_splitter(input);
+    std::vector<std::string> input_vec = string_splitter(input);
+    std::size_t input_vec_size = input_vec.size();
 
-    if (input_as_vec.empty())
+    // TODO: Check specific actions for if they require multiple game objects
+    if (input_vec_size == 0)
     {
         return {return_str, return_obj};
     }
-    else if (input_as_vec.size() == 1)
+    else if (input_vec_size == 1 && parserspace::unique_commands.contains(input_vec.at(0)))
     {
-        return_str = get_object(tempspace::unique_commands, input_as_vec.at(0));
+        return_str = input_vec.at(0);
     }
-    else
+    else if (parserspace::command_map.contains(input_vec.at(0)))
     {
+        return_str = input_vec.at(0);
         
+        int i = 1;
+        while (i < input_vec_size)
+        {
+            if (!parserspace::predicate_set.contains(input_vec.at(i)))
+            {
+                break;
+            }
+            i++;
+        }
+
+        std::string combined_str;
+        for (i; i < input_vec_size; i++)
+        {
+            if (i == input_vec_size - 1)
+            {
+                combined_str += input_vec.at(i);
+            }
+            combined_str += input_vec.at(i) + " ";
+        }
+
+        if (!combined_str.empty()) 
+        {
+            return_obj = find_object(combined_str); // TODO: Add synonym check for game objects
+        }
     }
 
     return {return_str, return_obj};

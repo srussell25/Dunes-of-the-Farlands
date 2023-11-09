@@ -14,7 +14,7 @@
 
 // NOTE: This file is meant for running tests; build this seperately from main.cpp.
 
-STUDENT_TEST("Parser behavior check")
+STUDENT_TEST("Check parser behavior with valid inputs")
 {
     initialize_parser();
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
@@ -25,11 +25,43 @@ STUDENT_TEST("Parser behavior check")
     // Check if unique commands are returned
     parser_output = game_input_parser("inventory");
     CHECK(parser_output.first == "inventory");
+    CHECK(parser_output.second == specificvars::empty_object);
     parser_output = game_input_parser("help");
     CHECK(parser_output.first == "help");
+    CHECK(parser_output.second == specificvars::empty_object);
     parser_output = game_input_parser("exit");
     CHECK(parser_output.first == "exit");
+    CHECK(parser_output.second == specificvars::empty_object);
+
+    // Check if regular commands are returned
+    parser_output = game_input_parser("read note"); // No predicates
+    CHECK(parser_output.first == "read");
+    CHECK(parser_output.second == find_object("note"));
+    parser_output = game_input_parser("attack the bandit"); // One predicate
+    CHECK(parser_output.first == "attack");
+    CHECK(parser_output.second == find_object("bandit"));
+    parser_output = game_input_parser("go to the oasis"); // Two predicates
+    CHECK(parser_output.first == "go");
+    CHECK(parser_output.second == find_object("oasis"));
+    parser_output = game_input_parser("attack old lady"); // No predicates, object name has a space
+    CHECK(parser_output.first == "attack");
+    CHECK(parser_output.second == find_object("old lady"));
+    parser_output = game_input_parser("look at abandoned town"); // One predicate, object name has a space
+    CHECK(parser_output.first == "look");
+    CHECK(parser_output.second == find_object("abandoned town"));
+    parser_output = game_input_parser("talk to the old lady"); // Two predicates, object name has a space
+    CHECK(parser_output.first == "talk");
+    CHECK(parser_output.second == find_object("old lady"));
 }
+
+/* TODO: Make sure the parser exits gracefully upon hitting invalid inputs (no seg. faults, inf. loops, etc.)
+STUDENT_TEST("Check parser behavior with invalid inputs")
+{
+    initialize_parser();
+    std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
+
+}
+*/
 
 STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
 {
@@ -70,11 +102,11 @@ STUDENT_TEST("Flag Set Check #1: Attacking the bandit in the tavern.")
     CHECK(find_object("bandit").get_object_flag("is_alive"));
 
     // Simulate gameplay loop
-    parser_output = {"go to", find_object("abandoned town")};
+    parser_output = {"go", find_object("abandoned town")};
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "abandoned town");
 
-    parser_output = {"go to", find_object("tavern")};
+    parser_output = {"go", find_object("tavern")};
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "tavern");
 
@@ -97,11 +129,11 @@ STUDENT_TEST("Inventory Check #1: Taking the drink from the barkeep and using it
     CHECK(find_object("drink").get_object_loc() == "tavern");
 
     // Simulate gameplay loop
-    parser_output = {"go to", find_object("abandoned town")};
+    parser_output = {"go", find_object("abandoned town")};
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "abandoned town");
 
-    parser_output = {"go to", find_object("tavern")};
+    parser_output = {"go", find_object("tavern")};
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "tavern");
 
