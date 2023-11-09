@@ -268,11 +268,20 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         {
             player_char.set_player_loc(obj); // NOTE: Is this right?
             return "You arrive to the walls outside the Kingdom. This place seems heavily "
-            "guarded... better be on alert. Should probably examine the area around before going in.";
+            "guarded... better be on alert. Should probably examine the area around before trying to go inside the palace.";
         }
         else
         {
             return "unique fail text"; // Add unique fail text
+        }
+    }
+    else if (obj_name == "potion room")
+    {
+        if (player_char.get_player_loc() == "city square" && player_char.get_player_flag("knocked_guard_out" ))//check if player has knocked guard out
+        {
+           player_char.set_player_loc(obj);
+           return "you enter the palace and head to the potion room. As you may expect there are alot of potions in this room."
+            "maybe you can look around?";
         }
     }
     
@@ -514,12 +523,16 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
             }
             if (obj_name == "guard") 
             {
+                obj.set_object_desc("this is the guard you just knocked out to get inside the palace.");
                 obj.set_object_flag("is_unconscious", true);
+                player_char.set_player_flag("knocked_guard_out", true);
+
                 return "The guard sees that his toga is becoming loose and drops his sword to "
                 "tighten it. You use this opportunity to hit the guard upside the head with "
                 "the end of your sword, rendering him unconscious. As he hits the ground, "
                 "you notice a paper falls out of his toga.";
             }
+            else return "whatever you are trying to attack, its not here. Go look somewhere else.";
         }
         else if (obj_name == "shopkeeper")
         {
