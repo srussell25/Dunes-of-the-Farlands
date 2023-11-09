@@ -1,6 +1,17 @@
 #ifndef UI_HPP
 #define UI_HPP
 
+
+//ftxui includes
+#include <ftxui/dom/elements.hpp>
+#include <ftxui/dom/node.hpp>
+#include <ftxui/screen/screen.hpp>
+#include <ftxui/screen/box.hpp>
+#include <ftxui/component/component.hpp>
+#include <ftxui/component/component_base.hpp>
+#include <ftxui/component/screen_interactive.hpp>
+
+#include <iostream>
 #include "classesmisc.hpp"
 
 //takes a standard string and breaks it into individual
@@ -20,6 +31,7 @@ std::vector<std::string> word_breaker(std::string raw)
         }
         else temp = temp + x; // if the char isn't a whitespace add it to the end of temp
     }
+    words.insert(words.end(),temp);
     return words;
 }
 
@@ -38,7 +50,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 68)//[The defa
         if (x.length() + current_line.length() > wrap_size)
         {
             std::cout << current_line << std::endl; //print current_line
-            current_line = x; //reset current_line to be equal to the next word
+            current_line = x + " "; //reset current_line to be equal to the next word
             print_last = false;
         }
 
