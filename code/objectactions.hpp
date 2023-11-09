@@ -277,20 +277,36 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     }
     else if (obj_name == "potion room")
     {
-        if (player_char.get_player_loc() == "city square" && player_char.get_player_flag("knocked_guard_out" ))//check if player has knocked guard out
+        if ((player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "gate") && player_char.get_player_flag("knocked_guard_out"))//check if player has knocked guard out
         {
            player_char.set_player_loc(obj);
            return "you enter the palace and head to the potion room. As you may expect there are alot of potions in this room."
             "maybe you can look around?";
         }
     }
-    
-    return "Invalid action & object combination; try again."; // Fallback return
+    else if(obj_name == "Spyro's lair")
+    {
+        if((player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "gate") && player_char.get_player_flag("knocked_guard_out"))
+        {
+            player_char.set_player_loc(obj);
+            player_char.set_player_state(false);
+            return "you enter the palace and enter Spyro's Lair. You see Spyro, the most powerful Sphynx in the land takes his"
+            "claws and rips your flesh to shreds. Maybe you should try following the paper's instruction said next time.";
+        }
+    }
+    // else if (obj_name == "Spyro's lair")
+    // {
+    //     if(player_char.get_player_loc() == "potion room" && (player_char.get_inv_item("firepotion") == ))
+    //     {
+    //         return "";
+    //     }
+    // }
+    // return "Invalid action & object combination; try again.";  Fallback return
 }
 
 // Add function description here
 std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)
-{
+{// add a function for bandit and check flag "is_alive" and do the same for old lady
     if (obj_name == "barkeep")
     {
         if (player_char.get_player_loc() == "tavern")
@@ -368,7 +384,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             // Set guards description and location for the palace later on
             obj.set_object_desc("The guards have large swords that could kill an unprepared civilian "
             "with only one swing. There are a lot of guards, but you do see one guard alone next "
-            "to a side gate. Might just be room for an opportunity here...");
+            "to a side gate. A perfect time to strike...");
             obj.set_object_loc("palace");
 
             // Continue with player actions
@@ -392,7 +408,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
     }
     else if (obj_name == "guard")
     {
-        if (player_char.get_player_loc() == "palace")
+        if (player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "side gate")
         {
             return "The guard tells you, 'State your business civilian, or I will have to resort in arresting "
             "you for failing to obey the laws of King Akhem'. He examines you while saying this, "
@@ -433,7 +449,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             "doing the other side missions first. For shame, for shame.";
         }
     }
-	
+
     return "Invalid action & object combination; try again."; // Fallback return
 }
 
@@ -461,6 +477,11 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
         "are?");
         return obj.get_object_desc();
     }
+    else if (player_char.get_player_loc() == "abandoned town" && obj_name == "old lady")
+    {
+        obj.set_object_flag("is_evil", true);
+        return obj.get_object_desc();
+    }
     else
     {
         return "It seems like you can't see any " + obj_name;
@@ -469,16 +490,23 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
 
 // Check for the specified character, then attack if possible; otherwise, return a fail message.
 std::string attack(game_object &obj, std::string obj_name, player_info &player_char)
-{
+{ //check for is_alive flag  if you plan on killing a character for when they are alive and dead. 
     if (obj.get_object_type() == "character")
     {
         if (player_char.get_player_loc() == "abandoned town")
         {
-            if (obj_name == "old lady" && obj.get_object_flag("known_evil"))
+            if (obj_name == "old lady")
             {
                 return "Attacking an old lady? You can't be serious!";
             }
-            // add text for if you discover the old lady is 'evil'
+            else if(obj_name == "old lady" && obj.get_object_flag("is_evil")) 
+            {
+                obj.remove_object_flag("is_alive");
+                return "This old lady's disguise isn't going to fool you. You murder the"
+                "old lady in cold blood in broad daylight. You stand over her and unveil her"
+                "disguise, to find that it was a bandit this whole time trying to steal money from"
+                "unsuspecting victims.";
+            }
         }
         else if (player_char.get_player_loc() == "tavern")
         {
@@ -512,7 +540,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 return "Whatever you are trying to attack, it's not here. Go look somewhere else.";
             }
         }
-        else if (player_char.get_player_loc() == "palace")
+        else if (player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "side gate")
         {
             if (obj_name == "guards")
             {
@@ -520,6 +548,11 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 return "You attempt to attack the guards head on. However, they stab you multiple "
                 "times, killing you. Did you really think that you were strong enough to take on "
                 "multiple Palace Soldiers? Feeble minded...";
+            }
+            if(obj_name == "guard" && obj.get_object_flag("is_unconscious"))
+            {
+                return "I don't think it's a good idea to kill this guard. His guard friends might"
+                "come look for him later. It'd be best to try something else.";
             }
             if (obj_name == "guard") 
             {
@@ -563,7 +596,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
 // Read things like books, notes, etc.
 std::string read(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj.get_object_name() != "book" && obj.get_object_type() == "item" && player_char.get_player_loc() == obj.get_object_loc())
+    if (obj_name == "paper" && (player_char.get_player_loc() == "side gate" || player_char.get_player_loc() == "palace"))
     {
         return obj.get_object_desc();
     }
