@@ -42,6 +42,15 @@ std::vector<std::string> word_breaker(std::string raw)
 void word_wrapper(std::vector<std::string> words, int wrap_size = 68)//[The default wrap size is arbitrarily chosen]
 {
     std::string current_line;
+    std::string border;
+    
+    //generating a border that will be placed before and after the main text
+    for(int i = 0; i < wrap_size; ++i)
+        border += "=";
+
+    //printing the top border
+    std::cout << border << std::endl;
+
     bool print_last; // keeps track on whether the last operation being preformed was appending or printing the line
     for (auto x: words) //iterate through each string in the vector
     {
@@ -51,7 +60,6 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 68)//[The defa
         {
             std::cout << current_line << std::endl; //print current_line
             current_line = x + " "; //reset current_line to be equal to the next word
-            print_last = false;
         }
 
         //if you can add to the current_line without
@@ -60,14 +68,16 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 68)//[The defa
         else
         {
             current_line = current_line + x + " ";
-            print_last = true;
         }
     }
 
-    //ensures that if the last operation preformed was 
-    //appending to current_line the ouput is always sent
-    //to the screen
-    if(print_last) std::cout << current_line << std::endl;
+    //ensures that the last line is always
+    //sent to the screen if there is anything present
+    if (!current_line.empty() && current_line != " ")
+        std::cout << current_line << std::endl;
+
+    //printing the lower border
+    std::cout << border << std::endl;
 }
 
 //takes user input from the cin stream and
@@ -119,10 +129,10 @@ void narrator(std::string text)
 
 //Prompts the User whether they want to exit the game
 //with a default message of "Are you sure?"
-bool exit_seq(std::string output_text = "Are you sure?")
+bool exit_seq(std::string output_text = "Warning: This game does not save progress. Are you sure you want to exit?")
 {
     //prints the output text followed by a Y/N choice prompt and a newline to the screen
-    std::string temp = output_text + " (Y/N)\n";
+    std::string temp = output_text + "\n(Y/N)";
     word_wrapper(word_breaker(temp)); // likely same affect as directly doing cout the temp string, but better safe than sorry
 
     // Creates a loop that continuously gets the next character until it finds either a Y or N reply
