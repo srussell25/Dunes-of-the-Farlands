@@ -100,7 +100,10 @@ std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(st
             {
                 combined_str += input_vec.at(i);
             }
-            combined_str += input_vec.at(i) + " ";
+            else
+            {
+                combined_str += input_vec.at(i) + " ";
+            }
         }
 
         if (!combined_str.empty()) 

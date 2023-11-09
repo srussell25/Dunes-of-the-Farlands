@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <string>
 #include <stdio.h>
+#include <unordered_map>
+#include <set>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -17,6 +19,7 @@
 STUDENT_TEST("Check parser behavior with valid inputs")
 {
     initialize_parser();
+    initialize_game_objects();
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
 
     // Check that string_splitter acts as expected
@@ -58,6 +61,7 @@ STUDENT_TEST("Check parser behavior with valid inputs")
 STUDENT_TEST("Check parser behavior with invalid inputs")
 {
     initialize_parser();
+    initialize_game_objects();
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
 
 }

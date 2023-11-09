@@ -5,6 +5,7 @@
 #include <string>
 #include <stdio.h>
 #include <unordered_map>
+#include <set>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -19,6 +20,8 @@ int main()
     std::string output_text;
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
     player_info player;
+
+    initialize_parser();
 
     // Main program loop
     while(true)
