@@ -5,16 +5,12 @@
 
 //generates a border (meant to be place on top and bottom of a string), made of '=' at the
 //specified border size
-std::string generate_border(int border_size = 88, bool new_line = true) //[The default border size is chosen to match the Titlecard]
+std::string generate_border(int border_size = 88) //[The default border size is chosen to match the Titlecard]
 {
     std::string border;
     for (int i = 0; i < border_size; ++i)
     {
         border += "=";
-    }
-    if (new_line)
-    {
-        border += "\n";
     }
     return border;
 }
@@ -65,7 +61,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
         //the string
         if (x.length() + current_line.length() > wrap_size)
         {
-            std::cout << (current_line + "\n");
+            std::cout << (current_line) << std::endl;
             current_line = x + " "; //reset current_line to be equal to the next word
         }
         else //if you can add to the current_line without exceeding wrap size, do so and add a space at the end
@@ -77,7 +73,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
     //ensures that the last line is always sent to the screen if there is anything present
     if (!current_line.empty() && current_line != " ")
     {
-        std::cout << (current_line + "\n");
+        std::cout << (current_line) << std::endl;
     }
 
     //printing the lower border
@@ -138,16 +134,16 @@ bool exit_seq(std::string output_text = "default")
     //then a border, and finally a newline containg a user input prompt
     if (output_text == "default")
     {
-        std::cout << (center_text(output_text1) + "\n");
-        std::cout << (center_text(output_text2) + "\n");
+        std::cout << (center_text(output_text1)) << std::endl;
+        std::cout << (center_text(output_text2)) << std::endl;
     }
     else
     {
-        std::cout << (center_text(output_text) + "\n");
+        std::cout << (center_text(output_text)) << std::endl;
     }
 
-    std::cout << (center_text(query_text) + "\n");
-    std::cout << generate_border();
+    std::cout << (center_text(query_text)) << std::endl;
+    std::cout << generate_border() << std::endl;
 
     std::cout << "> ";
     //NOTE: this ^ is used rather than get_input because this specific method needs to read char by char
@@ -179,26 +175,26 @@ void display_inventory(player_info player)
 	
 	if (inv.size() == 0)
     {
-		std::cout << "Your inventory is empty\n";
+		std::cout << "Your inventory is empty" << std::endl;
     }
 
 	int i = 0;
-	std::cout << "Your bag contains:\n";
+	std::cout << "Your bag contains:" << std::endl;
 
 	while (i < inv.size())
 	{
-		std::cout << (" - A " + inv.at(i) + "\n");
+		std::cout << (" - A " + inv.at(i)) << std::endl;
 		++i;
 	}
     
-    std::cout << generate_border();
+    std::cout << generate_border() << std::endl;
 }
 
 //displays the player's current location, followed by a border, to the screen
 void display_location(player_info player)
 {
-	std::cout << ("You are at " + player.get_player_loc() + "\n");
-    std::cout << generate_border();
+	std::cout << ("You are at " + player.get_player_loc()) << std::endl;
+    std::cout << generate_border() << std::endl;
 }
 
 //displays a thank you message for playing the game followed by a credits section which contains each
@@ -210,13 +206,13 @@ void display_credits()
 
     thank_you_message = center_text(thank_you_message);
     
-	std::cout << (thank_you_message + "\n");
-	std::cout << border;
-	std::cout << "Project Lead & Input Parser Designer: Connor Morris\n";
-	std::cout << "UI Designer: Lane Durst\n";
-	std::cout << "Story Leads & Object Designers: Logan Remondet & Shawn Russel\n";
-	std::cout << "Map Lead & Object Action Designers: Yu Joo & Maureen Sanchez\n";
-	std::cout << border;
+	std::cout << thank_you_message << std::endl;
+	std::cout << border << std::endl;
+	std::cout << "Project Lead & Input Parser Designer: Connor Morris" << std::endl;
+	std::cout << "UI Designer: Lane Durst" << std::endl;
+	std::cout << "Story Leads & Object Designers: Logan Remondet & Shawn Russel" << std::endl;
+	std::cout << "Map Lead & Object Action Designers: Yu Joo & Maureen Sanchez" << std::endl;
+	std::cout << border << std::endl;
 }
 
 //text for the titlecard function. Looks strange due to counteracting exit sequence chars, but works fine
@@ -229,9 +225,9 @@ const std::string titlecard_text = "  ___                      ___   __   _____ 
 void display_titlecard()
 {
     std::string border = generate_border();
-    std::cout << border;
-    std::cout << (titlecard_text + "\n");
-    std::cout << border;
+    std::cout << border << std::endl;
+    std::cout << titlecard_text << std::endl;
+    std::cout << border << std::endl;
 }
 
 #endif
