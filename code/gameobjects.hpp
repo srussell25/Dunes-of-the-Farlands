@@ -81,6 +81,7 @@ class game_object
         std::string object_desc;
         std::string object_location;
         std::unordered_map<std::string, bool> object_flags;
+        std::vector<std::pair<std::string, std::string>> location_pair;
         // just Temporary {
         std::vector<std::string> no = {"no"};
         std::vector<std::string> gamestart = {"gamestart"};
@@ -106,6 +107,14 @@ class game_object
             object_type = obj_type;
             object_name = obj_name;
             object_desc = obj_desc;
+            //location_pair = loc_pair;
+        }
+        game_object(std::string obj_type, std::string obj_name, std::string obj_desc, std::vector<std::pair<std::string, std::string>> loc_pair)
+        {
+            object_type = obj_type;
+            object_name = obj_name;
+            object_desc = obj_desc;
+            location_pair = loc_pair;
         }
         // Public constructor which sets a game_object's type, name, description, and location.
         game_object(std::string obj_type, std::string obj_name, std::string obj_desc, 
@@ -268,24 +277,54 @@ void initialize_game_objects()
 
     std::vector<std::pair<std::string, std::string>> location_pair;
 
+    location_pair[0].first = "Abandoned Town";
+    location_pair[0].second = "North";
+    location_pair[1].first = "Oasis";
+    location_pair[1].second = "Northeast";
+    location_pair[2].first = "City Square";
+    location_pair[2].second = "Northwest";
+    location_pair[3].first = "Palace";
+    location_pair[3].second = "Northwest";
     main_objects.insert(main_objects.begin(), game_object("location", "game start", "It's shabby, and a place "
-    "of calm tension."));
-    location_pair[0].first = "Game Start";
-    location_pair[0].second = "South";
+    "of calm tension.", {location_pair[0], location_pair[1], location_pair[2], location_pair[3]}));
 
+    location_pair[4].first = "Game Start";
+    location_pair[4].second = "South";
+    location_pair[5].first = "Oasis";
+    location_pair[5].second = "East";
+    location_pair[6].first = "City Square";
+    location_pair[6].second = "West";
+    location_pair[7].first = "Palace";
+    location_pair[7].second = "West";
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
-    "abandoned. All you can see is dilapidated buildings."));
+    "abandoned. All you can see is dilapidated buildings.", {location_pair[4], location_pair[5], location_pair[6], location_pair[7]}));
 
+    location_pair[8].first = "Game Start";
+    location_pair[8].second = "Southwast";
+    location_pair[9].first = "Abandoned Town";
+    location_pair[9].second = "West";
+    location_pair[10].first = "City Square";
+    location_pair[10].second = "West";
+    location_pair[11].first = "Palace";
+    location_pair[11].second = "West";
     main_objects.insert(main_objects.end(), game_object("location", "oasis", "You look at what seems "
-    "to be a beautiful oasis."));
+    "to be a beautiful oasis.", {location_pair[8], location_pair[9], location_pair[10], location_pair[11]}));
 
     main_objects.insert(main_objects.end(), game_object("location", "tavern", "It's a tavern; "
     "I wonder if there's anyone inside?"));
 
+    location_pair[12].first = "Game Start";
+    location_pair[12].second = "Southeast";
+    location_pair[13].first = "City Square";
+    location_pair[13].second = "East";
+    location_pair[14].first = "Abanoned Town";
+    location_pair[14].second = "East";
+    location_pair[15].first = "Oasis";
+    location_pair[15].second = "East";
     main_objects.insert(main_objects.end(), game_object("location", "palace", "The Kingdom is very "
     "large and heavily guarded. You can see King Akhem's guards walking around the entire fortress. "
     "with swords, javelins, and shields. There is a gate on the side that is surprisingly guarded by only "
-    "one person."));
+    "one person.", {location_pair[12],location_pair[13],location_pair[14],location_pair[15]}));
 
     main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
     "up to the side gate, and are greeted by the sight of a lone guard."));
@@ -300,9 +339,17 @@ void initialize_game_objects()
     "Its handles are made of sharp gold, imported. The symbols on the door resemble "
     "Egyptian writing, indicating that this is an Egyptian town."));
 
+    location_pair[16].first = "Game Start";
+    location_pair[16].second = "Southeast";
+    location_pair[17].first = "Abanoned Town";
+    location_pair[17].second = "East";
+    location_pair[18].first = "Oasis";
+    location_pair[18].second = "East";
+    location_pair[19].first = "Palace";
+    location_pair[19].second = "Wast";
     main_objects.insert(main_objects.end(), game_object("location", "city square", "You are in the City Square "
     "of the Farlands. You see a shop called Coco's Coffee filled that has friendly-looking locals, a Nunu's "
-    "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace"));
+    "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace", {location_pair[16], location_pair[17], location_pair[18], location_pair[19]}));
 
     main_objects.insert(main_objects.end(), game_object("location", "general store", "Right ahead of you "
     "appears to be a huge tent - you see a variety of clothes, hats, shoes, and toys within."));
