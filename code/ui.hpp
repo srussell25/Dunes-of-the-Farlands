@@ -24,7 +24,7 @@
 //generates a border (meant to be place on top
 //and bottom of a string), made of '=' at the
 //specified border size
-std::string generate_border(int border_size = 68)
+std::string generate_border(int border_size = 88)
 {
     std::string border;
     for (int i = 0; i < border_size; ++i)
@@ -35,7 +35,7 @@ std::string generate_border(int border_size = 68)
 //calculates the number of spaces needed on either side of the
 //thank you message for it to be centered based on the wrap size
 //and adds them to the string
-std::string center_text(std::string text, int line_length = 68)
+std::string center_text(std::string text, int line_length = 88)
 {
     int center_displacement = (line_length-text.size())/2;
     for (int i = 0; i < center_displacement; ++i)
@@ -67,7 +67,7 @@ std::vector<std::string> word_breaker(std::string raw)
 //takes a vector of strings (words, presumably
 //from wordBreaker), and converts the text into
 //lines that are at most the given wrap size
-void word_wrapper(std::vector<std::string> words, int wrap_size = 68)//[The default wrap size is arbitrarily chosen]
+void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The default wrap size is arbitrarily chosen]
 {
     std::string current_line;
     //generating a border that will be placed before and after the main text
@@ -236,7 +236,9 @@ void display_inventory(player_info player)
 //followed by a newline, to the screen
 void display_location(player_info player)
 {
+    std::string border = generate_border();
 	std::cout << "You are at " << player.get_player_loc() << std::endl;
+    std::cout << border << std::endl;
 }
 
 //displays a thank you message for playing the game

@@ -45,6 +45,11 @@ int main()
         get_input();
         first_startup = false;
         }
+        else
+        {
+            std::cout<<std::endl<<std::endl;
+            std::cout<<generate_border()<<std::endl;
+        }
 
         // Intro text
         narrator("You awake in a sandy desert. Your head is throbbing, and you don't remember much."
@@ -65,7 +70,7 @@ int main()
             // If there is invalid input or a special command, skip to next loop iteration
             if (parser_output.first == "help")
             {
-                word_wrapper(word_breaker("Available commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, exit."));
+                word_wrapper(word_breaker("Available commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, credits, exit."));
                 continue;
             }
             else if (parser_output.first == "inventory")
