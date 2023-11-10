@@ -81,13 +81,18 @@ class game_object
         std::unordered_map<std::string, bool> object_flags;
         // just Temporary {
         std::vector<std::string> no = {"no"};
-        std::vector<std::string> abandonedtown = {"abandoned town", "tarven", ""};
+        std::vector<std::string> gamestart = {"gamestart"};
+        //std::vector<std::string> Nekhem = {"nekhem", };
+        std::vector<std::string> abandonedtown = {"abandoned town", "tarven"};
+        std::vector<std::string> oasis = {"oasis"};
+        std::vector<std::string> farland = {"farland", "city square", "palace"};
+        std::vector<std::string> palace = {"palace", "gate", "potion room", "spyro's lair", "the king's strone"};
         std::vector<std::string> citysquare = {"city square", "general store", "coffeeshop", "sarabi's egytian cuisine"};
         std::vector<std::vector<std::vector<std::string>>> entire_location = {{no, no, no, no, no},
-                                                                              {no, no, no, no, no},
-                                                                              {no, no, no, no, no},
-                                                                              {no, no, abandonedtown, no, no},
-                                                                              {no, no, no, no, no},};
+                                                                              {no, palace, citysquare, farland, no},
+                                                                              {no, no, abandonedtown, oasis, no},
+                                                                              {no, no, gamestart, no, no},
+                                                                              {no, no, no, no, no}};
         // just Temporary }
 
     public:
@@ -193,9 +198,23 @@ class game_object
         {
             return entire_location;
         }
-        std::vector<std::vector<std::string>> get_entire_location_small(int i, int j)
+        // std::vector<std::vector<std::string>> get_entire_location_small(int i, int j, int k)
+        // {
+        //     return entire_location[i][j][k];
+        // }
+        int get_entire_location_small_pos(std::string name) 
         {
-            return entire_location[i, j];
+            for(int i = 0; i < 5; ++i)
+            {
+                for(int j = 0; i < 5; ++j) 
+                {
+                    if (entire_location[i][j][0] == name) 
+                    {
+                        return i, j;
+                    }
+                }
+            }
+            return 711;
         }
         // just Temporary }
 };

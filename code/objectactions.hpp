@@ -303,6 +303,29 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     return "Invalid action & object combination; try again.";
 }
 
+std::string go_to(game_object &obj, std::string direction, player_info &player_char) 
+{
+    int i, j;
+    i, j = obj.get_entire_location_small_pos(player_char.get_player_loc());
+    if (direction == "south") 
+    {
+        
+    }
+    else if (direction == "north") 
+    {
+
+    }
+    else if (direction == "west") 
+    {
+        
+    }
+    else if (direction == "east") 
+    {
+        
+    }
+    return;
+}
+
 // Add proper function description here
 std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)
 {// add a function for bandit and check flag "is_alive" and do the same for old lady
