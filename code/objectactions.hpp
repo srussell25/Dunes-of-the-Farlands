@@ -179,7 +179,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             player_char.set_player_loc(obj);
             return "You enter into the tavern. You try to go up to the bar to ask for directions, "
             "but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot. "
-            "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew! ";
+            "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
         }
         else
         {
@@ -188,13 +188,13 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     }
     else if ( obj_name == "farlands")
     {
-        if (player_char.get_player_loc() == "tavern"  )
+        if (player_char.get_player_loc() == "tavern")
         {
            player_char.set_player_loc(obj);
            return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
            "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
            "statue of what appears to be the city's god, Atum the Almighty. Your only way into the city is through the "
-           "doors that are guarded by 2 large guards who do not look so friendly. ";
+           "doors that are guarded by 2 large guards who do not look so friendly.";
         }
         else 
         {
@@ -327,7 +327,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         {
             player_char.set_player_state(false);
             return "You try to talk to the old lady, but as you walk over, she suddenly turns around and stabs you. "
-            "She takes all of your items, and then runs off. Looks like she didn't need any help after all... ";
+            "She takes all of your items, and then runs off. Looks like she didn't need any help after all...";
         }
         else
         {
@@ -481,7 +481,7 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
     }
     else
     {
-        return "It seems like you can't see any " + obj_name;
+        return "You can't see any " + obj_name + ".";
     }
 }
 
@@ -515,7 +515,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                     return "You take out your sword, and with a mighty slash, you defeat the bandit. "
                     "His 'friends' take one look at you and decide to run away. Meanwhile, the rest "
                     "of the bar doesn't seem to take any notice of your actions, except for the barkeep. "
-                    "He beckons you over to the bar, and sets a drink down in front of you. ";
+                    "He beckons you over to the bar, and sets a drink down in front of you.";
                 }
             }
             else if (obj_name == "barkeep")

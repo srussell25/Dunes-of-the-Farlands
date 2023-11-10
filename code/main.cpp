@@ -3,7 +3,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-#include <stdio.h>
 #include <unordered_map>
 #include <set>
 
@@ -18,7 +17,7 @@
 // change the comment to match Prof. Kaiser's the style guide.
 // His instructions are - describe behavior at a high level, 
 // including parameters & return values, preconditions/assumptions,
-// and error conditions. Also, check all inline comments.
+// and error conditions. Also, check necessity of all inline comments.
 
 int main()
 {
@@ -27,55 +26,44 @@ int main()
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
     player_info player;
 
+    bool first_startup = true;
     initialize_parser();
 
-    //this is so that the main loop can be restarted
-    //without requiring the user to go through the
-    //'press enter to start' prompt again
-    bool first_startup = true; 
-
-    // Main program loop
     while(true)
     {
-        // Initializing game objects & player character to a specific state
-        initialize_game_objects();
+        initialize_game_objects(); // Refresh objects & player to original state
         player = player_info("new");
-
-        // Display the title card
-        display_titlecard();
 
         if (first_startup)
         {
-            // Make the program wait until the user inputs any character
+            display_titlecard();
             std::cout << (center_text("Press Enter to Start", 88) + "\n");
-            get_input();
+            get_input(); // Make the program wait until the user inputs any character
             first_startup = false;
         }
         else
         {
-            std::cout << ("\n\n" + generate_border() + "\n");
+            std::cout << "\n\n";
+            display_titlecard();
+            std::cout << ("\n" + generate_border());
         }
 
         // Intro text
-        narrator("You awake in a sandy desert. Your head is throbbing, and you don't remember much."
-        " What you do know, however, is that your name is Vir Khabar, a human."
-        " When your vision starts to come back to you, you sit up slowly to check if anything is around you."
-        " You spot a town that appears to be 'abandoned' in the north,"
-        " but also see what appears to be an oasis nearby.");
+        narrator("You awake in a sandy desert. Your head is throbbing, and you don't remember much. "
+        "What you do know, however, is that your name is Vir Khabar, a human. "
+        "When your vision starts to come back to you, you sit up slowly to check if anything is around you. "
+        "You spot a town that appears to be 'abandoned' in the north, "
+        "but also see what appears to be an oasis nearby.");
 
-        // Main gameplay loop; if player dies, break loop to restart
-        while(player.get_player_state()) 
+        while(player.get_player_state()) // Main gameplay loop; if player dies, break loop to restart
         {
-            // Get the player's current input
             input_text = get_input();
-
-            // Send input to parser
             parser_output = game_input_parser(input_text);
 
-            // If there is invalid input or a special command, skip to next loop iteration
-            if (parser_output.first == "help")
+            if (parser_output.first == "help") // Check for special commands or invalid input
             {
-                word_wrapper(word_breaker("Available commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, credits, exit."));
+                word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, look/examine, "
+                "read, talk, attack, unlock. Special commands: inventory, help, credits, exit."));
                 continue;
             }
             else if (parser_output.first == "inventory")
@@ -97,6 +85,7 @@ int main()
                 else
                 {
                     std::cin.ignore();
+                    std::cout << generate_border();
                     continue;
                 }
             }
@@ -106,15 +95,11 @@ int main()
                 continue;
             }
 
-            // Send currentAction & currentGameObject to mainAction, get output
             output_text = main_action(parser_output.first, (parser_output.second).get(), player);
-
-            // Output text to terminal
             narrator(output_text);
         }
 
-        // Game Over loop; if player answers no, quit the game
-        std::cout << (center_text("Game Over!") + "\n");
+        std::cout << (center_text("Game Over!") + "\n"); // Yes/no loop; on 'no', quits the program
         if (!exit_seq("Would you like to try again?"))
         {
             break;
