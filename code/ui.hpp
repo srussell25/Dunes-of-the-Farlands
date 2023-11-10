@@ -73,10 +73,6 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 68)//[The defa
     //generating a border that will be placed before and after the main text
     std::string border = generate_border(wrap_size);
     
-    //printing the top border
-    std::cout << border << std::endl;
-
-    bool print_last; // keeps track on whether the last operation being preformed was appending or printing the line
     for (auto x: words) //iterate through each string in the vector
     {
         //if adding the current string to the current_line 
@@ -120,6 +116,8 @@ std::string get_input()
     std::cout << "> ";
     // Reads user input into temp until a newline character is reached
     getline(std::cin, temp);
+    //after it get the line, print a border out
+    std::cout << generate_border() << std::endl;
     // Simply converts input into uppercase for easy matching
     std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
     // Returns the player input
@@ -130,7 +128,7 @@ std::string get_input()
 //takes the text being spoken, the name of the speaker,
 //and optional parameter format (by default ": ")
 //outputs text in the style "Name: dialogue..."
-void npc_text(std::string dialogue, std::string npcName, std::string format = ": ", int wrap_size = 68)
+void npc_text(std::string dialogue, std::string npcName, std::string format = ": ")
 {
     std::string output = npcName + format + dialogue; // combines the given strings to format text correctly
 
@@ -139,12 +137,12 @@ void npc_text(std::string dialogue, std::string npcName, std::string format = ":
 
     //due to the way wordWrapper is written, it not only ensures that there is only one space between words
     //but it also outputs the text to the screen without an additional function call
-    word_wrapper(vecOutput, wrap_size);
+    word_wrapper(vecOutput);
 }
 
 //Function for returning narrator dialogue to the screen
 //takes the text being 'spoken' and surrounds it with brackets
-void narrator(std::string text, int wrap_size = 68)
+void narrator(std::string text)
 {
     std::string output = "[" + text + "]";
 
@@ -154,24 +152,45 @@ void narrator(std::string text, int wrap_size = 68)
 
     //due to the way wordWrapper is written, it not only ensures that there is only one space between words
     //but it also outputs the text to the screen without an additional function call
-    word_wrapper(vec_output, wrap_size);
+    word_wrapper(vec_output);
 }
 
 //Prompts the User whether they want to exit the game
 //with a default message of "Are you sure?"
-bool exit_seq(std::string output_text = "Warning: This game does not save progress. Are you sure you want to exit?", int wrap_size = 68)
+bool exit_seq(std::string output_text = "default")
 {
-    //prints the output text followed by a Y/N choice prompt and a newline to the screen
+    //string of the query responses
     std::string query_text = "(Y/N)";
-    std::cout << center_text(output_text, wrap_size) << std::endl;
-    std::cout << center_text(query_text, wrap_size) << std::endl;
-    std::cout << generate_border(wrap_size) << std::endl; //only used once in this function, so no point in storing it in a string
+
+    //border generation
+    std::string border = generate_border(); //really could be put directly into cout but whatever
+    
+    //the default text is too long for one line, so if the argument
+    //is left default (or set equivalent) instead use the two output
+    //strings generated below
+    std::string output_text1 = "Warning: This game does not save progress.";
+    std::string output_text2 = "Are you sure you want to exit?";
+
+    //prints the approptiate output text followed by a Y/N query
+    //then a border, and finally a newline containg a user input prompt
+    if (output_text == "default")
+        {
+            std::cout << center_text(output_text1) << std::endl;
+            std::cout << center_text(output_text2) << std::endl;
+        }
+    else
+        std::cout << center_text(output_text) << std::endl;
+
+    std::cout << center_text(query_text) << std::endl;
+    std::cout << border << std::endl;
 
     std::cout << "> ";
     //NOTE: this ^ is used rather than get_input because this specific method
     //needs to read char by char until a y or n is found, unlike get_input
     //which reads a whole line
 
+
+    //wait until user enters a y or a n
     while (true)
     {
         char reply = getchar();
@@ -192,7 +211,7 @@ bool exit_seq(std::string output_text = "Warning: This game does not save progre
 // > itemName
 // > itemName
 // > ...
-void display_inventory(player_info player, int wrap_size = 68)
+void display_inventory(player_info player)
 {
 	std::vector<std::string> inv = player.get_inv_vector();
 	//if the player inventory is empty output a message
@@ -210,7 +229,7 @@ void display_inventory(player_info player, int wrap_size = 68)
 		std::cout << " - A " << inv.at(i) << std::endl;
 		++i;
 	}
-    std::cout << generate_border(wrap_size) << std::endl;
+    std::cout << generate_border() << std::endl;
 }
 
 //displays the player's current location,
@@ -223,9 +242,9 @@ void display_location(player_info player)
 //displays a thank you message for playing the game
 //followed by a credits section which contains each
 //group memeber and their responsibilities
-void display_credits(int wrap_size = 68)
+void display_credits()
 {
-    std::string border = generate_border(wrap_size);
+    std::string border = generate_border();
     std::string thank_you_message = "Thank you for playing!";
 
     thank_you_message = center_text(thank_you_message);
