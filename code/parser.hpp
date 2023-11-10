@@ -3,134 +3,113 @@
 
 #include "gameobjects.hpp"
 
-// NOTE: list of all commands: go to, look at, examine, attack, take, 
-// throw item, read, open, unlock, put, talk to, inventory, help, exit
+// Temporary(?) namespace until I can think of a better solution
+namespace parserspace
+{
+    std::set<std::string> unique_commands = {"credits", "exit", "help", "inventory"};
+    std::set<std::string> predicate_set = {"a", "an", "at", "to", "the"}; // TODO: Add more predicates as needed
+    std::set<std::string> preposition_set = {"at", "on", "with"}; // TODO: Add more prepositions as needed
+    std::unordered_map<std::string, bool> command_map;
+};
 
-// TODO: Completely rewrite this function, it's currently way too hardcoded
-// This function takes in user input & parses it
+// Temporary(?) initialize function until I can think of a better solution
+void initialize_parser()
+{
+    // TODO: check with story group to make sure these are all of the commands we need
+    assign_map_values(parserspace::command_map, {{"use", false}, {"take", false}, 
+    {"go", false}, {"look", false}, {"read", true}, 
+    {"talk", false}, {"attack", false}, {"examine", false},
+    {"unlock", true}, {"grab", true}, {"get", false}});
+}
+
+// Takes in a string and returns a vector of substrings split by whitespace.
+std::vector<std::string> string_splitter(std::string str)
+{
+    std::vector<std::string> return_vec;
+    std::size_t prev_index = 0;
+    std::size_t cur_index = 1;
+
+    if (str.size() <= 1)
+    {
+        return return_vec;
+    }
+ 
+    while (cur_index <= str.size())
+    {
+        cur_index = str.find(" ", prev_index);
+        if (cur_index != std::string::npos)
+        {
+            return_vec.insert(return_vec.end(), str.substr(prev_index, cur_index - prev_index));
+            prev_index = cur_index + 1;
+        }
+        else if (cur_index == std::string::npos && !return_vec.empty())
+        {
+            return_vec.insert(return_vec.end(), str.substr(prev_index, str.size()));
+            break;
+        }
+        else
+        {
+            return_vec.insert(return_vec.end(), str);
+            break;
+        }
+    }
+
+    return return_vec;
+}
+
+// WIP new parser, put details here later
 std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(std::string input)
 {
     std::string return_str;
     std::reference_wrapper<game_object> return_obj = specificvars::empty_object;
-    int iter_val;
 
     if (input.empty())
     {
        return {return_str, return_obj};
     }
 
-    if (input.size() > 4 && input.substr(0, 4) == "use ")
-    {
-        return_str = "use";
-        iter_val = 4;
-    }
-    else if (input.size() > 5 && input.substr(0, 5) == "take ")
-    {
-        return_str = "take";
-        iter_val = 5;
-    }
-    else if (input.size() > 5 && input.substr(0, 5) == "grab ")
-    {
-        return_str = "grab";
-        iter_val = 5;
-    }
-    else if (input.size() > 6 && input.substr(0, 6) == "go to ")
-    {
-        return_str = "go to";
-        iter_val = 6;
-    }
-    else if (input.size() > 8 && input.substr(0, 8) == "look at ")
-    {
-        return_str = "look at";
-        iter_val = 8;
-    }
-    else if (input.size() > 5 && input.substr(0, 5) == "read ")
-    {
-        return_str = "read";
-        iter_val = 5;
-    }
-    else if (input.size() > 8 && input.substr(0, 8) == "talk to ")
-    {
-        return_str = "talk to";
-        iter_val = 8;
-    }
-    else if (input.size() > 7 && input.substr(0, 7) == "attack ")
-    {
-        return_str = "attack";
-        iter_val = 7;
-    }
-    else if (input.size() >= 4 && input.substr(0, 4) == "help")
-    {
-        return_str = "help";
-        return {return_str, return_obj};
-    }
-    else if (input.size() >= 9 && input.substr(0, 9) == "inventory")
-    {
-        return_str = "inventory";
-        return {return_str, return_obj};
-    }
-    else if (input.size() >= 4 && input.substr(0, 4) == "exit")
-    {
-        return_str = "exit";
-        return {return_str, return_obj};
-    }
-    else if (input.size() >= 7 && input.substr(0, 7) == "credits")
-    {
-        return_str = "credits";
-        return {return_str, return_obj};
-    }
-    else
-    {
-        return {return_str, return_obj};
-    }
+    std::vector<std::string> input_vec = string_splitter(input);
+    std::size_t input_vec_size = input_vec.size();
 
-    if (input.size() >= (iter_val + 14) && input.substr(iter_val, iter_val + 14) == "abandoned town")
+    if (input_vec_size == 0) // TODO: Check specific actions for if they require multiple game objects
     {
-        return_obj = find_object("abandoned town");
+        return {return_str, return_obj};
     }
-    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "oasis")
+    else if (input_vec_size == 1 && parserspace::unique_commands.contains(input_vec.at(0)))
     {
-        return_obj = find_object("oasis");
+        return_str = input_vec.at(0);
     }
-    else if (input.size() >= (iter_val + 6) && input.substr(iter_val, iter_val + 6) == "tavern")
+    else if (parserspace::command_map.contains(input_vec.at(0)))
     {
-        return_obj = find_object("tavern");
-    }
-    else if (input.size() >= (iter_val + 6) && input.substr(iter_val, iter_val + 6) == "bandit")
-    {
-        return_obj = find_object("bandit");
-    }
-    else if (input.size() >= (iter_val + 8) && input.substr(iter_val, iter_val + 8) == "old lady")
-    {
-        return_obj = find_object("old lady");
-    }
-    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "sword")
-    {
-        return_obj = find_object("sword");
-    }
-    else if (input.size() >= (iter_val + 6) && input.substr(iter_val, iter_val + 6) == "shield")
-    {
-        return_obj = find_object("shield");
-    }
-    else if (input.size() >= (iter_val + 9) && input.substr(iter_val, iter_val + 9) == "chest key")
-    {
-        return_obj = find_object("chestkey");
-    }
-    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "chest")
-    {
-        return_obj = find_object("chest");
-    }
-    else if (input.size() >= (iter_val + 4) && input.substr(iter_val, iter_val + 4) == "note")
-    {
-        return_obj = find_object("note");
-    }
-    else if (input.size() >= (iter_val + 5) && input.substr(iter_val, iter_val + 5) == "drink")
-    {
-        return_obj = find_object("drink");
-    }
-    else if (input.size() >= (iter_val + 7) && input.substr(iter_val, iter_val + 7) == "barkeep")
-    {
-        return_obj = find_object("barkeep");
+        return_str = input_vec.at(0);
+        
+        int i = 1;
+        while (i < input_vec_size)
+        {
+            if (!parserspace::predicate_set.contains(input_vec.at(i)))
+            {
+                break;
+            }
+            i++;
+        }
+
+        std::string combined_str;
+        for (i; i < input_vec_size; i++)
+        {
+            if (i == input_vec_size - 1)
+            {
+                combined_str += input_vec.at(i);
+            }
+            else
+            {
+                combined_str += input_vec.at(i) + " ";
+            }
+        }
+
+        if (!combined_str.empty()) 
+        {
+            return_obj = find_object(combined_str); // TODO: Add synonym check for game objects
+        }
     }
 
     return {return_str, return_obj};

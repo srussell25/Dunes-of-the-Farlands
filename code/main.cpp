@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h> // just include so screen can be cleared from within main loop
 #include <unordered_map>
+#include <set>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -14,6 +15,12 @@
 #include "objectactions.hpp"
 #include "classesmisc.hpp"
 
+// TODO: Go through every function declaration in the program and 
+// change the comment to match Prof. Kaiser's the style guide.
+// His instructions are - describe behavior at a high level, 
+// including parameters & return values, preconditions/assumptions,
+// and error conditions. Also, check all inline comments.
+
 int main()
 {
     std::string input_text;
@@ -21,6 +28,7 @@ int main()
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
     player_info player;
 
+    initialize_parser();
     std::system("clear"); //just clears the console to make game startup cleaner
 
     //this is so that the main loop can be restarted

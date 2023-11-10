@@ -58,9 +58,12 @@ bool remove_object(std::vector<A> &vec_to_check, B &obj_to_rem)
     }
 }
 
-void assign_map_values(std::unordered_map<std::string, bool> &map, std::vector<std::pair<std::string, bool>> pairs)
+// Attempts to assign multiple key/value pairs from a vector
+// of type pair to an unordered map that is passed by reference.
+template <typename A, typename B>
+void assign_map_values(std::unordered_map<A, B> &map, std::vector<std::pair<A, B>> pairs)
 {
-    for (std::pair<std::string, bool> p : pairs)
+    for (std::pair<A, B> p : pairs)
     {
         map.insert_or_assign(p.first, p.second);
     }
