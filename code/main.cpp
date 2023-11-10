@@ -65,7 +65,7 @@ int main()
             // If there is invalid input or a special command, skip to next loop iteration
             if (parser_output.first == "help")
             {
-                std::cout << "\nAvailable commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, exit.\n";
+                word_wrapper(word_breaker("Available commands: use, take, get, grab, go to, look at, read, talk to, attack, inventory, help, exit."));
                 continue;
             }
             else if (parser_output.first == "inventory")
