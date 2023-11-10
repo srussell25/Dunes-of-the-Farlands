@@ -74,6 +74,11 @@ std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(st
         return_str = "exit";
         return {return_str, return_obj};
     }
+    else if (input.size() >= 7 && input.substr(0, 7) == "credits")
+    {
+        return_str = "credits";
+        return {return_str, return_obj};
+    }
     else
     {
         return {return_str, return_obj};
