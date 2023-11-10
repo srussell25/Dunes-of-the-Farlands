@@ -79,6 +79,16 @@ class game_object
         std::string object_desc;
         std::string object_location;
         std::unordered_map<std::string, bool> object_flags;
+        // just Temporary {
+        std::vector<std::string> no = {"no"};
+        std::vector<std::string> abandonedtown = {"abandoned town", "tarven", ""};
+        std::vector<std::string> citysquare = {"city square", "general store", "coffeeshop", "sarabi's egytian cuisine"};
+        std::vector<std::vector<std::vector<std::string>>> entire_location = {{no, no, no, no, no},
+                                                                              {no, no, no, no, no},
+                                                                              {no, no, no, no, no},
+                                                                              {no, no, abandonedtown, no, no},
+                                                                              {no, no, no, no, no},};
+        // just Temporary }
 
     public:
         // Public default constructor
@@ -178,6 +188,16 @@ class game_object
         {
             object_location = loc;
         }
+        // just Temporary {
+        std::vector<std::vector<std::vector<std::string>>> get_entire_location() 
+        {
+            return entire_location;
+        }
+        std::vector<std::vector<std::string>> get_entire_location_small(int i, int j)
+        {
+            return entire_location[i, j];
+        }
+        // just Temporary }
 };
 
 // Specifying main_objects and empty_object inside of a namespace to keep them out of the global scope
