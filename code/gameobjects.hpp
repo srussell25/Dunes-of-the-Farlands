@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECTS_HPP
 #define GAMEOBJECTS_HPP
 
+#include <utility>
+
 // Finds the iterator for an object in a vector of the same type.
 template <typename A, typename B>
 std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, B &objToFind)
@@ -263,8 +265,13 @@ void initialize_game_objects()
     // Initializing locations (objects of type "location")
     //TODO: add a vector<std::pair> type memeber to the location objects that stores all objects that are next to them
     //for example, game_start should have a vector containing <<"Abandoned Town", North>, <"Oasis", West>>
+
+    std::vector<std::pair<std::string, std::string>> location_pair;
+
     main_objects.insert(main_objects.begin(), game_object("location", "game start", "It's shabby, and a place "
     "of calm tension."));
+    location_pair[0].first = "Game Start";
+    location_pair[0].second = "South";
 
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
     "abandoned. All you can see is dilapidated buildings."));
