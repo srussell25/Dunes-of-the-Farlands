@@ -16,10 +16,10 @@ namespace parserspace
 void initialize_parser()
 {
     // TODO: check with story group to make sure these are all of the commands we need
-    assign_map_values(parserspace::command_map, {{"use", false}, {"take", false}, 
-    {"go", false}, {"look", false}, {"read", true}, 
-    {"talk", false}, {"attack", false}, {"examine", false},
-    {"unlock", true}, {"grab", true}, {"get", false}});
+    assign_map_values(parserspace::command_map, {{"use", true}, {"take", false}, 
+    {"go", false}, {"look", false}, {"read", false}, 
+    {"talk", false}, {"attack", true}, {"examine", false},
+    {"unlock", true}, {"grab", false}, {"get", false}});
 }
 
 // Takes in a string and returns a vector of substrings split by whitespace.

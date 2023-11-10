@@ -61,30 +61,6 @@ class player_info
                 remove_object(specificvars::main_objects, find_object(item_to_rem));
             }
         }
-        // Returns a string containing the names of all items in the player's inventory
-        std::string get_inv_string()
-        {
-            std::string str;
-            for (std::string s : player_inv)
-            {
-                if (s == *player_inv.begin())
-                {
-                    str.append("Current inventory: " + s);
-                }
-                else
-                {
-                    str.append(", " + s);
-                }
-            }
-            if (str.empty())
-            {
-                return "Inventory is currently empty!";
-            }
-            else
-            {
-                return str + ".";
-            }
-        }
         // NOTE: DOES NOT PASS BY REFERENCE
         std::vector<std::string> get_inv_vector()
         {

@@ -42,9 +42,9 @@ STUDENT_TEST("Check parser behavior with valid inputs.")
     parser_output = game_input_parser("help");
     CHECK(parser_output.first == "help");
     CHECK(parser_output.second == specificvars::empty_object);
-    //parser_output = game_input_parser("credits");
-    //CHECK(parser_output.first == "credits");
-    //CHECK(parser_output.second == specificvars::empty_object);
+    parser_output = game_input_parser("credits");
+    CHECK(parser_output.first == "credits");
+    CHECK(parser_output.second == specificvars::empty_object);
     parser_output = game_input_parser("exit");
     CHECK(parser_output.first == "exit");
     CHECK(parser_output.second == specificvars::empty_object);
@@ -68,9 +68,9 @@ STUDENT_TEST("Check parser behavior with valid inputs.")
     parser_output = game_input_parser("talk to the old lady"); // Two pred., obj. has a space
     CHECK(parser_output.first == "talk");
     CHECK(parser_output.second == find_object("old lady"));
-    //parser_output = game_input_parser("go to sarabi's egyptian cuisine"); // One pred., obj. has two spaces & special char
-    //CHECK(parser_output.first == "go");
-    //CHECK(parser_output.second == find_object("sarabi's egyptian cuisine"));
+    parser_output = game_input_parser("go to sarabi's egyptian cuisine"); // One pred., obj. has two spaces & special char
+    CHECK(parser_output.first == "go");
+    CHECK(parser_output.second == find_object("sarabi's egyptian cuisine"));
 }
 
 STUDENT_TEST("Check parser behavior with invalid inputs.")

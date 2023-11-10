@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <string>
 #include <stdio.h>
-#include <stdlib.h> // just include so screen can be cleared from within main loop
 #include <unordered_map>
 #include <set>
 
@@ -29,7 +28,6 @@ int main()
     player_info player;
 
     initialize_parser();
-    std::system("clear"); //just clears the console to make game startup cleaner
 
     //this is so that the main loop can be restarted
     //without requiring the user to go through the
@@ -48,15 +46,14 @@ int main()
 
         if (first_startup)
         {
-        // Make the program wait until the user inputs any character
-        std::cout << center_text("Press Enter to Start", 88 /*width of the titlecard*/) << std::endl;
-        get_input();
-        first_startup = false;
+            // Make the program wait until the user inputs any character
+            std::cout << (center_text("Press Enter to Start", 88) + "\n");
+            get_input();
+            first_startup = false;
         }
         else
         {
-            std::cout<<std::endl<<std::endl;
-            std::cout<<generate_border()<<std::endl;
+            std::cout << ("\n\n" + generate_border() + "\n");
         }
 
         // Intro text
@@ -105,8 +102,7 @@ int main()
             }
             else if (parser_output.second == specificvars::empty_object) 
             {
-                std::cout << "Invalid input; type 'help' for a list of all commands."<<std::endl;
-                std::cout << generate_border() << std::endl;
+                std::cout << ("Invalid input; type 'help' for a list of all commands.\n" + generate_border());
                 continue;
             }
 
@@ -118,7 +114,7 @@ int main()
         }
 
         // Game Over loop; if player answers no, quit the game
-        std::cout << center_text("Game Over!") << std::endl;
+        std::cout << (center_text("Game Over!") + "\n");
         if (!exit_seq("Would you like to try again?"))
         {
             break;
@@ -126,7 +122,6 @@ int main()
         else
         {
             std::cin.ignore();
-            std::system("clear"); //clears the screen when restarting after dying
         }
     }
   
