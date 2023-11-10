@@ -263,7 +263,7 @@ std::string main_action(std::string act, game_object &obj, player_info &player_c
     std::string result = "";
     std::string obj_name = obj.get_object_name();
     
-    if (act == "use")
+    if (act == "use" || act == "unlock")
     { 
         result = use(obj, obj_name, player_char);
     }
@@ -275,7 +275,7 @@ std::string main_action(std::string act, game_object &obj, player_info &player_c
     {
         result = go_to(obj, obj_name, player_char);
     }
-    else if (act == "look")
+    else if (act == "look" || act == "examine")
     {
         result = look_at(obj, obj_name, player_char);
     }

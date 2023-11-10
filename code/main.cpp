@@ -14,6 +14,12 @@
 #include "objectactions.hpp"
 #include "classesmisc.hpp"
 
+// TODO: Go through every function declaration in the program and 
+// change the comment to match Prof. Kaiser's the style guide.
+// His instructions are - describe behavior at a high level, 
+// including parameters & return values, preconditions/assumptions,
+// and error conditions. Also, check all inline comments.
+
 int main()
 {
     std::string input_text;

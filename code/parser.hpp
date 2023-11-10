@@ -6,8 +6,9 @@
 // Temporary(?) namespace until I can think of a better solution
 namespace parserspace
 {
-    std::set<std::string> unique_commands = {"exit", "help", "inventory"};
+    std::set<std::string> unique_commands = {"credits", "exit", "help", "inventory"};
     std::set<std::string> predicate_set = {"a", "an", "at", "to", "the"}; // TODO: Add more predicates as needed
+    std::set<std::string> preposition_set = {"at", "on", "with"}; // TODO: Add more prepositions as needed
     std::unordered_map<std::string, bool> command_map;
 };
 
@@ -15,10 +16,10 @@ namespace parserspace
 void initialize_parser()
 {
     // TODO: check with story group to make sure these are all of the commands we need
-    assign_map_values(parserspace::command_map, {{"go", false},
-    {"look", false}, {"examine", false}, {"attack", true}, {"take", false},
-    {"get", false}, {"grab", false}, {"throw", true}, {"read", false},
-    {"open", false}, {"unlock", true}, {"put", false}, {"talk", false}});
+    assign_map_values(parserspace::command_map, {{"use", false}, {"take", false}, 
+    {"go", false}, {"look", false}, {"read", true}, 
+    {"talk", false}, {"attack", false}, {"examine", false},
+    {"unlock", true}, {"grab", true}, {"get", false}});
 }
 
 // Takes in a string and returns a vector of substrings split by whitespace.
@@ -70,8 +71,7 @@ std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(st
     std::vector<std::string> input_vec = string_splitter(input);
     std::size_t input_vec_size = input_vec.size();
 
-    // TODO: Check specific actions for if they require multiple game objects
-    if (input_vec_size == 0)
+    if (input_vec_size == 0) // TODO: Check specific actions for if they require multiple game objects
     {
         return {return_str, return_obj};
     }
