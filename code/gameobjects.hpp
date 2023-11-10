@@ -228,9 +228,11 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "tavern", "It's a tavern; "
     "I wonder if there's anyone inside?"));
     main_objects.insert(main_objects.end(), game_object("location", "palace", "The Kingdom is very "
-    "large and heavily guarded. You can see King Akhem's guards walking around the entire fortress "
-    "with swords, javelins, and shields."));
-    main_objects.insert(main_objects.end(), game_object("location", "outside palace", "")); // location used, description undecided
+    "large and heavily guarded. You can see King Akhem's guards walking around the entire fortress. "
+    "with swords, javelins, and shields. There is a gate on the side that is surprisingly guarded by only"
+    "one person."));
+    main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk"
+    "up to the side gate, there is only one guard there...")); // location used, description undecided
 	main_objects.insert(main_objects.end(), game_object("location", "inside palace", "")); // location not currently used, description undecided
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "You are currently "
     "outside the walls of the Farlands."));
@@ -301,7 +303,8 @@ void initialize_game_objects()
     "torn clothes and a dented sword.", "tavern", {{"is_alive", true}, {"known_evil", true}}));
     main_objects.insert(main_objects.end(), game_object("character", "old lady", "You see an old lady "
     "who seems to be having trouble with something, although you can't quite make out what it is "
-	"she's having trouble with. Maybe you should try talking to her?", "abandoned town", 
+	"she's having trouble with. Maybe you should try talking to her? But be cautious, she "
+    "may not be as hamrless as you think.", "abandoned town", 
     {{"is_alive", true}, {"known_evil", false}}));
 	main_objects.insert(main_objects.end(), game_object("character", "barkeep", "The barkeep is keeping "
     "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}));
@@ -329,6 +332,8 @@ Things that we still have to work on:
 - Cases for using the wrong potion against Spyro
 - Take armor for the take function in object actions
 - Dialogue before the boss and mini boss battles 
+
+- ask connor about Spyro's lair part 2 implementation
 */
 
 #endif
