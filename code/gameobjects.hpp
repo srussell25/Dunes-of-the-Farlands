@@ -78,7 +78,8 @@ class game_object
         std::string object_name;
         std::string object_desc;
         std::string object_location;
-        std::unordered_map<std::string, bool> object_flags;
+        std::unordered_map<std::string, bool> object_flags; 
+        std::set<std::string> object_synonyms;
 
     public:
         game_object() {} // Public default constructor
@@ -113,6 +114,15 @@ class game_object
             object_location = obj_loc;
             assign_map_values(object_flags, obj_flags);
         }
+
+        game_object(std::string obj_type, std::string obj_name, std::string obj_desc, std::set<std::string> synonyms) // Type, name, desc, & synonyms
+        {
+            object_type = obj_type;
+            object_name = obj_name;
+            object_desc = obj_desc;
+            object_synonyms = synonyms;
+        }
+
         friend bool operator==(game_object const& x, game_object const& y)
         {
             return x.object_name == y.object_name;
