@@ -183,7 +183,7 @@ STUDENT_TEST("Flag Set Check #1: Attacking the bandit in the tavern.")
     CHECK_FALSE(find_object("bandit").get_object_flag("is_alive"));
 }
 
-STUDENT_TEST("Inventory Check #1: Taking the drink from the barkeep and using it.")
+STUDENT_TEST("Inventory Check #1: Taking the whiskey from the barkeep and drinking it.")
 {
     initialize_parser();
     initialize_game_objects();
@@ -191,9 +191,9 @@ STUDENT_TEST("Inventory Check #1: Taking the drink from the barkeep and using it
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
 
     // Check that the drink exists, is not in the player's inventory, & is located in the tavern
-    CHECK_FALSE(find_object("drink") == specificvars::empty_object);
-    CHECK_FALSE(player.get_inv_item("drink"));
-    CHECK(find_object("drink").get_object_loc() == "tavern");
+    CHECK_FALSE(find_object("whiskey") == specificvars::empty_object);
+    CHECK_FALSE(player.get_inv_item("whiskey"));
+    CHECK(find_object("whiskey").get_object_loc() == "tavern");
 
     // Simulate gameplay loop
     parser_output = game_input_parser("go to abandoned town");
@@ -211,15 +211,15 @@ STUDENT_TEST("Inventory Check #1: Taking the drink from the barkeep and using it
     main_action(parser_output.first, (parser_output.second).get(), player);
 
     // Check that the drink exists, is added to the player's inventory, & is not located in the tavern
-    CHECK_FALSE(find_object("drink") == specificvars::empty_object);
-    CHECK(player.get_inv_item("drink"));
-    CHECK_FALSE(find_object("drink").get_object_loc() == "tavern");
+    CHECK_FALSE(find_object("whiskey") == specificvars::empty_object);
+    CHECK(player.get_inv_item("whiskey"));
+    CHECK_FALSE(find_object("whiskey").get_object_loc() == "tavern");
 
-    parser_output = game_input_parser("use drink");
+    parser_output = game_input_parser("drink whiskey");
     main_action(parser_output.first, (parser_output.second).get(), player);
 
     // Check that the drink does not exist & is not in the player's inventory
-    CHECK(find_object("drink") == specificvars::empty_object);
-    CHECK_FALSE(player.get_inv_item("drink"));
-    CHECK_FALSE(find_object("drink").get_object_loc() == "tavern");
+    CHECK(find_object("whiskey") == specificvars::empty_object);
+    CHECK_FALSE(player.get_inv_item("whiskey"));
+    CHECK_FALSE(find_object("whiskey").get_object_loc() == "tavern");
 }
