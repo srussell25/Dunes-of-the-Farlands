@@ -6,7 +6,7 @@
 // Add proper function description here
 std::string use(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj_name == "chestkey")
+    if (obj_name == "chest key")
     {
         if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "notimplemented") // figure out location for chest
         {
@@ -303,6 +303,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     return "Invalid action & object combination; try again.";
 }
 
+/*
 std::string go_to_direction(game_object &obj, std::string direction, player_info &player_char) 
 {
     int i, j;
@@ -325,6 +326,7 @@ std::string go_to_direction(game_object &obj, std::string direction, player_info
     }
     return;
 }
+*/
 
 // Add proper function description here
 std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)

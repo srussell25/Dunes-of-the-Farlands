@@ -61,7 +61,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
         //the string
         if (x.length() + current_line.length() > wrap_size)
         {
-            std::cout << (current_line) << std::endl;
+            std::cout << current_line << std::endl;
             current_line = x + " "; //reset current_line to be equal to the next word
         }
         else //if you can add to the current_line without exceeding wrap size, do so and add a space at the end
@@ -134,15 +134,15 @@ bool exit_seq(std::string output_text = "default")
     //then a border, and finally a newline containg a user input prompt
     if (output_text == "default")
     {
-        std::cout << (center_text(output_text1)) << std::endl;
-        std::cout << (center_text(output_text2)) << std::endl;
+        std::cout << center_text(output_text1) << std::endl;
+        std::cout << center_text(output_text2) << std::endl;
     }
     else
     {
-        std::cout << (center_text(output_text)) << std::endl;
+        std::cout << center_text(output_text) << std::endl;
     }
 
-    std::cout << (center_text(query_text)) << std::endl;
+    std::cout << center_text(query_text) << std::endl;
     std::cout << generate_border() << std::endl;
 
     std::cout << "> ";
