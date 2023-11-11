@@ -253,43 +253,43 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "around", "")); // desc left empty on purpose
 
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
-    "abandoned. All you can see is dilapidated buildings."));
+    "abandoned. All you can see is dilapidated buildings.", (std::set<std::string>) {"nekhem", "north", "town"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "oasis", "You look at what seems "
     "to be a beautiful oasis."));
 
     main_objects.insert(main_objects.end(), game_object("location", "tavern", "It's a tavern; "
-    "I wonder if there's anyone inside?"));
+    "I wonder if there's anyone inside?", (std::set<std::string>) {"bar", "saloon", "sand dune saloon"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "palace", "The King's palace is essentially a "
     "fortress. It's massive, gated, and has King Akhem's guards patrolling around the perimeter armed to the "
     "teeth with swords, javelins, and shields. Yet, as you're looking around, you do spot what appears to "
-    "be a side gate guarded by only one person. Surely going over there wouldn't work... right?"));
+    "be a side gate guarded by only one person. Surely going over there wouldn't work... right?", (std::set<std::string>) {"fortress", "king akhem palace", "king akhem's palace"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
-    "up to the side gate, and are greeted by the sight of a lone guard."));
+    "up to the side gate, and are greeted by the sight of a lone guard.", (std::set<std::string>) {"gate"}));
 
-    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "")); // TODO: Add description
+    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "", (std::set<std::string>) {"inside of the palace", "inside the palace"})); // TODO: Add description
 
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "The entrance to "
     "the Farlands consists of a gate that is a light brown, likely from the hot sun beaming on it "
     "all day. The doors of the gate are ginormous, about 15 feet tall. Said door handles are also "
     "made of gold, clearly imported. There are some symbols on the door that resemble Egyptian writing, "
-    "indicating that this is an Egyptian city."));
+    "indicating that this is an Egyptian city.", (std::set<std::string>) {"east"}));
     
     main_objects.insert(main_objects.end(), game_object("location", "city square", "You are in the City Square "
     "of the Farlands. You see a shop called Coco's Coffee filled that has friendly-looking locals, a Nunu's "
-    "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace"));
+    "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace", (std::set<std::string>) {"city"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "general store", "Right ahead of you "
-    "appears to be a huge tent - you see a variety of clothes, hats, shoes, and toys within."));
+    "appears to be a huge tent - you see a variety of clothes, hats, shoes, and toys within.", (std::set<std::string>) {"nunu's general store", "nunu's store", "nunus general store", "nunus store", "tent"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "coffee shop", "The shop itself seems "
     "very old at first glance, with cracked walls and faded windows. Doesn't seem to bother the locals, though "
-    "- you see many happy faces inside."));
+    "- you see many happy faces inside.", (std::set<std::string>) {"coco's coffee", "cocos coffee"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "sarabi's egyptian cuisine", "The "
-    "outside of the building seems pretty plain, but another glance reveals quite the beautiful entryway."));
+    "outside of the building seems pretty plain, but another glance reveals quite the beautiful entryway.", (std::set<std::string>) {"cuisine", "egytian cuisine", "restaurant", "sarabi's store", "sarabis egytian cuisine", "sarabis store"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "potion room", "This potion room is rather "
     "windowless and small. The room is lined with shelves that have many colorful potions on them. "
@@ -299,11 +299,11 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly "
     "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier "
-    "in the middle of the room, and the room seems to be made out of stone blocks."));
+    "in the middle of the room, and the room seems to be made out of stone blocks.", (std::set<std::string>) {"lair", "spyros lair"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "king's throne", "The King's Throne room "
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports "
-    "of the King firing multiple interior designers in the past."));
+    "of the King firing multiple interior designers in the past.", (std::set<std::string>) {"king's room", "king's throne", "kings room", "kings throne", "throne", "throne room"}));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
