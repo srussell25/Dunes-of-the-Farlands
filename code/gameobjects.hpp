@@ -224,6 +224,8 @@ void initialize_game_objects()
     main_objects.insert(main_objects.begin(), game_object("location", "game start", "It's shabby, and a place "
     "of calm tension."));
 
+    main_objects.insert(main_objects.begin(), game_object("location", "around", "")); // desc left empty on purpose
+
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
     "abandoned. All you can see is dilapidated buildings."));
 
@@ -233,21 +235,21 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "tavern", "It's a tavern; "
     "I wonder if there's anyone inside?"));
 
-    main_objects.insert(main_objects.end(), game_object("location", "palace", "The Kingdom is very "
-    "large and heavily guarded. You can see King Akhem's guards walking around the entire fortress. "
-    "with swords, javelins, and shields. There is a gate on the side that is surprisingly guarded by only "
-    "one person."));
+    main_objects.insert(main_objects.end(), game_object("location", "palace", "The King's palace is essentially a "
+    "fortress. It's massive, gated, and has King Akhem's guards patrolling around the perimeter armed to the "
+    "teeth with swords, javelins, and shields. Yet, as you're looking around, you do spot what appears to "
+    "be a side gate guarded by only one person. Surely going over there wouldn't work... right?"));
 
     main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
     "up to the side gate, and are greeted by the sight of a lone guard."));
 
-    main_objects.insert(main_objects.end(), game_object("location", "farlands", "You are currently "
-    "outside the walls of the Farlands."));
+    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "")); // TODO: Add description
 
-    main_objects.insert(main_objects.end(), game_object("location", "gate", "The gate is a light brown, "
-    "probably from the hot sun beaming on it all day. It's a ginormous set of doors, about 15 feet. "
-    "Its handles are made of sharp gold, imported. The symbols on the door resemble "
-    "Egyptian writing, indicating that this is an Egyptian town."));
+    main_objects.insert(main_objects.end(), game_object("location", "farlands", "The entrance to "
+    "the Farlands consists of a gate that is a light brown, likely from the hot sun beaming on it "
+    "all day. The doors of the gate are ginormous, about 15 feet tall. Said door handles are also "
+    "made of gold, clearly imported. There are some symbols on the door that resemble Egyptian writing, "
+    "indicating that this is an Egyptian city."));
     
     main_objects.insert(main_objects.end(), game_object("location", "city square", "You are in the City Square "
     "of the Farlands. You see a shop called Coco's Coffee filled that has friendly-looking locals, a Nunu's "
@@ -269,12 +271,12 @@ void initialize_game_objects()
     "that says, 'Apprentices should not take the book outside of the Potion Room.' Your inventory "
     "can only hold one potion, so choose wisely."));
 
-    main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly"
-    "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier"
+    main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly "
+    "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier "
     "in the middle of the room, and the room seems to be made out of stone blocks."));
 
-    main_objects.insert(main_objects.end(), game_object("location", "the king's throne", "The King's Throne room"
-    "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports"
+    main_objects.insert(main_objects.end(), game_object("location", "king's throne", "The King's Throne room "
+    "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports "
     "of the King firing multiple interior designers in the past."));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
@@ -283,21 +285,15 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
     "it may be made out of wood, but it'll protect you well enough. Maybe.", "playerinventory"));
-    
-    main_objects.insert(main_objects.end(), game_object("item", "chest key", "This is, almost certainly, "
-    "the key to a chest. It's quite hard to miss the engraving on the key that says \"Chest Key\".", "")); // location undecided
-
-    main_objects.insert(main_objects.end(), game_object("item", "chest", "You look at the chest and see "
-    "that it is... a chest. What, did you expect a mimic or something?", "")); // location undecided
 
     main_objects.insert(main_objects.end(), game_object("item", "paper", "Map tips for new soldiers within King Akhem's Palace: "
     "Go to the underground lair that King Akhem has. This has all of his riches and treasures, as well as any potions or weapons "
     "that we could use for war. To get to his main room, you must talk to Spyro, a Sphynx who doesn't take kindly to strangers. "
     "Beware of him, and if he attacks you, you will need a confusion potion to get past him, or you can use a strength potion to "
-    "take him head on. And newbies, the potion room might be inside the palace, but don't get ahead of yourselves.", "outside palace")); 
+    "take him head on. And newbies, the potion room might be inside the palace, but don't get ahead of yourselves.", "side gate")); 
 
-	main_objects.insert(main_objects.end(), game_object("item", "drink", "Well, it wouldn't be a tavern without any "
-    "drinks. It looks like a shot of whisky - why not take a drink?", "tavern"));
+	main_objects.insert(main_objects.end(), game_object("item", "whiskey", "Well, it wouldn't be a tavern without any "
+    "drinks. It looks like a shot of whiskey - why not take a drink?", "tavern"));
 
     main_objects.insert(main_objects.end(), game_object("item", "confusion potion", "When this potion is thrown at someone, "
     "they will enter a state of amnesia and forget the reason why they are fighting you. This will give you the chance to "
@@ -326,6 +322,14 @@ void initialize_game_objects()
     "potion crafting. Hey, don't forget that there's a sign that says not to pick up the book!", 
     "potion room"));
 
+    /* TODO: Add descriptions for these items
+    main_objects.insert(main_objects.end(), game_object("item", "clothes", "unimplemented", "general store"));
+
+    main_objects.insert(main_objects.end(), game_object("item", "toys", "unimplemented", "general store"));
+
+    main_objects.insert(main_objects.end(), game_object("item", "shoes", "unimplemented", "general store"));
+    */
+
     // Initializing characters (objects of type "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
     "torn clothes and a dented sword.", "tavern", {{"is_alive", true}, {"known_evil", true}}));
@@ -338,11 +342,15 @@ void initialize_game_objects()
 	main_objects.insert(main_objects.end(), game_object("character", "barkeep", "The barkeep is keeping "
     "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}));
 
-    main_objects.insert(main_objects.end(), game_object("character", "guards", "These are some strong looking "
-    "guards; it's probably for the best not to fight them.", "gate", {{"is_alive", true}}));
+    main_objects.insert(main_objects.end(), game_object("character", "lookouts", "They might be lookouts, but "
+    "they look quite strong; it might be in your best interest not to fight them.", "gate", {{"is_alive", true}}));
 
-    main_objects.insert(main_objects.end(), game_object("character", "guard", "this soldier is currently by himself. "
-    "He is guarding a side entrance to the palace. Maybe this could a way in?", "palace", {{"is_alive", true}}));
+    main_objects.insert(main_objects.end(), game_object("character", "guards", "The guards have large swords "
+    "that could kill an unprepared civilian with only one swing. There are a lot of guards, but you do see "
+    "one guard alone next to a side gate. A perfect time to strike...", "palace", {{"is_alive", true}}));
+
+    main_objects.insert(main_objects.end(), game_object("character", "guard", "This soldier is currently by himself. "
+    "He's guarding a gate off to the side of the palace. Maybe this could a way inside?", "side gate", {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "spyro", "He is a large black feline, "
     "like... really large. He has a metal plate around his torso, as well as a golden helmet around his head. "
@@ -352,7 +360,7 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("character", "king akhem", "You lunge at King Akhem in an "
     "attempt to grab him by the arm. He flings you off like a piece of spaghetti, and the impact of hitting the "
     "ground knocks you out straight away. Once you wake up, you realize you've been taken out of the palace.", 
-    "the king's throne", {{"is_alive", true}}));
+    "king's throne", {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "shopkeeper", "The shopkeeper appears to be "
     "elderly. She is wrinkly in the face, is missing some teeth, and has a limp. However, she appears to be "

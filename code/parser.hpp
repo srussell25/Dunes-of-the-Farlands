@@ -19,7 +19,8 @@ void initialize_parser()
     assign_map_values(parserspace::command_map, {{"use", true}, {"take", false}, 
     {"go", false}, {"look", false}, {"read", false}, 
     {"talk", false}, {"attack", true}, {"examine", false},
-    {"unlock", true}, {"grab", false}, {"get", false}});
+    {"unlock", true}, {"grab", false}, {"get", false}, 
+    {"drink", false}});
 }
 
 // Takes in a string and returns a vector of substrings split by whitespace.

@@ -6,23 +6,12 @@
 // Add proper function description here
 std::string use(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj_name == "chest key")
-    {
-        if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "notimplemented") // figure out location for chest
-        {
-            return "You used the chest key.";
-        }
-        else
-        {
-            return "unimplemented fail state"; // add unique fail text
-        }
-    }
-    else if (obj_name == "drink")
+    if (obj_name == "whiskey")
     {
         if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "tavern")
         {
             player_char.remove_inv_item(obj_name, true);
-            return "Man, that was a pretty good drink!";
+            return "Man, that was a pretty good whiskey!";
         }
         else if (player_char.get_inv_item(obj_name))
         {
@@ -34,6 +23,25 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
             return "unimplemented fail state"; // add unique fail text
         }
     }
+    /* TODO: Use whiskey as a template for coffee - remember, you get it after talking to the locals in the coffee shop
+    else if (obj_name == "coffee")
+    {
+        if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "tavern")
+        {
+            player_char.remove_inv_item(obj_name, true);
+            return "Man, that was a pretty good whiskey!";
+        }
+        else if (player_char.get_inv_item(obj_name))
+        {
+            return "Hmm, I feel like I'm missing out by not "
+            "drinking this in the tavern... maybe I should go back?";
+        }
+        else
+        {
+            return "unimplemented fail state"; // add unique fail text
+        }
+    }
+    */
     else if(obj_name == "fire potion")
     {
         if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
@@ -107,24 +115,12 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
         return "Are you seriously trying to take an item from your own inventory?";
     }
     
-    if (obj_name == "chest key")
+    if (obj_name == "whiskey")  
     {
-        if (player_char.get_player_loc() == "notimplemented")
+        if (player_char.get_player_loc() == "tavern" && obj.get_object_loc() == "tavern")
         {
             player_char.add_inv_item(obj);
-            return "Key to the chest added to your inventory.";
-        }
-        else
-        {
-            return "unimplemented fail state"; // add unique fail text
-        }
-    }
-    else if (obj_name == "drink")  
-    {
-        if (player_char.get_player_loc() == "tavern")
-        {
-            player_char.add_inv_item(obj);
-            return "The drink was added to your inventory.";
+            return "The drink was added to your inventory. Always nice to have some whiskey.";
         }
         else 
         {
@@ -145,7 +141,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
     }
     else if (obj_name == "coffee")
     {
-       if (player_char.get_player_loc() == "coffee shop")
+        if (player_char.get_player_loc() == "coffee shop" && obj.get_object_loc() == "coffee shop")
         {
             player_char.set_player_state(false);
             return "You grab a coffee that was made for someone else. The server doesn't miss this, and immediately throws a "
@@ -154,14 +150,26 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
         }
         else
         {
-            return "unimplemented fail state"; // add unique fail text
+            return "unimplemented fail state"; // add unique fail text (check if player already has coffee?)
+        }
+    }
+    else if(obj_name == "armor of torren")
+    {
+        if (player_char.get_player_loc() == "general store" && obj.get_object_loc() == "general store")
+        {
+            // needs to be implemented
+            // check that the shopkeeper has asked you to take it; use a flag
+        }
+        else
+        {
+            return "What kind of armor are you talking about?";
         }
     }
     else if (obj_name == "book")
     {
         if (player_char.get_player_loc() == "potion room")
         {
-            return "Can't you read the sign? It says don't read the book, ya bozo.";
+            return "Can't you see the note? It says don't take the book, ya bozo.";
         }
     }
     else if (obj_name == "spyro")
@@ -175,7 +183,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
     }
     else if (obj_name == "king akhem")
     {
-        if (player_char.get_player_loc() == "the king's throne")
+        if (player_char.get_player_loc() == "king's throne")
         {
             player_char.set_player_state(false);
             return "You attempt to grab King Akhem by the arm. He flings you off like a piece of "
@@ -185,7 +193,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
     }
     else if (obj_name == "paper")
     {
-        if (player_char.get_player_loc() == "outside palace")
+        if (player_char.get_player_loc() == "side gate" && obj.get_object_loc() == "side gate")
         {
             player_char.add_inv_item(obj);
             return "The paper was added to your inventory. It seems to have some important script, "
@@ -298,13 +306,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
         "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
         "statue of what appears to be the city's god, Atum the Almighty. Your only way into the city is through the "
-        "doors that are guarded by 2 large guards who do not look so friendly.";
-    }
-    else if (obj_name == "gate")
-    {
-        obj.set_object_flag("been_to", true);
-        player_char.set_player_loc(obj_name);
-        return "You go to the gate and make eye contact with the guards.";
+        "doors, guarded by two lookouts who do not seem all that friendly.";
     }
     else if (obj_name == "coffee shop")
     {
@@ -328,10 +330,16 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
-        return "You arrive to the walls outside the Kingdom. This place seems heavily "
-        "guarded... better be on alert. Should probably examine the area around before trying to go inside the palace.";
+        return "You arrive at the walls surrounding the King's palace. On first glance, the place seems heavily guarded - "
+        "you get the feeling it won't be easy to go inside the palace. Try to find a in...";
     }
     /* TODO: Change the following so that the player enters 'inside palace' first, gets dialogue, and then has to choose which place to go to
+    else if (obj_name == "inside palace")
+    {   
+        player_char.set_player_loc(obj_name);
+        // check if the player read the note, give different dialogue for the following rooms if the player didn't read it
+        return "";
+    }
     else if (obj_name == "potion room")
     {
         obj.set_object_flag("been_to", true);
@@ -364,8 +372,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             "he rips up your body limb from limb, with only a your skull remaining.";
         }
     }
-    */
-    else if (obj_name == "the king's throne")
+    else if (obj_name == "king's throne")
     {
         obj.set_object_flag("been_to", true);
         if (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser"))
@@ -379,6 +386,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             return "You cannot head to this location just yet. Try something else.";
         }
     }
+    */
     return "Location has not been implemented yet.";
 }
 
@@ -402,7 +410,7 @@ std::string go(game_object &obj, std::string obj_name, player_info &player_char)
         return_str = "You can't reach that location from here.";
     }
 
-    if (player_loc == player_char.get_player_loc_prev())
+    if (player_loc == player_char.get_player_loc_prev()) // Check if player's location is different
     {
         if (player_loc == "game start")
         {
@@ -501,33 +509,35 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             "are offered to take the armor.";
             
         }
-        else if (player_char.get_player_loc() != "general store")
+        else
         {
             return "You're not at a store; where do you expect to see a shopkeeper?";
         }
     }
-    else if (obj_name == "guards")
+    else if (obj_name == "lookouts")
     {
-        if (player_char.get_player_loc() == "farlands" || player_char.get_player_loc() == "gate") 
+        if (player_char.get_player_loc() == "farlands") 
         {
-            // Set guards description and location for the palace later on
-            obj.set_object_desc("The guards have large swords that could kill an unprepared civilian "
-            "with only one swing. There are a lot of guards, but you do see one guard alone next "
-            "to a side gate. A perfect time to strike...");
-            obj.set_object_loc("palace");
-
-            // Continue with player actions
+            /* TODO: Rewrite so that a flag is set which allows the player to move into the city square; change the dialogue to match
             player_char.set_player_loc("city square");
-            return "You politely ask if you can get into the city. The guards ask you what your "
+            return "You politely ask if you can get into the city. The lookouts ask you what your "
             "business is here. You say that you are just passing by. One of them responds with 'If you "
             "cause any trouble here, we will find you. You've been warned'. These guys have such great "
             "manners, don't they? Well, either way, congratulations! You've managed to reach the City "
             "Square of the Farlands.";
+            */
         }
-        else if (player_char.get_player_loc() == "palace")
+        else
+        {
+            return "There aren't any lookouts at your current location.";
+        }
+    }
+    else if (obj_name == "guards")
+    {
+        if (player_char.get_player_loc() == "palace")
         {
             player_char.set_player_state(false);
-            return "You attempt to talk to the big group of guards who are guarding the palace and, without warning, "
+            return "You attempt to talk to the big group of guards who are patrolling the palace and, without warning, "
             "you find yourself surrounded. These guards are really effective at keeping intruders out, huh?";
         }
         else 
@@ -537,7 +547,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
     }
     else if (obj_name == "guard")
     {
-        if (player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "side gate")
+        if (player_char.get_player_loc() == "side gate")
         {
             return "The guard tells you, 'State your business civilian, or I will have to resort in arresting "
             "you for failing to obey the laws of King Akhem'. He examines you while saying this, "
@@ -564,7 +574,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
     }
     else if (obj_name == "king akhem")
     {
-        if (player_char.get_player_loc() == "the king's throne")
+        if (player_char.get_player_loc() == "king's throne")
         {
             player_char.set_player_state(false);
             return "You try and talk to King Akhem to distract him. Unfortunately, he does "
@@ -584,11 +594,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
 // Add proper function description here
 std::string look_at(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (player_char.get_player_loc() == obj.get_object_loc() || player_char.get_player_loc() == obj_name)
-    {
-        return obj.get_object_desc();
-    }
-    else if (player_char.get_player_loc() == "coffee shop" && obj_name == "locals")
+    if (player_char.get_player_loc() == "coffee shop" && obj_name == "locals")
     {
         obj.set_object_loc("coffee shop");
         obj.set_object_desc("These locals seem like they have had a long day. People have dirt all on their "
@@ -606,7 +612,11 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
     }
     else if (player_char.get_player_loc() == "abandoned town" && obj_name == "old lady")
     {
-        obj.set_object_flag("is_evil", true);
+        obj.set_object_flag("known_evil", true);
+        return obj.get_object_desc();
+    }
+    else if (player_char.get_player_loc() == obj.get_object_loc() || player_char.get_player_loc() == obj_name)
+    {
         return obj.get_object_desc();
     }
     else
@@ -626,7 +636,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
             {
                 return "Attacking an old lady? You can't be serious!";
             }
-            else if(obj_name == "old lady" && obj.get_object_flag("is_evil")) 
+            else if(obj_name == "old lady" && obj.get_object_flag("known_evil")) 
             {
                 obj.remove_object_flag("is_alive");
                 return "This old lady's disguise isn't going to fool you. You murder the "
@@ -767,7 +777,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
         }
         else if(obj_name == "king akhem")
         {
-            if(player_char.get_player_loc() == "the king's throne")
+            if(player_char.get_player_loc() == "king's throne")
             {
                 obj.set_object_flag("attacked_one", true);
 
@@ -776,7 +786,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 "You then dodge out of the way at the last second, and he puts a dent in the floor"
                 "instead of in you";
             }
-            else if(player_char.get_player_loc() == "the king's throne" && 
+            else if(player_char.get_player_loc() == "king's throne" && 
             obj.get_object_flag("attacked_one"))
             {
                 obj.remove_object_flag("attacked_one");
@@ -786,7 +796,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 "He takes a while to spin around to defend himself, and you take this opportunity to slash him"
                 "in the nape. This causes him to gush out blood.";
             }
-            else if(player_char.get_player_loc() == "the king's throne" && obj.get_object_flag("final_attack"))
+            else if(player_char.get_player_loc() == "king's throne" && obj.get_object_flag("final_attack"))
             {
                 obj.remove_object_flag("final_attack");
                 obj.remove_object_flag("is_alive");
@@ -841,7 +851,7 @@ std::string main_action(std::string act, game_object &obj, player_info &player_c
     std::string result = "";
     std::string obj_name = obj.get_object_name();
     
-    if (act == "use" || act == "unlock")
+    if (act == "use" || act == "unlock" || act == "drink")
     { 
         result = use(obj, obj_name, player_char);
     }
