@@ -3,6 +3,8 @@
 
 #include "classesmisc.hpp"
 
+//Generic Text Methods//
+
 //generates a border (meant to be place on top and bottom of a string), made of '=' at the
 //specified border size
 std::string generate_border(int border_size = 88) //[The default border size is chosen to match the Titlecard]
@@ -15,11 +17,13 @@ std::string generate_border(int border_size = 88) //[The default border size is 
     return border;
 }
 
-//calculates the number of spaces needed on either side of the thank you message for it to be centered
-//based on the wrap size and adds them to the string
+//calculates the number of spaces needed on either side of the text for it to be centered based on the
+//line length, and appends them to each side of the string. If the text is too large for the given line
+//length the method effectively returns the original string. If the line length is not an even value the
+//method rounds down during the center_displacement calculation.
 std::string center_text(std::string text, int line_length = 88) //[The default line length is chosen to match the Titlecard]
 {
-    int center_displacement = (line_length - text.size()) / 2;
+    int center_displacement = floor((line_length - text.size()) / 2);
     for (int i = 0; i < center_displacement; ++i)
     {
         text = " " + text + " ";
@@ -37,8 +41,11 @@ std::vector<std::string> word_breaker(std::string raw)
     {
         //if a whitespace is encountered current word is finished
         if (x == ' ')
-        {
-            words.insert(words.end(), temp); //add temp (storing current word) to the end of the vector
+        {   
+            if(temp != "")
+            {
+                words.insert(words.end(), temp); //add temp (storing current word) to the end of the vector
+            }
             temp = "";
         }
         else 
@@ -62,7 +69,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
         if (x.length() + current_line.length() > wrap_size)
         {
             std::cout << current_line << std::endl;
-            current_line = x + " "; //reset current_line to be equal to the next word
+            current_line = x + " "; //reset current_line to be equal to the next word and a space
         }
         else //if you can add to the current_line without exceeding wrap size, do so and add a space at the end
         {
@@ -79,6 +86,8 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
     //printing the lower border
     std::cout << generate_border();
 }
+
+//UI Specific Methods//
 
 //prompts user for input, and then takes user input from the cin stream and returns the result as a 
 //string in all lowercase for easier matching
