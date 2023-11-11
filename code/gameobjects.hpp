@@ -181,6 +181,8 @@ class game_object
         {
             object_location = loc;
         }
+        // this function check if object has any synonyms 
+        // if the object doesn't have any synonyms, it will return false otherwise true.
         bool check_object_synonyms() 
         {
             if (object_synonyms.empty()) {
