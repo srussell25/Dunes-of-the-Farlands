@@ -387,10 +387,11 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("character", "old lady", "You see an old lady "
     "who seems to be having trouble with something, although you can't quite make out what it is "
 	"she's having trouble with. Maybe you should try talking to her? But be cautious, she "
-    "may not be as hamrless as you think.", "abandoned town", {{"is_alive", true}, {"known_evil", false}}));
+    "may not be as hamrless as you think.", "abandoned town", {{"is_alive", true}, {"known_evil", false}},
+    (std::set<std::string>) {"lady"}));
 
 	main_objects.insert(main_objects.end(), game_object("character", "barkeep", "The barkeep is keeping "
-    "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}));
+    "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}, (std::set<std::string>) {"bartender"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "lookouts", "They might be lookouts, but "
     "they look quite strong; it might be in your best interest not to fight them.", "gate", {{"is_alive", true}}));
@@ -410,11 +411,12 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("character", "king akhem", "You lunge at King Akhem in an "
     "attempt to grab him by the arm. He flings you off like a piece of spaghetti, and the impact of hitting the "
     "ground knocks you out straight away. Once you wake up, you realize you've been taken out of the palace.", 
-    "king's throne", {{"is_alive", true}}));
+    "king's throne", {{"is_alive", true}}, (std::set<std::string>) {"akhem", "king"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "shopkeeper", "The shopkeeper appears to be "
     "elderly. She is wrinkly in the face, is missing some teeth, and has a limp. However, she appears to be "
-    "friendly, even to outsiders like you.", "general store", {{"is_alive", true}}));
+    "friendly, even to outsiders like you.", "general store", {{"is_alive", true}}, (std::set<std::string>) {"shopkeep", "trader"
+    , "store owner", "owner"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "locals","\nYou "
     "might just want to move along.","", {{"is_alive", true}})); // location left empty on purpose
