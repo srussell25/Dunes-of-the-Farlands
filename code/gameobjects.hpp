@@ -181,6 +181,20 @@ class game_object
         {
             object_location = loc;
         }
+        bool check_object_synonyms() 
+        {
+            if (object_synonyms.empty()) {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        std::set<std::string> get_object_synonyms() 
+        {
+            return object_synonyms;
+        }
 };
 
 // Specifying main_objects and empty_object inside of a namespace to keep them out of the global scope
