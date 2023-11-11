@@ -224,7 +224,7 @@ void initialize_game_objects()
     main_objects.insert(main_objects.begin(), game_object("location", "game start", "It's shabby, and a place "
     "of calm tension."));
 
-    main_objects.insert(main_objects.begin(), game_object("location", "around", "")); // desc left empty on purpose
+    main_objects.insert(main_objects.end(), game_object("location", "around", "")); // desc left empty on purpose
 
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
     "abandoned. All you can see is dilapidated buildings."));
