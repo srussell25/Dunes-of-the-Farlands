@@ -269,212 +269,169 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
 {
     if (obj_name == "oasis")
     {   
-        if (player_char.get_player_loc() == "game start")
-        {
-            player_char.set_player_loc(obj);
-            player_char.set_player_state(false);
-            return "You make your way over to the oasis, but when you get there, "
-            "a frog suddenly jumps onto your leg. It's a poisonous frog. You die in seconds.";
-        }
-        else
-        {
-            return "That desert oasis is no longer near you.";
-        }
+        player_char.set_player_loc(obj_name);
+        player_char.set_player_state(false);
+        return "You make your way over to the oasis, but when you get there, "
+        "a frog suddenly jumps onto your leg. It's a poisonous frog. You die in seconds.";
     }
     else if (obj_name == "abandoned town")
     {
-        if (player_char.get_player_loc() == "game start" )
-        { 
-            obj.set_object_flag("been_to", true); // Used to check if the player has already accessed this area
-            player_char.set_player_loc(obj);
-            return "You arrive at the town named Nekhem. The town isn't necessarily abandoned, "
-            "but it's overrun by thugs and bandits. The walls are broken, and people have "
-            "malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby, "
-            "but your gaze also happens upon an old lady who seems to be struggling.";
-        }
-        else if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("been_to"))
-        {
-            return "You have returned to the streets of the abandoned town.";
-        }
-        else
-        {
-            return "This action cannot be performed here. You cannot go back to the abandoned town"; 
-        }
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "You arrive at the town named Nekhem. The town isn't necessarily abandoned, "
+        "but it's overrun by thugs and bandits. The walls are broken, and people have "
+        "malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby, "
+        "but your gaze also happens upon an old lady who seems to be struggling.";
     }
     else if (obj_name == "tavern")
     {
-        if (player_char.get_player_loc() == "abandoned town")
-        {
-            player_char.set_player_loc(obj);
-            return "You enter into the tavern. You try to go up to the bar to ask for directions, "
-            "but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot. "
-            "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
-        }
-        else
-        {
-			return "You try to go to a tavern for a nice drink; unfortunately, there are none around.";
-        }
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "You enter into the tavern. You try to go up to the bar to ask for directions, "
+        "but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot. "
+        "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
     }
-    else if ( obj_name == "farlands")
+    else if (obj_name == "farlands")
     {
-        if (player_char.get_player_loc() == "tavern")
-        {
-           player_char.set_player_loc(obj);
-           return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
-           "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
-           "statue of what appears to be the city's god, Atum the Almighty. Your only way into the city is through the "
-           "doors that are guarded by 2 large guards who do not look so friendly.";
-        }
-        else 
-        {
-            return "you cannot get to this location you do not know where it is.";
-        }
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
+        "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
+        "statue of what appears to be the city's god, Atum the Almighty. Your only way into the city is through the "
+        "doors that are guarded by 2 large guards who do not look so friendly.";
     }
     else if (obj_name == "gate")
     {
-        if (player_char.get_player_loc() == "farlands")
-        {
-            return "You go to the gate and make eye contact with the guards.";
-        }
-        else 
-		{
-			return "you cannot go to said gate from where you are";
-		}
-    }
-    else if (obj_name == "guards")
-    {
-        if (player_char.get_player_loc() == "farlands" || player_char.get_player_loc() == "gate")
-        {
-            return "You are already at the guards, try something else";
-        }
-        else 
-		{
-			return "what guards are you talking";
-		}
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "You go to the gate and make eye contact with the guards.";
     }
     else if (obj_name == "coffee shop")
     {
-        if (player_char.get_player_loc() == "city square")
-		{
-			player_char.set_player_loc(obj);
-			return "You enter the coffee shop by walking through the front door.";
-		}
-		else
-		{
-			return "This action cannot be performed in the coffee shop. Try talking to some of the locals.";
-		}
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+		return "You enter the coffee shop by walking through the front door.";
 	}
     else if (obj_name == "general store")
     {
-        if (player_char.get_player_loc() == "city square")
-        {
-            player_char.set_player_loc(obj);
-            return "You enter the store.";
-        }
-        else
-        {
-            return "This action cannot be performed at the general store. Try talking to the shopkeep."; 
-        }
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "You enter the store.";
     }
     else if (obj_name == "sarabi's egyptian cuisine")
     {
-        if (player_char.get_player_loc() == "city square")
-        {
-            player_char.set_player_loc(obj);
-            return "You enter the restaurant. Smells good in here.";
-        }
-        else
-        {
-            return "This action cannot be performed at Sarabi's Egyptian Cuisine. Try talking to the locals.";
-        }
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "You enter the restaurant. Smells good in here.";
     }
     else if (obj_name == "palace")
     {
-        if (player_char.get_player_loc() == "city square")
-        {
-            player_char.set_player_loc(obj); // NOTE: Is this right?
-            return "You arrive to the walls outside the Kingdom. This place seems heavily "
-            "guarded... better be on alert. Should probably examine the area around before trying to go inside the palace.";
-        }
-        else
-        {
-            return "unique fail text"; // Add unique fail text
-        }
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);
+        return "You arrive to the walls outside the Kingdom. This place seems heavily "
+        "guarded... better be on alert. Should probably examine the area around before trying to go inside the palace.";
     }
+    /* TODO: Change the following so that the player enters 'inside palace' first, gets dialogue, and then has to choose which place to go to
     else if (obj_name == "potion room")
     {
-        if ((player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "gate")
-            && player_char.get_player_flag("knocked_guard_out"))
+        obj.set_object_flag("been_to", true);
+        if (player_char.get_player_flag("knocked_guard_out"))
         {
-           player_char.set_player_loc(obj);
-           return "you enter the palace and head to the potion room. As you may expect there are alot of potions in this room."
+            player_char.set_player_loc(obj_name);
+            return "you enter the palace and head to the potion room. As you may expect there are a lot of potions in this room. "
             "maybe you can look around?";
         }
     }
-    else if(obj_name == "spyro's lair")
+    else if (obj_name == "spyro's lair")
     {
-        if((player_char.get_player_loc() == "palace" || player_char.get_player_loc() == "gate") 
-            && player_char.get_player_flag("knocked_guard_out"))
+        obj.set_object_flag("been_to", true);
+        if (player_char.get_player_flag("knocked_guard_out"))
         {
-            player_char.set_player_loc(obj);
+            player_char.set_player_loc(obj_name);
             player_char.set_player_state(false);
             return "you enter the palace and enter Spyro's Lair. You see Spyro, the most powerful Sphynx in the land takes his"
             "claws and rips your flesh to shreds. Maybe you should try following the paper's instruction said next time.";
         }
-       
-        else if(player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "potion room")
+        else if (player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "potion room")
         {
             return "You head to Spyro's lair to fight him with your potion. You feel more prepared now. You make eye contact with the huge creature,"
             "and a chill rushes down your neck. You should probably think about your next move carefully...";
         }
-        else if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
+        else if (player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
         {
             player_char.set_player_state(false);
             return "You go into the Spyro's lair unprepared with no potions to use. Since you are not as strong as you think you are,"
             "he rips up your body limb from limb, with only a your skull remaining.";
         }
     }
-    else if(obj_name == "the king's throne")
+    */
+    else if (obj_name == "the king's throne")
     {
-        if(player_char.get_player_loc() == "spyro's lair" && (player_char.get_player_flag("throne_available") ||
-        player_char.get_player_flag("the_confuser")))
+        obj.set_object_flag("been_to", true);
+        if (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser"))
         {
-            player_char.set_player_loc(obj);
+            player_char.set_player_loc(obj_name);
             return "You walk into the throne room and see King Akhem. He doesn't look surprised to see you."
             "'Face me, if you dare... heathen.' He stands in a battle stance before you.";
         }
         else
         {
-            return "You cannot get to this location. Try something else.";
+            return "You cannot head to this location just yet. Try something else.";
         }
     }
-    return "Invalid action & object combination; try again.";
+    return "Location has not been implemented yet.";
 }
 
-/*
-std::string go_to_direction(game_object &obj, std::string direction, player_info &player_char) 
+// Add proper function description here
+std::string go(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    int i, j;
-    i, j = obj.get_entire_location_small_pos(player_char.get_player_loc());
-    if (direction == "south") 
+    if (obj.get_object_type() != "location")
     {
-        
+        return "Yeah, that's not a location. Try again.";
     }
-    else if (direction == "north") 
-    {
 
-    }
-    else if (direction == "west") 
+    std::string return_str;
+    std::string player_loc = player_char.get_player_loc();
+
+    if (player_char.get_player_loc_set().contains(obj_name))
     {
-        
+        return_str = go_to(obj, obj_name, player_char);
     }
-    else if (direction == "east") 
+    else
     {
-        
+        return_str = "You can't reach that location from here.";
     }
-    return;
+
+    if (player_loc == player_char.get_player_loc_prev())
+    {
+        if (player_loc == "game start")
+        {
+            player_char.set_player_loc_set(specificvars::location_set_one);
+        }
+        else if (player_loc == "abandoned town")
+        {
+            player_char.set_player_loc_set(specificvars::location_set_two);
+        }
+        else if (player_loc == "farlands")
+        {
+            player_char.set_player_loc_set(specificvars::location_set_three);
+        }
+        else if (player_loc == "town square")
+        {
+            player_char.set_player_loc_set(specificvars::location_set_four);
+        }
+        else if (player_loc == "palace")
+        {
+            player_char.set_player_loc_set(specificvars::location_set_five);
+        }
+        else if (player_loc == "inside palace")
+        {
+            player_char.set_player_loc_set(specificvars::location_set_six);
+        }
+    }
+
+    return return_str;
 }
-*/
 
 // Add proper function description here
 std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)
@@ -560,7 +517,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             obj.set_object_loc("palace");
 
             // Continue with player actions
-            player_char.set_player_loc(find_object("city square"));
+            player_char.set_player_loc("city square");
             return "You politely ask if you can get into the city. The guards ask you what your "
             "business is here. You say that you are just passing by. One of them responds with 'If you "
             "cause any trouble here, we will find you. You've been warned'. These guys have such great "
@@ -894,7 +851,7 @@ std::string main_action(std::string act, game_object &obj, player_info &player_c
     }
     else if (act == "go")
     {
-        result = go_to(obj, obj_name, player_char);
+        result = go(obj, obj_name, player_char);
     }
     else if (act == "look" || act == "examine")
     {

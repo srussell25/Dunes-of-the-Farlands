@@ -10,7 +10,9 @@
 class player_info 
 {
     private:
-        std::vector<game_object>::iterator player_location;
+        std::string cur_loc;
+        std::string prev_loc;
+        std::set<std::string> set_loc;
         std::vector<std::string> player_inv;
         std::unordered_map<std::string, bool> player_flags;
 
@@ -20,7 +22,9 @@ class player_info
         // Public constructor called by main
         player_info(std::string str)
         {
-            player_location = specificvars::main_objects.begin();
+            cur_loc = "game start";
+            prev_loc = cur_loc;
+            set_loc = specificvars::location_set_one;
             player_inv = {};
             player_flags.insert_or_assign("is_alive", true);
 
@@ -31,14 +35,24 @@ class player_info
         // Class methods
         std::string get_player_loc()
         {
-            return (*player_location).get_object_name();
+            return cur_loc;
         }
-        void set_player_loc(game_object &loc)
+        std::string get_player_loc_prev()
         {
-            if (loc != specificvars::empty_object)
-            {
-                player_location = find_iter(specificvars::main_objects, loc);
-            }
+            return prev_loc;
+        }
+        std::set<std::string> get_player_loc_set()
+        {
+            return set_loc;
+        }
+        void set_player_loc(std::string loc)
+        {
+            prev_loc = cur_loc;
+            cur_loc = loc;
+        }
+        void set_player_loc_set(std::set<std::string> loc)
+        {
+            set_loc = loc;
         }
         bool get_inv_item(std::string item_to_get)
         {

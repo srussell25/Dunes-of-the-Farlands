@@ -183,12 +183,12 @@ namespace specificvars
     game_object empty_object = game_object();
 
     // Location sets
-    std::set<std::string> location_set_one = {"abandoned town", "game start", "oasis", "farlands"}; // at start
+    std::set<std::string> location_set_one = {"abandoned town", "farlands", "game start", "oasis"}; // at start
     std::set<std::string> location_set_two = {"tavern"}; // at abandoned town
-    std::set<std::string> location_set_three = {"town square"}; // at farlands (synonym for entrance)
-    std::set<std::string> location_set_four = {"sarabi's egyptian cuisine", "coffee shop", "general store", "gate"}; // at town square
-    std::set<std::string> location_set_five = {"side gate", "inside palace"}; // at gate (synonym for palace)
-    std::set<std::string> location_set_six = {"potion room", "spyro's lair", "king's throne room"}; // at inside palace
+    std::set<std::string> location_set_three = {"town square"}; // at entrance to farlands (synonym for farlands)
+    std::set<std::string> location_set_four = {"coffee shop", "general store", "palace", "sarabi's egyptian cuisine"}; // at town square
+    std::set<std::string> location_set_five = {"inside palace", "side gate"}; // at gate (synonym for palace)
+    std::set<std::string> location_set_six = {"king's throne room", "potion room", "spyro's lair"}; // at inside palace
 };
 
 // This function takes in a string meant to represent the name of a game_object, and then 
@@ -241,7 +241,6 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
     "up to the side gate, and are greeted by the sight of a lone guard."));
 
-
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "You are currently "
     "outside the walls of the Farlands."));
 
@@ -272,11 +271,11 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly"
     "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier"
-    "in the middle of the room, and the room seems to be made out of stone blocks.")); // location used, description undecided
+    "in the middle of the room, and the room seems to be made out of stone blocks."));
 
     main_objects.insert(main_objects.end(), game_object("location", "the king's throne", "The King's Throne room"
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports"
-    "of the King firing multiple interior designers in the past.")); // location used, description undecided
+    "of the King firing multiple interior designers in the past."));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
