@@ -34,7 +34,16 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
             return "unimplemented fail state"; // add unique fail text
         }
     }
-
+    else if(obj_name == "fire potion" || obj_name == "confusion potion" ||
+        obj_name == "hunger potion" || obj_name == "strength potion")
+    {
+        
+            if(player_char.get_inv_item(obj_name))
+            {
+                
+            }
+        
+    }
     return "Invalid action & object combination; try again.";
 }
 
@@ -163,7 +172,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             "malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby, "
             "but your gaze also happens upon an old lady who seems to be struggling.";
         }
-        else if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("been_to") == true)
+        else if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("been_to"))
         {
             return "You have returned to the streets of the abandoned town.";
         }
@@ -292,12 +301,20 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             return "you enter the palace and enter Spyro's Lair. You see Spyro, the most powerful Sphynx in the land takes his"
             "claws and rips your flesh to shreds. Maybe you should try following the paper's instruction said next time.";
         }
-        /* TODO: Finish Part 2 of Spyro's Lair
-        else if(player_char.get_player_loc() == "potion room" && (player_char.get_inv_item("fire potion") == ))
+       
+        else if(player_char.get_player_loc() == "potion room" && (player_char.get_inv_item("fire potion") == true 
+        || player_char.get_inv_item("confusion potion") == true || player_char.get_inv_item("hunger potion") == true || player_char.get_inv_item("strength potion") == true))
         {
-            return "";
+            return "You head to Spyro's lair to fight him with your potion. You feel more prepared now. You make eye contact with the huge creature,"
+            "and a chill rushes down your neck. You should probably think about your next move carefully...";
         }
-        */
+        else if(player_char.get_player_loc() == "potion room" && (player_char.get_inv_item("fire potion") == false 
+        || player_char.get_inv_item("confusion potion") == false || player_char.get_inv_item("hunger potion") == false || player_char.get_inv_item("strength potion") == false))
+        {
+            player_char.set_player_state(false);
+            return "You go into the Spyro's lair unprepared with no potions to use. Since you are not as strong as you think you are,"
+            "he rips up your body limb from limb, with only a your skull remaining.";
+        }
     }
 
     return "Invalid action & object combination; try again.";
@@ -600,7 +617,98 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 return "There's no shopkeeper at your location. Maybe try looking in a store, eh?";
             }
         }
-		
+        else if(obj_name == "locals")
+        {
+            if(player_char.get_player_loc() == "coffee shop")
+            {
+                return "Why are you trying to attack someone who hasn't done anything to you? \n"
+                "I'm going to let you try again...";
+            }
+            else if(player_char.get_player_loc() == "Sarabi's Kitchen Cuisine")
+            {
+                return "The local was unarmed and not a threat. Thus, you take your sword"
+                "out and stab at her chest. She dies in front of you slowly and says, 'Why…?' while"
+                "slowly closing her eyes. Do you feel happy about killing the innocent? Shameful…";
+            }
+        }
+        else if(obj_name == "spyro")
+        {
+            if(player_char.get_player_loc() == "spyro's lair" && 
+            player_char.get_player_flag("is_strong") && obj.get_object_flag("is_injured") == false)
+            {
+                obj.set_object_flag("is_injured", true);
+                player_char.set_player_flag("throne_available", true);
+
+                return "With the stregnth you gain from the strength potion, you gain strength throughout"
+                "your body, and you use this strength to jump up 10 feet into the air and slash"
+                "Spyro's neck. He is badly wounded, but he pleads for his life.\n Do you wwant to"
+                "spare his life and advance to the King's Throne?";
+            }
+            else if(player_char.get_player_loc() == "spyro's lair" && 
+            player_char.get_player_flag("is_strong") && obj.get_object_flag("is_injured"))
+            {// if the player decides to kill Spyro
+                obj.remove_object_flag("is_alive");
+                return "You decide to stab Spyro in the heart. While his blood oozing from his chest,"
+                "he lets out a loud roar in pain. His body slowly stops moving, and his eyes close. You"
+                "have slain the mighty beast, and remove your sword out of his body. The path to King "
+                "Akhem's Throne is now clear. Continue your journey.";
+            }
+            else if(obj.get_object_flag("is_alive") == false && player_char.get_player_loc() == "spyro's lair")
+            {
+                return "You shouldn't mutilate the beasts body anymore. You should let him rest now.";
+            }
+            else if(player_char.get_player_loc() == "spyro's lair" && obj.get_object_flag("is_confused"))//confusion potion
+            {
+                obj.remove_object_flag("is_alive");
+                return "While Spyro is confused, you see this as a great opportunity to attack him."
+                "Spyro has fallen, and the blood is on your hands.";
+            }
+            else if(player_char.get_player_loc() == "spyro's lair"
+             && (player_char.get_player_flag("is_strong") == false || obj.get_object_flag("is_confused") == false))
+            { //if they try to attack spyro without using any potion
+                player_char.set_player_state(false);
+                return "Since you did not use any potions and attacked Spyro head on, you were abruptly"
+                "eaten alive by him.";
+            }
+            else
+            {
+                return "I don't see Spyro here. What are you trying to attack? You must be losing it.";
+            }
+        }
+        else if(obj_name == "king akhem")
+        {
+            if(player_char.get_player_loc() == "the king's throne")
+            {
+                obj.set_object_flag("attacked_one", true);
+
+                return "You pull out your sword and charge at King Akhem. He dodges the first attack."
+                "However, he charges at you and attempts to strike you in the chest with his colossal hammer."
+                "You then dodge out of the way at the last second, and he puts a dent in the floor"
+                "instead of in you";
+            }
+            else if(player_char.get_player_loc() == "the king's throne" && 
+            obj.get_object_flag("attacked_one"))
+            {
+                obj.remove_object_flag("attacked_one");
+                obj.set_object_flag("final_attack", true);
+
+                return "Instead of taking him head on, you circle behind him for an attack from the rear."
+                "He takes a while to spin around to defend himself, and you take this opportunity to slash him"
+                "in the nape. This causes him to gush out blood.";
+            }
+            else if(player_char.get_player_loc() == "the king's throne" && obj.get_object_flag("final_attack"))
+            {
+                obj.remove_object_flag("final_attack");
+                obj.remove_object_flag("is_alive");
+                return "King Akhem has fallen on one knee. His body has gone cold, and he is panting trying"
+                "to get the blood from his nape to stop leaking out of his body. Quickly, you slice at his legs"
+                "and arms, and stab him in the heart. King Akhem has fallen.\n\n The End. \n Thank you for playing"
+                "the game!\n The citizens of the Farlands will rejoice now that King Akhem's rule is finished. You are declared"
+                "as a hero, and live the rest of your life happy in the Farlands. \n\n Credits: \n UI Team: \nLane Durst"
+                "\nConnor Morris \nObject and Development Team: \nMaureen Sanchez \nJack(Yu Joo)"
+                "\nStory Development and General Coding Team: \nShawn Russell \nLogan Remondet";
+            }
+        }
         // add more cases here
     }
     else if (obj.get_object_type() == "item")

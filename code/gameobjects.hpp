@@ -290,7 +290,6 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
     "up to the side gate, and are greeted by the sight of a lone guard."));
 
-	main_objects.insert(main_objects.end(), game_object("location", "inside palace", "")); // location not currently used, description undecided
 
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "You are currently "
     "outside the walls of the Farlands."));
@@ -320,9 +319,13 @@ void initialize_game_objects()
     "that says, 'Apprentices should not take the book outside of the Potion Room.' Your inventory "
     "can only hold one potion, so choose wisely."));
 
-    main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "")); // location used, description undecided
+    main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly"
+    "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier"
+    "in the middle of the room, and the room seems to be made out of stone blocks.")); // location used, description undecided
 
-    main_objects.insert(main_objects.end(), game_object("location", "the king's throne", "")); // location used, description undecided
+    main_objects.insert(main_objects.end(), game_object("location", "the king's throne", "The King's Throne room"
+    "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports"
+    "of the King firing multiple interior designers in the past.")); // location used, description undecided
 
 
     // Initializing items (objects of type "item")
@@ -396,7 +399,8 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("character", "spyro", "He is a large black feline, "
     "like... really large. He has a metal plate around his torso, as well as a golden helmet around his head. "
-    "His eyes are beat red, and his claws are razor sharp.", "spyro's lair", {{"is_alive", true}}));
+    "His eyes are beat red, and his claws are razor sharp. Upon looking at you, he snarls and sticks out his sharp"
+    "fangs. His eyes glow red and his muscles begin to flare up.", "spyro's lair", {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "king akhem", "You lunge at King Akhem in an "
     "attempt to grab him by the arm. He flings you off like a piece of spaghetti, and the impact of hitting the "
@@ -408,7 +412,7 @@ void initialize_game_objects()
     "friendly, even to outsiders like you.", "general store", {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "locals","\nYou "
-    "might just want to move along.", {{"is_alive", true}})); // location left empty on purpose
+    "might just want to move along.","", {{"is_alive", true}})); // location left empty on purpose
 }
 
 
