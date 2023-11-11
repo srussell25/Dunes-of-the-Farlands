@@ -52,7 +52,7 @@ class player_info
                 player_inv.insert(player_inv.end(), item_to_add.get_object_name());
             }
         }
-        // Removes an item from the players inventory and 
+        // Removes an item from the player's inventory and 
         // (optionally) removes it permanently from the main_objects vector
         void remove_inv_item(std::string item_to_rem, bool remove_perm)
         {

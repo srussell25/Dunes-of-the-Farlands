@@ -1,8 +1,6 @@
 #ifndef GAMEOBJECTS_HPP
 #define GAMEOBJECTS_HPP
 
-#include <utility>
-
 // Finds the iterator for an object in a vector of the same type.
 template <typename A, typename B>
 std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, B &objToFind)
@@ -81,53 +79,33 @@ class game_object
         std::string object_desc;
         std::string object_location;
         std::unordered_map<std::string, bool> object_flags;
-        // just Temporary {
-        std::vector<std::string> no = {"no"};
-        std::vector<std::string> gamestart = {"gamestart"};
-        //std::vector<std::string> Nekhem = {"nekhem", };
-        std::vector<std::string> abandonedtown = {"abandoned town", "tarven"};
-        std::vector<std::string> oasis = {"oasis"};
-        std::vector<std::string> farland = {"farland", "city square", "palace"};
-        std::vector<std::string> palace = {"palace", "gate", "potion room", "spyro's lair", "the king's strone"};
-        std::vector<std::string> citysquare = {"city square", "general store", "coffeeshop", "sarabi's egytian cuisine"};
-        std::vector<std::vector<std::vector<std::string>>> entire_location = {{no, no, no, no, no},
-                                                                              {no, palace, citysquare, farland, no},
-                                                                              {no, no, abandonedtown, oasis, no},
-                                                                              {no, no, gamestart, no, no},
-                                                                              {no, no, no, no, no}};
-        // just Temporary }
 
     public:
-        // Public default constructor
-        game_object() {}
-        // Public constructor which sets a game_object's type, name, and description.
-        game_object(std::string obj_type, std::string obj_name, std::string obj_desc)
+        game_object() {} // Public default constructor
+        game_object(std::string obj_type, std::string obj_name, std::string obj_desc) // Type, name & desc
         {
             object_type = obj_type;
             object_name = obj_name;
             object_desc = obj_desc;
         }
-        // Public constructor which sets a game_object's type, name, description, and location.
-        game_object(std::string obj_type, std::string obj_name, std::string obj_desc, 
-            std::string obj_loc)
+        game_object(std::string obj_type, std::string obj_name, std::string obj_desc,
+            std::string obj_loc) // Above + location
         {
             object_type = obj_type;
             object_name = obj_name;
             object_desc = obj_desc;
             object_location = obj_loc;
         }
-        // Public constructor which sets a game_object's type, name, description, and flags
-        game_object(std::string obj_type, std::string obj_name, std::string obj_desc, 
-            std::vector<std::pair<std::string, bool>> obj_flags)
+        game_object(std::string obj_type, std::string obj_name, std::string obj_desc,
+            std::vector<std::pair<std::string, bool>> obj_flags) // Above w/ flags instead of loc
         {
             object_type = obj_type;
             object_name = obj_name;
             object_desc = obj_desc;
             assign_map_values(object_flags, obj_flags);
         }
-        // Public constructor which sets a game_object's type, name, description, flags and location.
         game_object(std::string obj_type, std::string obj_name, std::string obj_desc, 
-            std::string obj_loc, std::vector<std::pair<std::string, bool>> obj_flags)
+            std::string obj_loc, std::vector<std::pair<std::string, bool>> obj_flags) // Above + loc
         {
             object_type = obj_type;
             object_name = obj_name;
@@ -135,7 +113,6 @@ class game_object
             object_location = obj_loc;
             assign_map_values(object_flags, obj_flags);
         }
-        // Comparison operators
         friend bool operator==(game_object const& x, game_object const& y)
         {
             return x.object_name == y.object_name;
@@ -144,7 +121,6 @@ class game_object
         {
             return !(x.object_name == y.object_name);
         }
-        // Class methods
         std::string get_object_type()
         {
             return object_type;
@@ -165,7 +141,7 @@ class game_object
         {
             object_desc = desc;
         }
-        // If flag exists, returns true; otherwise, returns false.
+        // If flag exists & is set, returns true; otherwise, returns false.
         bool get_object_flag(std::string flag)
         {
             if (object_flags.count(flag) != 0)
@@ -195,30 +171,6 @@ class game_object
         {
             object_location = loc;
         }
-        // just Temporary {
-        std::vector<std::vector<std::vector<std::string>>> get_entire_location() 
-        {
-            return entire_location;
-        }
-        // std::vector<std::vector<std::string>> get_entire_location_small(int i, int j, int k)
-        // {
-        //     return entire_location[i][j][k];
-        // }
-        int get_entire_location_small_pos(std::string name) 
-        {
-            for(int i = 0; i < 5; ++i)
-            {
-                for(int j = 0; i < 5; ++j) 
-                {
-                    if (entire_location[i][j][0] == name) 
-                    {
-                        return i, j;
-                    }
-                }
-            }
-            return 711;
-        }
-        // just Temporary }
 };
 
 // Specifying main_objects and empty_object inside of a namespace to keep them out of the global scope
@@ -229,6 +181,14 @@ namespace specificvars
 
     // Example of an empty game_object used for comparison.
     game_object empty_object = game_object();
+
+    // Location sets
+    std::set<std::string> location_set_one = {"abandoned town", "game start", "oasis", "farlands"}; // at start
+    std::set<std::string> location_set_two = {"tavern"}; // at abandoned town
+    std::set<std::string> location_set_three = {"town square"}; // at farlands (synonym for entrance)
+    std::set<std::string> location_set_four = {"sarabi's egyptian cuisine", "coffee shop", "general store", "gate"}; // at town square
+    std::set<std::string> location_set_five = {"side gate", "inside palace"}; // at gate (synonym for palace)
+    std::set<std::string> location_set_six = {"potion room", "spyro's lair", "king's throne room"}; // at inside palace
 };
 
 // This function takes in a string meant to represent the name of a game_object, and then 
@@ -255,23 +215,14 @@ game_object& find_object(std::string name)
 void initialize_game_objects() 
 {
     using namespace specificvars;
-
-    // Check if game has already started; if main_objects is not empty then
-    // clear main_objects & re-add objects in their default state to restart game.
-    if (!main_objects.empty()) {
+    if (!main_objects.empty()) // Clear main_objects & re-add upon calling this function more than once
+    {
         main_objects.clear();
     }
 
     // Initializing locations (objects of type "location")
-    //TODO: add a vector<std::pair> type memeber to the location objects that stores all objects that are next to them
-    //for example, game_start should have a vector containing <<"Abandoned Town", North>, <"Oasis", West>>
-
-    std::vector<std::pair<std::string, std::string>> location_pair;
-
     main_objects.insert(main_objects.begin(), game_object("location", "game start", "It's shabby, and a place "
     "of calm tension."));
-    location_pair[0].first = "Game Start";
-    location_pair[0].second = "South";
 
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
     "abandoned. All you can see is dilapidated buildings."));
@@ -298,7 +249,7 @@ void initialize_game_objects()
     "probably from the hot sun beaming on it all day. It's a ginormous set of doors, about 15 feet. "
     "Its handles are made of sharp gold, imported. The symbols on the door resemble "
     "Egyptian writing, indicating that this is an Egyptian town."));
-
+    
     main_objects.insert(main_objects.end(), game_object("location", "city square", "You are in the City Square "
     "of the Farlands. You see a shop called Coco's Coffee filled that has friendly-looking locals, a Nunu's "
     "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace"));
@@ -327,16 +278,13 @@ void initialize_game_objects()
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports"
     "of the King firing multiple interior designers in the past.")); // location used, description undecided
 
-
-    // Initializing items (objects of type "item")
-    // Initial player inventory items
+    // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
     "it's not pretty, but it gets the job done.", "playerinventory"));
 
     main_objects.insert(main_objects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
     "it may be made out of wood, but it'll protect you well enough. Maybe.", "playerinventory"));
-
-    // Other game items
+    
     main_objects.insert(main_objects.end(), game_object("item", "chest key", "This is, almost certainly, "
     "the key to a chest. It's quite hard to miss the engraving on the key that says \"Chest Key\".", "")); // location undecided
 
@@ -352,7 +300,7 @@ void initialize_game_objects()
 	main_objects.insert(main_objects.end(), game_object("item", "drink", "Well, it wouldn't be a tavern without any "
     "drinks. It looks like a shot of whisky - why not take a drink?", "tavern"));
 
-    main_objects.insert(main_objects.end(), game_object("item", "confusion potion", "When this potion is thrown at someone,"
+    main_objects.insert(main_objects.end(), game_object("item", "confusion potion", "When this potion is thrown at someone, "
     "they will enter a state of amnesia and forget the reason why they are fighting you. This will give you the chance to "
     "sneak past them to do something else. without any consequences... probably.", "potion room"));
 
@@ -367,7 +315,7 @@ void initialize_game_objects()
     "warrior..", "potion room"));
 
     main_objects.insert(main_objects.end(), game_object("item", "coffee", "It's a hot cup of coffee, brewed at "
-    "Coco's Coffee House, using the finest beans that were imported from a rich land far away."
+    "Coco's Coffee House, using the finest beans that were imported from a rich land far away. "
     "It'd be nice to get a drink I bet.", "coffee shop"));
 
     main_objects.insert(main_objects.end(), game_object("item", "armor of torren", "From a moments glance, "
@@ -414,7 +362,6 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("character", "locals","\nYou "
     "might just want to move along.","", {{"is_alive", true}})); // location left empty on purpose
 }
-
 
 /*
 Things that we still have to work on:
