@@ -207,7 +207,7 @@ STUDENT_TEST("Inventory Check #1: Taking the whiskey from the barkeep and drinki
     parser_output = game_input_parser("attack bandit");
     main_action(parser_output.first, (parser_output.second).get(), player);
 
-    parser_output = game_input_parser("take drink");
+    parser_output = game_input_parser("take whiskey");
     main_action(parser_output.first, (parser_output.second).get(), player);
 
     // Check that the drink exists, is added to the player's inventory, & is not located in the tavern
