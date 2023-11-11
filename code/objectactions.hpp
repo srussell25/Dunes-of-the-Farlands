@@ -34,15 +34,67 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    else if(obj_name == "fire potion" || obj_name == "confusion potion" ||
-        obj_name == "hunger potion" || obj_name == "strength potion")
+    else if(obj_name == "fire potion")
     {
-        
-            if(player_char.get_inv_item(obj_name))
-            {
-                
-            }
-        
+        if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
+        {
+            player_char.set_player_state(false);
+            player_char.remove_inv_item(obj_name, true);
+
+            return "The potion you used on Spyro caused him to absorb the fire within his"
+            "skin and melts you into a crisp.";
+        }
+        else
+        {
+            return "I don't think this is the best place to use it. I think you should use the potion"
+            "where Spyro is.";
+        }
+    }
+    else if(obj_name == "confusion potion")
+    {
+        if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
+        {
+            player_char.set_player_flag("the_confuser", true);
+            player_char.remove_inv_item(obj_name, true);
+
+            return "You grab the confusion potion out of your inventory, unscrew the bottle,"
+            "and chunk it at Spyro. This causes him to get dizzy, forget where he is, and fall into confusion."
+            "You quickly use this opportunity to sneak into King Akhem's throne room.";
+        }
+        else
+        {
+            return "I don't think this is the best place to use it. I think you should use the potion"
+            "where Spyro is.";
+        }
+    }
+    else if(obj_name == "hunger potion")
+    {
+        if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
+        {
+            player_char.set_player_state(false);
+            player_char.remove_inv_item(obj_name, true);
+
+            return "The potion you used on Spyro caused him to get hungry and he eats you.";
+        }
+        else
+        {
+            return "I don't think this is the best place to use it. I think you should use the potion"
+            "where Spyro is.";
+        }
+    }
+    else if(obj_name == "strength potion")
+    {
+        if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
+        {
+            player_char.set_player_state(false);
+            return "Your strength doubles, and your muscles grow exponentially. You can now jump higher,"
+            "run faster, and your testosterone levels plummet.";
+        }
+        else
+        {
+            return "I don't think this is the best place to use it. I think you should use the potion"
+            "where Spyro is.";
+        }
     }
     return "Invalid action & object combination; try again.";
 }
@@ -140,7 +192,75 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
             "maybe you should try reading it?";
         }
     }
-
+    else if(obj_name == "fire potion")
+    {
+        if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
+        {
+            player_char.add_inv_item(obj);
+            player_char.set_player_flag("has_potion", true);
+            return "Fire potion has been added to inventory";
+        }
+        else if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion"))
+        {
+            return "Sorry, you already took a potion. You only have one slot in your inventory for a potion.";
+        }
+        else
+        {
+            return "The item 'fire potion' is not in this location. Try something else.";
+        }
+    }
+    else if(obj_name == "confusion potion")
+    {
+        if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
+        {
+            player_char.add_inv_item(obj);
+            player_char.set_player_flag("has_potion", true);
+            return "Confusion potion has been added to inventory";
+        }
+        else if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion"))
+        {
+            return "Sorry, you already took a potion. You only have one slot in your inventory for a potion.";
+        }
+        else
+        {
+            return "The item 'confusion potion' is not in this location. Try something else.";
+        }
+    }
+    else if(obj_name == "hunger potion")
+    {
+        if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
+        {
+            player_char.add_inv_item(obj);
+            player_char.set_player_flag("has_potion", true);
+            return "Hunger potion has been added to inventory";
+        }
+        else if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion"))
+        {
+            return "Sorry, you already took a potion. You only have one slot in your inventory for a potion.";
+        }
+        else
+        {
+            return "The item 'hunger potion' is not in this location. Try something else.";
+        }
+    }
+    else if(obj_name == "strength potion")
+    {
+        if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
+        {
+            player_char.add_inv_item(obj);
+            player_char.set_player_flag("has_potion", true);
+            return "strength potion has been added to inventory";
+        }
+        else if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion"))
+        {
+            return "Sorry, you already took a potion. You only have one slot in your inventory for a potion.";
+        }
+        else
+        {
+            return "The item 'strength potion' is not in this location. Try something else.";
+        }
+    }
+    
     return "This action cannot be performed here. Try something else.";
 }
 
@@ -302,21 +422,32 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             "claws and rips your flesh to shreds. Maybe you should try following the paper's instruction said next time.";
         }
        
-        else if(player_char.get_player_loc() == "potion room" && (player_char.get_inv_item("fire potion") == true 
-        || player_char.get_inv_item("confusion potion") == true || player_char.get_inv_item("hunger potion") == true || player_char.get_inv_item("strength potion") == true))
+        else if(player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "potion room")
         {
             return "You head to Spyro's lair to fight him with your potion. You feel more prepared now. You make eye contact with the huge creature,"
             "and a chill rushes down your neck. You should probably think about your next move carefully...";
         }
-        else if(player_char.get_player_loc() == "potion room" && (player_char.get_inv_item("fire potion") == false 
-        || player_char.get_inv_item("confusion potion") == false || player_char.get_inv_item("hunger potion") == false || player_char.get_inv_item("strength potion") == false))
+        else if(player_char.get_player_loc() == "potion room" && player_char.get_player_flag("has_potion") == false)
         {
             player_char.set_player_state(false);
             return "You go into the Spyro's lair unprepared with no potions to use. Since you are not as strong as you think you are,"
             "he rips up your body limb from limb, with only a your skull remaining.";
         }
     }
-
+    else if(obj_name == "the king's throne")
+    {
+        if(player_char.get_player_loc() == "spyro's lair" && (player_char.get_player_flag("throne_available") ||
+        player_char.get_player_flag("the_confuser")))
+        {
+            player_char.set_player_loc(obj);
+            return "You walk into the throne room and see King Akhem. He doesn't look surprised to see you."
+            "'Face me, if you dare... heathen.' He stands in a battle stance before you.";
+        }
+        else
+        {
+            return "You cannot get to this location. Try something else.";
+        }
+    }
     return "Invalid action & object combination; try again.";
 }
 
@@ -479,7 +610,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             player_char.set_player_state(false);
             return "You try and talk to King Akhem to distract him. Unfortunately, he does "
             "not pay attention to your silly games, and strikes you in the face with " 
-            "Smough's Hammer. You die instantly.";
+            "his huge Hammer. You die instantly.";
         }
         else
         {
@@ -657,14 +788,14 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
             {
                 return "You shouldn't mutilate the beasts body anymore. You should let him rest now.";
             }
-            else if(player_char.get_player_loc() == "spyro's lair" && obj.get_object_flag("is_confused"))//confusion potion
+            else if(player_char.get_player_loc() == "spyro's lair" && player_char.get_player_flag("the_confuser"))//confusion potion
             {
                 obj.remove_object_flag("is_alive");
                 return "While Spyro is confused, you see this as a great opportunity to attack him."
                 "Spyro has fallen, and the blood is on your hands.";
             }
             else if(player_char.get_player_loc() == "spyro's lair"
-             && (player_char.get_player_flag("is_strong") == false || obj.get_object_flag("is_confused") == false))
+             && (player_char.get_player_flag("is_strong") == false || player_char.get_player_flag("the_confuser") == false))
             { //if they try to attack spyro without using any potion
                 player_char.set_player_state(false);
                 return "Since you did not use any potions and attacked Spyro head on, you were abruptly"
