@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <set>
 #include <optional>
+#include <math.h>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -63,7 +64,7 @@ int main()
 
             if (parser_output.first == "help") // Check for special commands or invalid input
             {
-                word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, look/examine, "
+                word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, leave, look/examine, "
                 "read, talk, attack, unlock. Special commands: inventory, help, credits, exit."));
                 continue;
             }
@@ -90,9 +91,14 @@ int main()
                     continue;
                 }
             }
+            else if (parser_output.first == "leave")
+            {
+                parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))};
+            }
             else if (parser_output.second == specificvars::empty_object) 
             {
-                std::cout << ("Invalid input; type 'help' for a list of all commands.\n" + generate_border());
+                std::cout << "Invalid input; type 'help' for a list of all commands." << std::endl;
+                std::cout << generate_border() << std::endl;
                 continue;
             }
 
