@@ -275,7 +275,12 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
 // Add proper function description here
 std::string go_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj_name == "oasis")
+    if (obj_name == "game start")
+    {
+        player_char.set_player_loc(obj_name);
+        return "Congratulations! You're back at where you started.";
+    }
+    else if (obj_name == "oasis")
     {   
         player_char.set_player_loc(obj_name);
         player_char.set_player_state(false);
