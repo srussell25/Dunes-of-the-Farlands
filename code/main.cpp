@@ -63,7 +63,7 @@ int main()
 
             if (parser_output.first == "help") // Check for special commands or invalid input
             {
-                word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, look/examine, "
+                word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, leave, look/examine, "
                 "read, talk, attack, unlock. Special commands: inventory, help, credits, exit."));
                 continue;
             }
@@ -89,6 +89,10 @@ int main()
                     std::cout << generate_border();
                     continue;
                 }
+            }
+            else if (parser_output.first == "leave")
+            {
+                parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))};
             }
             else if (parser_output.second == specificvars::empty_object) 
             {
