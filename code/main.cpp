@@ -92,7 +92,8 @@ int main()
             }
             else if (parser_output.second == specificvars::empty_object) 
             {
-                std::cout << ("Invalid input; type 'help' for a list of all commands.\n" + generate_border());
+                std::cout << "Invalid input; type 'help' for a list of all commands." << std::endl;
+                std::cout << generate_border() << std::endl;
                 continue;
             }
 

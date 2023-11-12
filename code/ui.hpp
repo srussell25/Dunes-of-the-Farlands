@@ -84,7 +84,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
     }
 
     //printing the lower border
-    std::cout << generate_border();
+    std::cout << generate_border() << std::endl;
 }
 
 //UI Specific Methods//
@@ -97,7 +97,7 @@ std::string get_input()
     std::cout << "> ";
     getline(std::cin, temp); // Reads user input into temp until a newline character is reached
 
-    std::cout << generate_border();
+    std::cout << generate_border() << std::endl;
 
     std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower); // Simply converts input into lowercase
     return temp;
