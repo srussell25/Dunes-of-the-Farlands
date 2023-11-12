@@ -39,15 +39,15 @@ int main()
         if (first_startup)
         {
             display_titlecard();
-            std::cout << (center_text("Press Enter to Start", 88) + "\n");
+            std::cout << center_text("Press Enter to Start", 88) << std::endl;
             get_input(); // Make the program wait until the user inputs any character
             first_startup = false;
         }
         else
         {
-            std::cout << "\n\n";
+            std::cout << std::endl << std::endl;
             display_titlecard();
-            std::cout << ("\n" + generate_border());
+            std::cout << std::endl << generate_border() << std::endl;
         }
 
         // Intro text
@@ -65,7 +65,7 @@ int main()
             if (parser_output.first == "help") // Check for special commands or invalid input
             {
                 word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, leave, look/examine, "
-                "read, talk, attack, unlock. Special commands: inventory, help, credits, exit."));
+                "read, talk, attack, unlock. \nSpecial commands: inventory, help, credits, exit."));
                 continue;
             }
             else if (parser_output.first == "inventory")
@@ -106,7 +106,7 @@ int main()
             narrator(output_text);
         }
 
-        std::cout << (center_text("Game Over!") + "\n"); // Yes/no loop; on 'no', quits the program
+        std::cout << center_text("Game Over!") << std::endl; // Yes/no loop; on 'no', quits the program
         if (!exit_seq("Would you like to try again?"))
         {
             break;

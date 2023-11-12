@@ -199,8 +199,18 @@ game_object& find_object(std::string name)
     using namespace specificvars;
 
     std::vector<game_object>::iterator iter = std::find_if(main_objects.begin(), main_objects.end(), 
-    [name](game_object obj){ return obj.get_object_name() == name; });
-
+    [name](game_object obj) 
+    { 
+        if (obj.check_object_synonyms())
+        {
+            return (obj.get_object_name() == name || obj.get_object_synonyms().contains(name));
+        }
+        else
+        {
+            return obj.get_object_name() == name;
+        }
+    });
+    
     if (iter != main_objects.end()) 
     {
         return *iter;

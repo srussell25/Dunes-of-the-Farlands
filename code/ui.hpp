@@ -80,7 +80,7 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
     //ensures that the last line is always sent to the screen if there is anything present
     if (!current_line.empty() && current_line != " ")
     {
-        std::cout << (current_line) << std::endl;
+        std::cout << current_line << std::endl;
     }
 
     //printing the lower border
