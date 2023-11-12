@@ -183,12 +183,12 @@ namespace specificvars
     game_object empty_object = game_object();
 
     // Location sets
-    std::set<std::string> location_set_one = {"abandoned town", "farlands", "game start", "oasis"}; // at start
-    std::set<std::string> location_set_two = {"tavern"}; // at abandoned town
-    std::set<std::string> location_set_three = {"town square"}; // at entrance to farlands (synonym for farlands)
-    std::set<std::string> location_set_four = {"coffee shop", "general store", "palace", "sarabi's egyptian cuisine"}; // at town square
-    std::set<std::string> location_set_five = {"inside palace", "side gate"}; // at gate (synonym for palace)
-    std::set<std::string> location_set_six = {"king's throne room", "potion room", "spyro's lair"}; // at inside palace
+    std::set<std::string> location_set_one = {"abandoned town", "game start", "oasis"}; // at start
+    std::set<std::string> location_set_two = {"abandoned town", "farlands", "tavern"}; // at abandoned town
+    std::set<std::string> location_set_three = {"city square", "farlands"}; // at farlands
+    std::set<std::string> location_set_four = {"city square", "coffee shop", "general store", "palace", "sarabi's egyptian cuisine"}; // at city square
+    std::set<std::string> location_set_five = {"inside palace", "palace", "side gate"}; // at palace
+    std::set<std::string> location_set_six = {"inside palace", "king's throne room", "potion room", "spyro's lair"}; // at inside palace
 };
 
 // This function takes in a string meant to represent the name of a game_object, and then 

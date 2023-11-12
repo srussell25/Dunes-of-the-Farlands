@@ -431,7 +431,7 @@ std::string go(game_object &obj, std::string obj_name, player_info &player_char)
         {
             player_char.set_player_loc_set(specificvars::location_set_three);
         }
-        else if (new_loc == "town square")
+        else if (new_loc == "city square")
         {
             player_char.set_player_loc_set(specificvars::location_set_four);
         }

@@ -278,6 +278,51 @@ STUDENT_TEST("Movement Check #1: Going from the start of the game to the Farland
     CHECK(player.get_player_loc() == "farlands");
 }
 
+STUDENT_TEST("Movement Check #2: Going to the coffee shop and then returning to the city square.")
+{
+    initialize_parser();
+    initialize_game_objects();
+    player_info player = player_info("new");
+    std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
+
+    parser_output = game_input_parser("go to the abandoned town"); // Simulate gameplay loop
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "abandoned town");
+
+    parser_output = game_input_parser("go to the saloon");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "tavern");
+
+    parser_output = game_input_parser("attack bandit");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("talk to the bartender");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // Simulate 'leave' command within 'main.cpp'
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "abandoned town");
+
+    parser_output = game_input_parser("go to the farlands");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "farlands");
+
+    parser_output = game_input_parser("talk to the lookouts");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("go to the city square");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "city square");
+
+    parser_output = game_input_parser("go to the coffee shop");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "coffee shop");
+
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // Simulate 'leave' command within 'main.cpp'
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "city square");
+}
+
 STUDENT_TEST("Testing the 'word_breaker' function.")
 {
     std::vector<std::string> hello_world = {"Hello,", "World"};
