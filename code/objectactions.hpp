@@ -279,6 +279,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     {   
         player_char.set_player_loc(obj_name);
         player_char.set_player_state(false);
+
         return "You make your way over to the oasis, but when you get there, "
         "a frog suddenly jumps onto your leg. It's a poisonous frog. You die in seconds.";
     }
@@ -286,6 +287,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
+
         return "You arrive at the town named Nekhem. The town isn't necessarily abandoned, "
         "but it's overrun by thugs and bandits. The walls are broken, and people have "
         "malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby, "
@@ -295,6 +297,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
+
         return "You enter into the tavern. You try to go up to the bar to ask for directions, "
         "but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot. "
         "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
@@ -303,35 +306,70 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
+
         return "When arriving at the outer gates of the Farlands, you see that this place is surrounded by a "
         "huge sandstone wall that seems to surround the entire city. Spews of fire are emitted from a large stone "
         "statue of what appears to be the city's god, Atum the Almighty. Your only way into the city is through the "
         "doors, guarded by two lookouts who do not seem all that friendly.";
     }
+    else if (obj_name == "city square" )
+    {
+        if  (player_char.get_player_flag("talked_to_lookouts") && !obj.get_object_flag("been_to"))
+        {
+            obj.set_object_flag("been_to", true);
+            player_char.set_player_loc(obj_name);
+
+            return "you walk into the packed city square of the farland. even though the city square seems busy all of the" 
+            "citizen seem down for some reason. you may want to look around and see what you can find out.";
+        }
+        else if ( obj.get_object_flag("been_to"))
+        {
+            player_char.set_player_loc(obj_name);
+
+            return "you are back at the city square. what do you want to do?";
+        }
+        else 
+        {
+            return "the lookouts haven't let you in yet. nice try. maybe you should try talking to them.";
+        }
+    }
     else if (obj_name == "coffee shop")
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
-		return "You enter the coffee shop by walking through the front door.";
+
+		return "You enter the coffee shop by walking through the front door. you are greated with the smell of coffee"
+        "and the faces fo some fiendly locals. you also see many cups of coffee on the counter. maybe you should look around.";
 	}
     else if (obj_name == "general store")
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
-        return "You enter the store.";
+
+        return "You enter the general store named nunu's general store. there is a shop keeper standing behind a desk. there are"
+        "clothes, toys, and shoes lined on shelfes within the store. what do you do. ";
     }
     else if (obj_name == "sarabi's egyptian cuisine")
     {
         obj.set_object_flag("been_to", true);
-        player_char.set_player_loc(obj_name);
+        player_char.set_player_loc(obj_name);//change the return statment here
+
         return "You enter the restaurant. Smells good in here.";
     }
     else if (obj_name == "palace")
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
+
         return "You arrive at the walls surrounding the King's palace. On first glance, the place seems heavily guarded - "
         "you get the feeling it won't be easy to go inside the palace. Try to find a in...";
+    }
+    else if (obj_name == "side gate")
+    {
+        obj.set_object_flag("been_to", true);
+        player_char.set_player_loc(obj_name);//add a actual return statment
+
+        return"not implemented yet";
     }
     /* TODO: Change the following so that the player enters 'inside palace' first, gets dialogue, and then has to choose which place to go to
     else if (obj_name == "inside palace")
@@ -518,14 +556,16 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
     {
         if (player_char.get_player_loc() == "farlands") 
         {
-            /* TODO: Rewrite so that a flag is set which allows the player to move into the city square; change the dialogue to match
-            player_char.set_player_loc("city square");
+            // TODO: Rewrite so that a flag is set which allows the player to move into the city square; change the dialogue to match
+            
+            player_char.set_player_flag("talked_to_lookouts", true);
+
             return "You politely ask if you can get into the city. The lookouts ask you what your "
             "business is here. You say that you are just passing by. One of them responds with 'If you "
             "cause any trouble here, we will find you. You've been warned'. These guys have such great "
             "manners, don't they? Well, either way, congratulations! You've managed to reach the City "
-            "Square of the Farlands.";
-            */
+            "Square of the Farlands. you should probably go to the city square before the lookouts change there mind about you.";
+            
         }
         else
         {
