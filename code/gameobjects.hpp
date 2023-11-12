@@ -341,13 +341,14 @@ void initialize_game_objects()
     "potion crafting. Hey, don't forget that there's a sign that says not to pick up the book!", 
     "potion room"));
 
-    /* TODO: Add descriptions for these items
-    main_objects.insert(main_objects.end(), game_object("item", "clothes", "unimplemented", "general store"));
+    main_objects.insert(main_objects.end(), game_object("item", "clothes", "A selection of various types of "
+    "clothing. Although simple, they seem quite sturdy. Well suited to life in the farlands.", "general store"));
 
-    main_objects.insert(main_objects.end(), game_object("item", "toys", "unimplemented", "general store"));
+    main_objects.insert(main_objects.end(), game_object("item", "toys", "An assortment of childrens toys of "
+    "various shapes and sizes. The craftsman seems to have put a lot of care into their creation.", "general store"));
 
-    main_objects.insert(main_objects.end(), game_object("item", "shoes", "unimplemented", "general store"));
-    */
+    main_objects.insert(main_objects.end(), game_object("item", "shoes", "A few pairs of shoes. Most seem to be a type of sandal "
+    "though there are a few that look more decorative than the others", "general store"));
 
     // Initializing characters (objects of type "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
