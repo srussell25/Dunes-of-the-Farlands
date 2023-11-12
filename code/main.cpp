@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <set>
+#include <optional>
 #include <math.h>
 
 // Including every header file we made for the project
