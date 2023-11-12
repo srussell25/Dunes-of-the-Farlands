@@ -275,7 +275,12 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
 // Add proper function description here
 std::string go_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj_name == "oasis")
+    if (obj_name == "game start")
+    {
+        player_char.set_player_loc(obj_name);
+        return "Congratulations! You're back at where you started.";
+    }
+    else if (obj_name == "oasis")
     {   
         player_char.set_player_loc(obj_name);
         player_char.set_player_state(false);
@@ -437,7 +442,7 @@ std::string go(game_object &obj, std::string obj_name, player_info &player_char)
     }
 
     std::string return_str;
-    std::string player_loc = player_char.get_player_loc();
+    std::string prev_loc = player_char.get_player_loc();
 
     if (player_char.get_player_loc_set().contains(obj_name))
     {
@@ -448,29 +453,31 @@ std::string go(game_object &obj, std::string obj_name, player_info &player_char)
         return_str = "You can't reach that location from here.";
     }
 
-    if (player_loc == player_char.get_player_loc_prev()) // Check if player's location is different
+    std::string new_loc = player_char.get_player_loc();
+
+    if (prev_loc != new_loc) // Check if player's location is different
     {
-        if (player_loc == "game start")
+        if (new_loc == "game start")
         {
             player_char.set_player_loc_set(specificvars::location_set_one);
         }
-        else if (player_loc == "abandoned town")
+        else if (new_loc == "abandoned town")
         {
             player_char.set_player_loc_set(specificvars::location_set_two);
         }
-        else if (player_loc == "farlands")
+        else if (new_loc == "farlands")
         {
             player_char.set_player_loc_set(specificvars::location_set_three);
         }
-        else if (player_loc == "town square")
+        else if (new_loc == "town square")
         {
             player_char.set_player_loc_set(specificvars::location_set_four);
         }
-        else if (player_loc == "palace")
+        else if (new_loc == "palace")
         {
             player_char.set_player_loc_set(specificvars::location_set_five);
         }
-        else if (player_loc == "inside palace")
+        else if (new_loc == "inside palace")
         {
             player_char.set_player_loc_set(specificvars::location_set_six);
         }

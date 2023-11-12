@@ -78,40 +78,32 @@ class game_object
         std::string object_name;
         std::string object_desc;
         std::string object_location;
-        std::unordered_map<std::string, bool> object_flags;
+        std::unordered_map<std::string, bool> object_flags; 
+        std::set<std::string> object_synonyms;
 
     public:
         game_object() {} // Public default constructor
-        game_object(std::string obj_type, std::string obj_name, std::string obj_desc) // Type, name & desc
-        {
-            object_type = obj_type;
-            object_name = obj_name;
-            object_desc = obj_desc;
-        }
-        game_object(std::string obj_type, std::string obj_name, std::string obj_desc,
-            std::string obj_loc) // Above + location
-        {
-            object_type = obj_type;
-            object_name = obj_name;
-            object_desc = obj_desc;
-            object_location = obj_loc;
-        }
-        game_object(std::string obj_type, std::string obj_name, std::string obj_desc,
-            std::vector<std::pair<std::string, bool>> obj_flags) // Above w/ flags instead of loc
-        {
-            object_type = obj_type;
-            object_name = obj_name;
-            object_desc = obj_desc;
-            assign_map_values(object_flags, obj_flags);
-        }
         game_object(std::string obj_type, std::string obj_name, std::string obj_desc, 
-            std::string obj_loc, std::vector<std::pair<std::string, bool>> obj_flags) // Above + loc
+            std::optional<std::string> obj_loc = std::nullopt, 
+            std::optional<std::vector<std::pair<std::string, bool>>> obj_flags = std::nullopt, 
+            std::optional<std::set<std::string>> synonyms = std::nullopt)
         {
             object_type = obj_type;
             object_name = obj_name;
             object_desc = obj_desc;
-            object_location = obj_loc;
-            assign_map_values(object_flags, obj_flags);
+            // Using std::optional so we don't have a lot of constructors
+            if (obj_loc.has_value())
+            {
+                object_location = obj_loc.value();
+            }
+            if (obj_flags.has_value())
+            {
+                assign_map_values(object_flags, obj_flags.value());
+            }
+            if (synonyms.has_value())
+            {
+                object_synonyms = synonyms.value();
+            }
         }
         friend bool operator==(game_object const& x, game_object const& y)
         {
@@ -171,6 +163,14 @@ class game_object
         {
             object_location = loc;
         }
+        bool check_object_synonyms() // If synonyms exist, returns true.
+        {
+            return !object_synonyms.empty();
+        }
+        std::set<std::string> get_object_synonyms() 
+        {
+            return object_synonyms;
+        }
 };
 
 // Specifying main_objects and empty_object inside of a namespace to keep them out of the global scope
@@ -199,8 +199,18 @@ game_object& find_object(std::string name)
     using namespace specificvars;
 
     std::vector<game_object>::iterator iter = std::find_if(main_objects.begin(), main_objects.end(), 
-    [name](game_object obj){ return obj.get_object_name() == name; });
-
+    [name](game_object obj) 
+    { 
+        if (obj.check_object_synonyms())
+        {
+            return (obj.get_object_name() == name || obj.get_object_synonyms().contains(name));
+        }
+        else
+        {
+            return obj.get_object_name() == name;
+        }
+    });
+    
     if (iter != main_objects.end()) 
     {
         return *iter;
@@ -227,43 +237,49 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "around", "")); // desc left empty on purpose
 
     main_objects.insert(main_objects.end(), game_object("location", "abandoned town", "The town seems "
-    "abandoned. All you can see is dilapidated buildings."));
+    "abandoned. All you can see is dilapidated buildings.", "", {}, (std::set<std::string>) {"nekhem", "north", "town"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "oasis", "You look at what seems "
     "to be a beautiful oasis."));
 
     main_objects.insert(main_objects.end(), game_object("location", "tavern", "It's a tavern; "
-    "I wonder if there's anyone inside?"));
+    "I wonder if there's anyone inside?", "", {}, (std::set<std::string>) {"bar", "saloon", "sand dune saloon"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "palace", "The King's palace is essentially a "
     "fortress. It's massive, gated, and has King Akhem's guards patrolling around the perimeter armed to the "
     "teeth with swords, javelins, and shields. Yet, as you're looking around, you do spot what appears to "
-    "be a side gate guarded by only one person. Surely going over there wouldn't work... right?"));
+    "be a side gate guarded by only one person. Surely going over there wouldn't work... right?", "", {},
+    (std::set<std::string>) {"fortress", "king akhem palace", "king akhem's palace"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
-    "up to the side gate, and are greeted by the sight of a lone guard."));
+    "up to the side gate, and are greeted by the sight of a lone guard.", "", {}, (std::set<std::string>) {"gate"}));
 
-    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "")); // TODO: Add description
+    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "", "", {}, 
+    (std::set<std::string>) {"inside of the palace", "inside the palace"})); // TODO: Add description
 
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "The entrance to "
     "the Farlands consists of a gate that is a light brown, likely from the hot sun beaming on it "
     "all day. The doors of the gate are ginormous, about 15 feet tall. Said door handles are also "
     "made of gold, clearly imported. There are some symbols on the door that resemble Egyptian writing, "
-    "indicating that this is an Egyptian city."));
+    "indicating that this is an Egyptian city.", "", {}, (std::set<std::string>) {"east"}));
     
     main_objects.insert(main_objects.end(), game_object("location", "city square", "You are in the City Square "
     "of the Farlands. You see a shop called Coco's Coffee filled that has friendly-looking locals, a Nunu's "
-    "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace"));
+    "General Store, Sarabi's Egyptian Cuisine, and farther down you see King Akhem's Palace", "", {}, 
+    (std::set<std::string>) {"city"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "general store", "Right ahead of you "
-    "appears to be a huge tent - you see a variety of clothes, hats, shoes, and toys within."));
+    "appears to be a huge tent - you see a variety of clothes, hats, shoes, and toys within.", "", {}, 
+    (std::set<std::string>) {"nunu's general store", "nunu's store", "nunus general store", "nunus store", "tent"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "coffee shop", "The shop itself seems "
     "very old at first glance, with cracked walls and faded windows. Doesn't seem to bother the locals, though "
-    "- you see many happy faces inside."));
+    "- you see many happy faces inside.", "", {}, (std::set<std::string>) {"coco's coffee", "cocos coffee"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "sarabi's egyptian cuisine", "The "
-    "outside of the building seems pretty plain, but another glance reveals quite the beautiful entryway."));
+    "outside of the building seems pretty plain, but another glance reveals quite the beautiful entryway.", 
+    "", {}, (std::set<std::string>) {"cuisine", "egytian cuisine", "restaurant", "sarabi's store", 
+    "sarabis egytian cuisine", "sarabis store"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "potion room", "This potion room is rather "
     "windowless and small. The room is lined with shelves that have many colorful potions on them. "
@@ -273,11 +289,13 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly "
     "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier "
-    "in the middle of the room, and the room seems to be made out of stone blocks."));
+    "in the middle of the room, and the room seems to be made out of stone blocks.", "", {},
+    (std::set<std::string>) {"lair", "spyros lair"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "king's throne", "The King's Throne room "
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports "
-    "of the King firing multiple interior designers in the past."));
+    "of the King firing multiple interior designers in the past.", "", {}, (std::set<std::string>) {"king's room",
+    "king's throne", "kings room", "kings throne", "throne", "throne room"}));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
@@ -293,7 +311,7 @@ void initialize_game_objects()
     "take him head on. And newbies, the potion room might be inside the palace, but don't get ahead of yourselves.", "side gate")); 
 
 	main_objects.insert(main_objects.end(), game_object("item", "whiskey", "Well, it wouldn't be a tavern without any "
-    "drinks. It looks like a shot of whiskey - why not take a drink?", "tavern"));
+    "drinks. It looks like a shot of whiskey - why not take a drink?", "tavern", {}, (std::set<std::string>) {"drink", "whisky"}));
 
     main_objects.insert(main_objects.end(), game_object("item", "confusion potion", "When this potion is thrown at someone, "
     "they will enter a state of amnesia and forget the reason why they are fighting you. This will give you the chance to "
@@ -316,7 +334,8 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("item", "armor of torren", "From a moments glance, "
     "the armor looks amazing. It's a metal set with golden-plated designs throughout. However, after closer "
     "inspection, you can see that this armor is not worth much. It's rusted on the inside, the helmet has a "
-    "few loose screws, and the leg pieces squeak when you walk.", "general store"));
+    "few loose screws, and the leg pieces squeak when you walk.", "general store", {},
+    (std::set<std::string>) {"armor", "torren armor"}));
 
     main_objects.insert(main_objects.end(), game_object("item", "book", "This is a dusty old book used for "
     "potion crafting. Hey, don't forget that there's a sign that says not to pick up the book!", 
@@ -332,42 +351,52 @@ void initialize_game_objects()
 
     // Initializing characters (objects of type "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
-    "torn clothes and a dented sword.", "tavern", {{"is_alive", true}, {"known_evil", true}}));
+    "torn clothes and a dented sword.", "tavern", (std::vector<std::pair<std::string, bool>>) 
+    {{"is_alive", true}, {"known_evil", true}}, {}));
 
     main_objects.insert(main_objects.end(), game_object("character", "old lady", "You see an old lady "
     "who seems to be having trouble with something, although you can't quite make out what it is "
 	"she's having trouble with. Maybe you should try talking to her? But be cautious, she "
-    "may not be as hamrless as you think.", "abandoned town", {{"is_alive", true}, {"known_evil", false}}));
+    "may not be as hamrless as you think.", "abandoned town", (std::vector<std::pair<std::string, bool>>)
+    {{"is_alive", true}, {"known_evil", false}}, (std::set<std::string>) {"lady"}));
 
 	main_objects.insert(main_objects.end(), game_object("character", "barkeep", "The barkeep is keeping "
-    "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}));
+    "themselves occupied by wiping down glasses.", "tavern", (std::vector<std::pair<std::string, bool>>) 
+    {{"is_alive", true}}, (std::set<std::string>) {"bartender"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "lookouts", "They might be lookouts, but "
-    "they look quite strong; it might be in your best interest not to fight them.", "gate", {{"is_alive", true}}));
+    "they look quite strong; it might be in your best interest not to fight them.", "gate", 
+    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, {}));
 
     main_objects.insert(main_objects.end(), game_object("character", "guards", "The guards have large swords "
     "that could kill an unprepared civilian with only one swing. There are a lot of guards, but you do see "
-    "one guard alone next to a side gate. A perfect time to strike...", "palace", {{"is_alive", true}}));
+    "one guard alone next to a side gate. A perfect time to strike...", "palace", 
+    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, {}));
 
     main_objects.insert(main_objects.end(), game_object("character", "guard", "This soldier is currently by himself. "
-    "He's guarding a gate off to the side of the palace. Maybe this could a way inside?", "side gate", {{"is_alive", true}}));
+    "He's guarding a gate off to the side of the palace. Maybe this could a way inside?", "side gate", 
+    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, {}));
 
     main_objects.insert(main_objects.end(), game_object("character", "spyro", "He is a large black feline, "
     "like... really large. He has a metal plate around his torso, as well as a golden helmet around his head. "
     "His eyes are beat red, and his claws are razor sharp. Upon looking at you, he snarls and sticks out his sharp"
-    "fangs. His eyes glow red and his muscles begin to flare up.", "spyro's lair", {{"is_alive", true}}));
+    "fangs. His eyes glow red and his muscles begin to flare up.", "spyro's lair", 
+    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, {}));
 
     main_objects.insert(main_objects.end(), game_object("character", "king akhem", "You lunge at King Akhem in an "
     "attempt to grab him by the arm. He flings you off like a piece of spaghetti, and the impact of hitting the "
     "ground knocks you out straight away. Once you wake up, you realize you've been taken out of the palace.", 
-    "king's throne", {{"is_alive", true}}));
+    "king's throne", (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, (std::set<std::string>) 
+    {"akhem", "king"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "shopkeeper", "The shopkeeper appears to be "
     "elderly. She is wrinkly in the face, is missing some teeth, and has a limp. However, she appears to be "
-    "friendly, even to outsiders like you.", "general store", {{"is_alive", true}}));
+    "friendly, even to outsiders like you.", "general store", (std::vector<std::pair<std::string, bool>>) 
+    {{"is_alive", true}}, (std::set<std::string>) {"owner", "shopkeep", "store owner", "trader"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "locals","\nYou "
-    "might just want to move along.","", {{"is_alive", true}})); // location left empty on purpose
+    "might just want to move along.", "", (std::vector<std::pair<std::string, bool>>)
+    {{"is_alive", true}}, (std::set<std::string>) {"local"})); // location left empty on purpose
 }
 
 /*

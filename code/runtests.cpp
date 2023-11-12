@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 #include <set>
+#include <optional>
+#include <math.h>
 
 // Including every header file we made for the project
 #include "ui.hpp"
@@ -207,7 +209,7 @@ STUDENT_TEST("Inventory Check #1: Taking the whiskey from the barkeep and drinki
     parser_output = game_input_parser("attack bandit");
     main_action(parser_output.first, (parser_output.second).get(), player);
 
-    parser_output = game_input_parser("take drink");
+    parser_output = game_input_parser("take whiskey");
     main_action(parser_output.first, (parser_output.second).get(), player);
 
     // Check that the drink exists, is added to the player's inventory, & is not located in the tavern
@@ -222,4 +224,38 @@ STUDENT_TEST("Inventory Check #1: Taking the whiskey from the barkeep and drinki
     CHECK(find_object("whiskey") == specificvars::empty_object);
     CHECK_FALSE(player.get_inv_item("whiskey"));
     CHECK_FALSE(find_object("whiskey").get_object_loc() == "tavern");
+}
+
+//UI Method Tests//
+
+STUDENT_TEST("Word Breaker Test")
+{
+    std::vector<std::string> hello_world = {"Hello,", "World"};
+    std::vector<std::string> empty_test = {""};
+    std::vector<std::string> num_test = {"123", "4567"};
+    std::vector<std::string> special_char_test = {"\n;#%&"};
+    std::vector<std::string> extra_spaces_test = {"extra", "spaces"};
+
+    CHECK(word_breaker("Hello, World") == hello_world);
+    CHECK(word_breaker("") == empty_test);
+    CHECK(word_breaker("123 4567") == num_test);
+    CHECK(word_breaker("\n;#%&") == special_char_test);
+    CHECK(word_breaker("extra     spaces") == extra_spaces_test);
+}
+
+STUDENT_TEST("Center Text Test")
+{
+    CHECK(center_text("Hello, World", 14) == " Hello, World ");
+    CHECK(center_text("Text is Too Large for given Line Length", 7) == "Text is Too Large for given Line Length");
+    CHECK(center_text("Uneven Line Length", 19) == "Uneven Line Length"); //center_displacement = 1/2 in this calc which should round down to 0 spaces added
+    CHECK(center_text("", 14) == "              ");
+    CHECK(center_text("Negative Line Length :(", -14) == "Negative Line Length :(");
+}
+
+STUDENT_TEST("Border Generation Test")
+{
+    CHECK(generate_border(10) == "==========");
+    CHECK(generate_border(0) == "");
+    CHECK(generate_border(-10) == "");
+    CHECK(generate_border() == "========================================================================================");
 }

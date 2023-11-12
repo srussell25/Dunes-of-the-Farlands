@@ -6,7 +6,7 @@
 // Temporary(?) namespace until I can think of a better solution
 namespace parserspace
 {
-    std::set<std::string> unique_commands = {"credits", "exit", "help", "inventory"};
+    std::set<std::string> unique_commands = {"credits", "exit", "help", "inventory", "leave"};
     std::set<std::string> predicate_set = {"a", "an", "at", "to", "the"}; // TODO: Add more predicates as needed
     std::set<std::string> preposition_set = {"at", "on", "with"}; // TODO: Add more prepositions as needed
     std::unordered_map<std::string, bool> command_map;
