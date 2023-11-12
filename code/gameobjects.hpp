@@ -382,7 +382,8 @@ void initialize_game_objects()
 
     // Initializing characters (objects of type "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
-    "torn clothes and a dented sword.", "tavern", {{"is_alive", true}, {"known_evil", true}}));
+    "torn clothes and a dented sword.", "tavern", (std::vector<std::pair<std::string, bool>>) {{"is_alive", true},
+     {"known_evil", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "old lady", "You see an old lady "
     "who seems to be having trouble with something, although you can't quite make out what it is "
@@ -394,19 +395,23 @@ void initialize_game_objects()
     "themselves occupied by wiping down glasses.", "tavern", {{"is_alive", true}}, (std::set<std::string>) {"bartender"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "lookouts", "They might be lookouts, but "
-    "they look quite strong; it might be in your best interest not to fight them.", "gate", {{"is_alive", true}}));
+    "they look quite strong; it might be in your best interest not to fight them.", "gate", (std::vector<std::pair<std::string, bool>>) 
+    {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "guards", "The guards have large swords "
     "that could kill an unprepared civilian with only one swing. There are a lot of guards, but you do see "
-    "one guard alone next to a side gate. A perfect time to strike...", "palace", {{"is_alive", true}}));
+    "one guard alone next to a side gate. A perfect time to strike...", "palace", (std::vector<std::pair<std::string, bool>>) 
+    {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "guard", "This soldier is currently by himself. "
-    "He's guarding a gate off to the side of the palace. Maybe this could a way inside?", "side gate", {{"is_alive", true}}));
+    "He's guarding a gate off to the side of the palace. Maybe this could a way inside?", "side gate", 
+    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "spyro", "He is a large black feline, "
     "like... really large. He has a metal plate around his torso, as well as a golden helmet around his head. "
     "His eyes are beat red, and his claws are razor sharp. Upon looking at you, he snarls and sticks out his sharp"
-    "fangs. His eyes glow red and his muscles begin to flare up.", "spyro's lair", {{"is_alive", true}}));
+    "fangs. His eyes glow red and his muscles begin to flare up.", "spyro's lair", (std::vector<std::pair<std::string, bool>>)
+     {{"is_alive", true}}));
 
     main_objects.insert(main_objects.end(), game_object("character", "king akhem", "You lunge at King Akhem in an "
     "attempt to grab him by the arm. He flings you off like a piece of spaghetti, and the impact of hitting the "
@@ -419,7 +424,7 @@ void initialize_game_objects()
     , "store owner", "owner"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "locals","\nYou "
-    "might just want to move along.","", {{"is_alive", true}})); // location left empty on purpose
+    "might just want to move along.","", (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}})); // location left empty on purpose
 }
 
 /*
