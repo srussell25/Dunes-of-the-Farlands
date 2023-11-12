@@ -277,7 +277,11 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
 // Add proper function description here
 std::string go_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
-    if (obj_name == "game start")
+    if (obj_name == player_char.get_player_loc())
+    {
+        return "What are you doing? You're already here!";
+    }
+    else if (obj_name == "game start")
     {
         player_char.set_player_loc(obj_name);
         return "Congratulations! You're back at where you started.";
@@ -292,22 +296,48 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     }
     else if (obj_name == "abandoned town")
     {
-        obj.set_object_flag("been_to", true);
-        player_char.set_player_loc(obj_name);
+        if (!obj.get_object_flag("been_to"))
+        {        
+            obj.set_object_flag("been_to", true);
+            player_char.set_player_loc(obj_name);
 
-        return "You arrive at the town named Nekhem. The town isn't necessarily abandoned, "
-        "but it's overrun by thugs and bandits. The walls are broken, and people have "
-        "malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby, "
-        "but your gaze also happens upon an old lady who seems to be struggling.";
+            return "You arrive at the town named Nekhem. The town isn't necessarily abandoned, "
+            "but it's overrun by thugs and bandits. The walls are broken, and people have "
+            "malicious looks on their faces. You see a tavern called the Sand Dune Saloon nearby, "
+            "but your gaze also happens upon an old lady who seems to be struggling.";
+        }
+        else if (find_object("bandit").get_object_flag("is_alive"))
+        {
+            player_char.set_player_state(false);
+
+            return "You turn away from the bandit to leave the tavern, and he takes that "
+            "chance to stab you in the back. Now seriously, what else did you expect would happen there?";
+        }
+        else
+        {
+            player_char.set_player_loc(obj_name);
+            
+            return "You're back at the center of Nekhem. It's still overrun by thugs and "
+            "bandits, and the Sand Dune Saloon hasn't moved either.";
+        }
     }
     else if (obj_name == "tavern")
     {
-        obj.set_object_flag("been_to", true);
-        player_char.set_player_loc(obj_name);
+        if (!obj.get_object_flag("been_to"))
+        {
+            obj.set_object_flag("been_to", true);
+            player_char.set_player_loc(obj_name);
 
-        return "You enter into the tavern. You try to go up to the bar to ask for directions, "
-        "but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot. "
-        "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
+            return "You enter into the tavern. You try to go up to the bar to ask for directions, "
+            "but the bar is heavily crowded, and you end up accidentally stepping on a stranger's foot. "
+            "He stands up, along with his pals, and draws his sword; you've come across a bandit and his crew!";
+        }
+        else
+        {
+            player_char.set_player_loc(obj_name);
+
+            return "You arrive back at the tavern. What do you want to do?";
+        }
     }
     else if (obj_name == "farlands")
     {
@@ -321,23 +351,24 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     }
     else if (obj_name == "city square" )
     {
-        if  (player_char.get_player_flag("talked_to_lookouts") && !obj.get_object_flag("been_to"))
+        if (player_char.get_player_flag("talked_to_lookouts") && !obj.get_object_flag("been_to"))
         {
             obj.set_object_flag("been_to", true);
             player_char.set_player_loc(obj_name);
 
-            return "you walk into the packed city square of the farland. even though the city square seems busy all of the" 
-            "citizen seem down for some reason. you may want to look around and see what you can find out.";
+            return "You walk into the packed city square of the Farlands. The city square appears to be "
+            "quite busy, but all of the locals seem down for some reason. This might be something worth checking out.";
         }
-        else if ( obj.get_object_flag("been_to"))
+        else if (obj.get_object_flag("been_to"))
         {
             player_char.set_player_loc(obj_name);
 
-            return "you are back at the city square. what do you want to do?";
+            return "You arrive back at the city square. What do you want to do?";
         }
         else 
         {
-            return "the lookouts haven't let you in yet. nice try. maybe you should try talking to them.";
+            return "Nice try, but you haven't talked to the lookouts yet. "
+            "Unless you want to get yourself killed, you should try talking to them first.";
         }
     }
     else if (obj_name == "coffee shop")
@@ -345,16 +376,18 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
 
-		return "You enter the coffee shop by walking through the front door. you are greated with the smell of coffee"
-        "and the faces fo some fiendly locals. you also see many cups of coffee on the counter. maybe you should look around.";
+		return "You walk through the front door of the coffee shop and are greeted by the "
+        "nice smell of coffee. There are some friendly-looking locals hanging about, "
+        "as well as some cups of coffee on the counter. What do you want to do?";
 	}
     else if (obj_name == "general store")
     {
         obj.set_object_flag("been_to", true);
         player_char.set_player_loc(obj_name);
 
-        return "You enter the general store named nunu's general store. there is a shop keeper standing behind a desk. there are"
-        "clothes, toys, and shoes lined on shelfes within the store. what do you do. ";
+        return "You enter the general store named Nunu's General Store. There is a shopkeeper "
+        "standing behind a desk, while clothes, toys, and shoes line the shelves within the store. "
+        "What do you want to do?";
     }
     else if (obj_name == "sarabi's egyptian cuisine")
     {
@@ -490,7 +523,7 @@ std::string go(game_object &obj, std::string obj_name, player_info &player_char)
 
 // Add proper function description here
 std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)
-{// add a function for bandit and check flag "is_alive" and do the same for old lady
+{
     if (obj_name == "barkeep")
     {
         if (player_char.get_player_loc() == "tavern")
@@ -503,14 +536,14 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else
         {
-            return "there is no barkeep in this area, are you looking for a drink?";
+            return "There is no barkeep in this area, are you looking for a drink or something?";
         }
     }
     else if (obj_name == "bandit")
     {
         if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("is_alive"))
         {
-            return "you try to talk to the bandit, but all he wants to talk about is how he wants to kill you and call you obscenities.";
+            return "You try to talk to the bandit, but all he wants to talk about is how he wants to kill you and call you obscenities.";
         }
         else if (!obj.get_object_flag("is_alive"))
         {
@@ -518,7 +551,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else 
         {
-            return "There is no bandit in this location. why would you want to talk to a bandit right now?";
+            return "There is no bandit in this location. Why would you want to talk to a bandit right now?";
         }
     }
     else if (obj_name == "old lady")
@@ -573,9 +606,8 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
             "that she doesn't like this town because of King Akhem, and that she wishes that someone would put "
             "a stop to him. She takes notice that you are somewhat of a warrior and sees that you lack any type of "
             "armor. She pulls out the Armor of Torren, and says, 'You must take this and find a way to defeat King "
-            "Akhem, you are the chosen one. Please... you are our only hope. Here, please take this gift.' You "
-            "are offered to take the armor.";
-            
+            "Akhem, you are the chosen one. Please, you are our only hope. Take this gift.' She holds out the armor "
+            "for you to take.";
         }
         else
         {
@@ -586,16 +618,13 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
     {
         if (player_char.get_player_loc() == "farlands") 
         {
-            // TODO: Rewrite so that a flag is set which allows the player to move into the city square; change the dialogue to match
-            
             player_char.set_player_flag("talked_to_lookouts", true);
 
             return "You politely ask if you can get into the city. The lookouts ask you what your "
             "business is here. You say that you are just passing by. One of them responds with 'If you "
             "cause any trouble here, we will find you. You've been warned'. These guys have such great "
-            "manners, don't they? Well, either way, congratulations! You've managed to reach the City "
-            "Square of the Farlands. you should probably go to the city square before the lookouts change there mind about you.";
-            
+            "manners, don't they? Well, either way, congratulations! You've managed to reach the Farlands. "
+            "You should probably head inside to the city square before the lookouts change their mind about you.";
         }
         else
         {
@@ -690,8 +719,9 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
         return "";
         //add stuff here
     }
-    else if (player_char.get_player_loc() == obj.get_object_loc() ||
-        player_char.get_player_loc() == obj_name || obj.get_object_loc() == "playerinventory")
+    else if (player_char.get_player_loc() == obj_name ||
+        player_char.get_player_loc_set().contains(obj.get_object_loc()) || 
+        obj.get_object_loc() == "playerinventory")
     {
         return obj.get_object_desc();
     }
@@ -752,14 +782,15 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                 return "Hey, you've only just met the guy, have some self discipline!";
             }
         }
-        else if (player_char.get_player_loc() == "farlands" || player_char.get_player_loc() == "gate")
+        else if (player_char.get_player_loc() == "farlands")
         {
-            if (obj_name == "guards")
+            if (obj_name == "lookouts")
             {
-               player_char.set_player_state(false);
-                return "Attacking two guards at one time? Bold move... \n"
-                "The guards are much stronger than someone with one sword and mediocre skills. "
-                "They beat you to death as soon as you try and unsheathe your sword.";
+                player_char.set_player_state(false);
+                return "Attacking two lookouts at one time? Bold move. They might "
+                "just be lookouts, but they are still much stronger than someone "
+                "with just a sword and some mediocre skills. They strike you down "
+                "before you can even land a single hit.";
             }
             else 
             {
