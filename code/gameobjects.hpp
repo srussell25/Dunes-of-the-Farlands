@@ -327,7 +327,8 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("location", "king's throne", "The King's Throne room "
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports "
-    "of the King firing multiple interior designers in the past.", (std::set<std::string>) {"king's room", "king's throne", "kings room", "kings throne", "throne", "throne room"}));
+    "of the King firing multiple interior designers in the past.", (std::set<std::string>) {"king's room", "king's throne",
+     "kings room", "kings throne", "throne", "throne room"}));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
@@ -366,7 +367,7 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("item", "armor of torren", "From a moments glance, "
     "the armor looks amazing. It's a metal set with golden-plated designs throughout. However, after closer "
     "inspection, you can see that this armor is not worth much. It's rusted on the inside, the helmet has a "
-    "few loose screws, and the leg pieces squeak when you walk.", "general store"));
+    "few loose screws, and the leg pieces squeak when you walk.", "general store", (std::set<std::string>) {"armor", "torren armor"}));
 
     main_objects.insert(main_objects.end(), game_object("item", "book", "This is a dusty old book used for "
     "potion crafting. Hey, don't forget that there's a sign that says not to pick up the book!", 
