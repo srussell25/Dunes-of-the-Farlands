@@ -41,7 +41,19 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    
+    else if(obj_name == "armor of torren")
+    {
+        if(player_char.get_inv_item(obj_name))
+        {
+            player_char.remove_inv_item(obj_name, true);
+            player_char.set_player_flag("wearing_armor", true);
+            return "You are now wearing the Armor of Torren. You feel a tad bit safer in this armor.";
+        }
+        else
+        {
+            return "There is no such item called 'The Armor of Torren' in your inventory.";
+        }
+    }
     else if(obj_name == "fire potion")
     {
         if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
@@ -421,52 +433,99 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
 
         return "you sneak over to the side gate. the guard has not seen you yet. what is your next move?";
     }
-    /* TODO: Change the following so that the player enters 'inside palace' first, gets dialogue, and then has to choose which place to go to
-    else if (obj_name == "inside palace" and player_char.get_player_flag("knocked_guard_out")
+    /* TODO: Change the following so that the player enters 'inside palace' first, gets dialogue, and then has to choose which place to go to*/
+    else if (obj_name == "inside palace" and player_char.get_player_flag("knocked_guard_out"))
     {   
-        player_char.set_player_loc(obj_name);
-        // check if the player read the note, give different dialogue for the following rooms if the player didn't read it
-        return "";
+        if(player_char.get_player_flag("read_note"))
+        {
+            player_char.set_player_loc(obj_name);
+            // check if the player read the note, give different dialogue for the following rooms if the player didn't read it
+            return "The inside of the palace is surprinsingly empty. Barely any furniture, guards, and a handful of torches"
+            "lead to the potion room and Spyro's lair.";
+        }
+        else if(obj.get_object_flag("has_been"))
+        {
+            player_char.set_player_loc(obj_name);
+            return "You are back inside the palace.";
+        }
+        else
+        {
+            player_char.set_player_loc(obj_name);
+            return "The inside of the palace is surprinsingly empty. Barely any furniture, guards, and a handful of torches"
+            "that lead to two doors. You now have the option to go through door one, or door two. There is also an 'ominous"
+            "space' in the far distance not too far from room two.";
+        }
     }
     else if (obj_name == "potion room")
     {
-        obj.set_object_flag("been_to", true);
-        if (player_char.get_player_flag("knocked_guard_out"))
+        if(player_char.get_player_flag("read_note"))
+        {
+            obj.set_object_flag("been_to", true);
+            player_char.set_player_loc(obj_name);
+            return "You head to the potion room. As you may expect there are a lot of potions in this room. "
+            "Try having a look around.";
+        }
+        else if(obj.get_object_flag("has_been"))
         {
             player_char.set_player_loc(obj_name);
-            return "you enter the palace and head to the potion room. As you may expect there are a lot of potions in this room. "
-            "maybe you can look around?";
+            return "You are back at the potion room.";
+        }
+        else
+        {
+            player_char.set_player_loc(obj_name);
+            return "You enter door one, to your surprise, you see this room is full of potions."
+            "Try having a look around.";
         }
     }
     else if (obj_name == "spyro's lair")
     {
         obj.set_object_flag("been_to", true);
-        if (player_char.get_player_flag("knocked_guard_out"))
+        if(player_char.get_player_flag("read_note") && !player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "inside palace")
         {
             player_char.set_player_loc(obj_name);
             player_char.set_player_state(false);
-            return "you enter the palace and enter Spyro's Lair. You see Spyro, the most powerful Sphynx in the land takes his"
+            return "You enter Spyro's Lair. You see Spyro, the most powerful Sphynx in the land takes his"
             "claws and rips your flesh to shreds. Maybe you should try following the paper's instruction said next time.";
         }
-        else if (player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "potion room")
+        else if(!player_char.get_player_flag("read_note") && !player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "inside palace")
         {
+            player_char.set_player_loc(obj_name);
+            player_char.set_player_state(false);
+            return "You enter door two and you see a giant Sphynx. This sphynx takes his"
+            "claws and rips your flesh to shreds. Maybe you would have known more about the layout of the palace"
+            "if you had read the note.";
+        }
+        else if (player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "inside palace" && player_char.get_player_flag("read_note"))
+        {
+            player_char.set_player_loc(obj_name);
             return "You head to Spyro's lair to fight him with your potion. You feel more prepared now. You make eye contact with the huge creature,"
             "and a chill rushes down your neck. You should probably think about your next move carefully...";
         }
-        else if (player_char.get_player_loc() == "potion room" && !player_char.get_player_flag("has_potion"))
+        else if(player_char.get_player_flag("has_potion") && player_char.get_player_loc() == "inside palace" && !player_char.get_player_flag("read_note"))
         {
-            player_char.set_player_state(false);
-            return "You go into the Spyro's lair unprepared with no potions to use. Since you are not as strong as you think you are,"
-            "he rips up your body limb from limb, with only a your skull remaining.";
+            player_char.set_player_loc(obj_name);
+            return "You head into room number two with your potions. You feel more prepared to take on whatever is ahead of you. You make" 
+            "eye contact with the huge Sphynx, and a chill rushes down your neck. You should probably think about your next move carefully...";
+        }
+        else if(obj.get_object_flag("has_been"))
+        {
+            player_char.set_player_loc(obj_name);
+            return "You are back at Spyro's lair.";
         }
     }
     else if (obj_name == "king's throne")
     {
         obj.set_object_flag("been_to", true);
-        if (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser"))
+        if (player_char.get_player_flag("read_note") && (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser")))
         {
             player_char.set_player_loc(obj_name);
             return "You walk into the throne room and see King Akhem. He doesn't look surprised to see you."
+            "'Face me, if you dare... heathen.' He stands in a battle stance before you.";
+        }
+        else if(!player_char.get_player_flag("read_note") && (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser")))
+        {
+            player_char.set_player_loc(obj_name);
+            return "You walk into the ominous room and see King Akhem. He doesn't look surprised to see you."
             "'Face me, if you dare... heathen.' He stands in a battle stance before you.";
         }
         else
@@ -474,7 +533,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             return "You cannot head to this location just yet. Try something else.";
         }
     }
-    */
+    
     return "Location has not been implemented yet.";
 }
 
@@ -934,14 +993,22 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
         }
         else if(obj_name == "king akhem")
         {
-            if(player_char.get_player_loc() == "king's throne")
+            if(player_char.get_player_loc() == "king's throne" && player_char.get_player_flag("wearing_armor"))
             {
                 obj.set_object_flag("attacked_one", true);
-
+                player_char.remove_player_flag("wearing_armor");
                 return "You pull out your sword and charge at King Akhem. He dodges the first attack."
                 "However, he charges at you and attempts to strike you in the chest with his colossal hammer."
-                "You then dodge out of the way at the last second, and he puts a dent in the floor"
-                "instead of in you";
+                "You then dodge out of the way at the last second, but he shatters your armor."
+                "However, the armor saves your life from his mighty blow.";
+            }
+            else if (player_char.get_player_loc() == "king's throne" && !player_char.get_player_flag("wearing_armor"))
+            {
+                obj.set_object_flag("attacked_one", true);
+                player_char.set_player_state(false);
+                return "You pull out your sword and charge at King Akhem. He dodges the first attack."
+                "However, he charges at you and attempts to strike you in the chest with his colossal hammer."
+                "He strikes you at the center of your skull, killing you instantly.";
             }
             else if(player_char.get_player_loc() == "king's throne" && 
             obj.get_object_flag("attacked_one"))
