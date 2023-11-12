@@ -285,17 +285,17 @@ void initialize_game_objects()
     "windowless and small. The room is lined with shelves that have many colorful potions on them. "
     "You see a countertop that has a dusty old book on it. You notice there is a note on the book "
     "that says, 'Apprentices should not take the book outside of the Potion Room.' Your inventory "
-    "can only hold one potion, so choose wisely."));
+    "can only hold one potion, so choose wisely.", "", {}, (std::set<std::string>) {"door one"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly "
     "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier "
     "in the middle of the room, and the room seems to be made out of stone blocks.", "", {},
-    (std::set<std::string>) {"lair", "spyros lair"}));
+    (std::set<std::string>) {"door two", "lair", "spyros lair"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "king's throne", "The King's Throne room "
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports "
     "of the King firing multiple interior designers in the past.", "", {}, (std::set<std::string>) {"king's room",
-    "king's throne", "kings room", "kings throne", "throne", "throne room"}));
+    "king's throne", "kings room", "kings throne", "ominous space", "throne", "throne room"}));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
