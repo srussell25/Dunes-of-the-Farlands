@@ -23,25 +23,25 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    /* TODO: Use whiskey as a template for coffee - remember, you get it after talking to the locals in the coffee shop
+    
     else if (obj_name == "coffee")
     {
-        if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "tavern")
+        if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "coffee shop")
         {
             player_char.remove_inv_item(obj_name, true);
-            return "Man, that was a pretty good whiskey!";
+            return "that was a nice refreshing cup of coffee. you now understand why the locals come here for there morning coffee";
         }
         else if (player_char.get_inv_item(obj_name))
         {
-            return "Hmm, I feel like I'm missing out by not "
-            "drinking this in the tavern... maybe I should go back?";
+            player_char.remove_inv_item(obj_name, true);
+            return "the coffee form the coffee shop is now cold, and it tasted ok, maybe it would of been better to drink it in the shop ";
         }
         else
         {
             return "unimplemented fail state"; // add unique fail text
         }
     }
-    */
+    
     else if(obj_name == "fire potion")
     {
         if(player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
