@@ -399,14 +399,4 @@ void initialize_game_objects()
     {{"is_alive", true}}, (std::set<std::string>) {"local"})); // location left empty on purpose
 }
 
-/*
-Things that we still have to work on:
-- Description for guards
-- Cases for using the wrong potion against Spyro
-- Take armor for the take function in object actions
-- Dialogue before the boss and mini boss battles 
-
-- ask connor about Spyro's lair part 2 implementation
-*/
-
 #endif

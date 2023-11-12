@@ -505,9 +505,8 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         {
             return "there is no barkeep in this area, are you looking for a drink?";
         }
-    
     }
-    if (obj_name == "bandit")
+    else if (obj_name == "bandit")
     {
         if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("is_alive"))
         {
@@ -521,9 +520,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         {
             return "There is no bandit in this location. why would you want to talk to a bandit right now?";
         }
-
     }
-    
     else if (obj_name == "old lady")
     {
         if (player_char.get_player_loc() == "abandoned town" && obj.get_object_flag("is_alive"))
@@ -534,7 +531,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else if(!obj.get_object_flag("is_alive")) 
         {
-            return "I don't think the 'old lady' wants to talk to you";
+            return "I don't think the 'old lady' wants to talk to you.";
         }
         else
         {
@@ -917,6 +914,7 @@ std::string read(game_object &obj, std::string obj_name, player_info &player_cha
 {
     if (obj_name == "paper" && (player_char.get_player_loc() == "side gate" || player_char.get_player_loc() == "palace"))
     {
+        player_char.set_player_flag("read_note", true);
         return obj.get_object_desc();
     }
     else if (obj.get_object_name() == "book" && player_char.get_player_loc() == obj.get_object_loc())
