@@ -344,7 +344,7 @@ void initialize_game_objects()
     "take him head on. And newbies, the potion room might be inside the palace, but don't get ahead of yourselves.", "side gate")); 
 
 	main_objects.insert(main_objects.end(), game_object("item", "whiskey", "Well, it wouldn't be a tavern without any "
-    "drinks. It looks like a shot of whiskey - why not take a drink?", "tavern"));
+    "drinks. It looks like a shot of whiskey - why not take a drink?", "tavern", (std::set<std::string>) {"drink", "whisky"}));
 
     main_objects.insert(main_objects.end(), game_object("item", "confusion potion", "When this potion is thrown at someone, "
     "they will enter a state of amnesia and forget the reason why they are fighting you. This will give you the chance to "
@@ -421,8 +421,8 @@ void initialize_game_objects()
 
     main_objects.insert(main_objects.end(), game_object("character", "shopkeeper", "The shopkeeper appears to be "
     "elderly. She is wrinkly in the face, is missing some teeth, and has a limp. However, she appears to be "
-    "friendly, even to outsiders like you.", "general store", {{"is_alive", true}}, (std::set<std::string>) {"shopkeep", "trader"
-    , "store owner", "owner"}));
+    "friendly, even to outsiders like you.", "general store", {{"is_alive", true}}, (std::set<std::string>) {"owner", "shopkeep",
+     "store owner", "trader"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "locals","\nYou "
     "might just want to move along.","", (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}})); // location left empty on purpose
