@@ -503,16 +503,38 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else
         {
-            return "The barkeep is in the tavern, not here.";
+            return "there is no barkeep in this area, are you looking for a drink?";
         }
+    
     }
+    if (obj_name == "bandit")
+    {
+        if (player_char.get_player_loc() == "tavern" && obj.get_object_flag("is_alive"))
+        {
+            return "you try to talk to the bandit, but all he wants to talk about is how he wants to kill you and call you obscenities.";
+        }
+        else if (!obj.get_object_flag("is_alive"))
+        {
+            return "I don't think you can talk to the dead, so stop trying to talk to the dead bandit.";
+        }
+        else 
+        {
+            return "There is no bandit in this location. why would you want to talk to a bandit right now?";
+        }
+
+    }
+    
     else if (obj_name == "old lady")
     {
-        if (player_char.get_player_loc() == "abandoned town")
+        if (player_char.get_player_loc() == "abandoned town" && obj.get_object_flag("is_alive"))
         {
             player_char.set_player_state(false);
             return "You try to talk to the old lady, but as you walk over, she suddenly turns around and stabs you. "
             "She takes all of your items, and then runs off. Looks like she didn't need any help after all...";
+        }
+        else if(!obj.get_object_flag("is_alive")) 
+        {
+            return "I don't think the 'old lady' wants to talk to you";
         }
         else
         {
@@ -668,6 +690,7 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
     }
     else if (obj_name == "around")
     {
+        return "";
         //add stuff here
     }
     else if (player_char.get_player_loc() == obj.get_object_loc() ||
