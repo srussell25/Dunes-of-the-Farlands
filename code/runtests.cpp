@@ -420,9 +420,11 @@ STUDENT_TEST("Final Check: Completing the entire game.")
 
     parser_output = game_input_parser("take the armor of torren");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_inv_item("armor of torren")); // Has the armor
 
     parser_output = game_input_parser("use the armor of torren");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_flag("wearing_armor")); // Is wearing the armor
 
     parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
     main_action(parser_output.first, (parser_output.second).get(), player);
@@ -438,12 +440,16 @@ STUDENT_TEST("Final Check: Completing the entire game.")
 
     parser_output = game_input_parser("attack the guard");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_flag("knocked_guard_out")); // Guard is knocked out
+    CHECK(find_object("paper").get_object_loc() == "side gate"); // Paper placed at the gate
 
     parser_output = game_input_parser("take the paper");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_inv_item("paper")); // Paper is added to the inventory
 
     parser_output = game_input_parser("read the paper");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_flag("read_note")); // Has read the note
 
     parser_output = game_input_parser("go inside the palace");
     main_action(parser_output.first, (parser_output.second).get(), player);
@@ -458,6 +464,7 @@ STUDENT_TEST("Final Check: Completing the entire game.")
 
     parser_output = game_input_parser("take the strength potion");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_inv_item("strength potion")); // Has the strength potion
 
     parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
     main_action(parser_output.first, (parser_output.second).get(), player);
@@ -466,22 +473,35 @@ STUDENT_TEST("Final Check: Completing the entire game.")
     parser_output = game_input_parser("go to spyro's lair");
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "spyro's lair");
+    CHECK(find_object("spyro").get_object_flag("is_alive")); // Spyro is alive
 
     parser_output = game_input_parser("use the strength potion");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK_FALSE(player.get_inv_item("strength potion")); // Used the strength potion
+    CHECK(player.get_player_flag("is_strong")); // Status effect is active
+
+    parser_output = game_input_parser("attack spyro");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(find_object("spyro").get_object_flag("is_injured")); // Spyro is injured but alive
+    CHECK(player.get_player_flag("throne_available")); // Can access the throne room
 
     parser_output = game_input_parser("go to the king's throne");
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "king's throne");
+    CHECK(find_object("king akhem").get_object_flag("is_alive")); // King is alive
 
     parser_output = game_input_parser("attack king akhem");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(find_object("king akhem").get_object_flag("attacked_one")); // King has been attacked once
+    CHECK_FALSE(player.get_player_flag("wearing_armor")); // Player lost their armor
 
     parser_output = game_input_parser("attack king akhem");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(find_object("king akhem").get_object_flag("final_attack")); // King is almost dead
 
     parser_output = game_input_parser("attack king akhem");
     main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK_FALSE(find_object("king akhem").get_object_flag("is_alive")); // King is dead
 
     CHECK(player.get_player_flag("finished_game")); // should be true
 }

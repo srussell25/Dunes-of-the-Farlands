@@ -44,9 +44,15 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
     {
         if (player_char.get_inv_item(obj_name))
         {
-            player_char.remove_inv_item(obj_name, true);
-            player_char.set_player_flag("wearing_armor", true);
-            return "You are now wearing the Armor of Torren. You feel a tad bit safer in this armor.";
+            if (!player_char.get_player_flag("wearing_armor"))
+            {
+                player_char.set_player_flag("wearing_armor", true);
+                return "You are now wearing the Armor of Torren. You feel a tad bit safer in this armor.";
+            }
+            else
+            {
+                return "You've already equipped the armor; you can't equip it twice.";
+            }
         }
         else
         {
@@ -77,11 +83,13 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
         if (player_char.get_inv_item(obj_name) && player_char.get_player_loc() == "spyro's lair")
         {
             player_char.set_player_flag("the_confuser", true);
+            player_char.set_player_flag("throne_available", true);
             player_char.remove_inv_item(obj_name, true);
 
-            return "You grab the confusion potion out of your inventory, unscrew the bottle,"
-            "and chunk it at Spyro. This causes him to get dizzy, forget where he is, and fall into confusion."
-            "You quickly use this opportunity to sneak into King Akhem's throne room.";
+            return "You grab the confusion potion out of your inventory, unscrew the bottle, "
+            "and chuck it at Spyro. He begins to visibly shake, forgetting where he is, and "
+            "collapses on the floor. He's still alive, but the potion was so strong that he "
+            "can't put up any fight. The path to King Akhem's throne is now clear...";
         }
         else if (player_char.get_player_loc() != "spyro's lair")
         {
@@ -176,7 +184,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
         }
         else
         {
-            return "There's no coffee near you. Sorry, but you can't get your caffine fix just yet.";
+            return "There's no coffee near you. Sorry, but you can't get your caffeine fix just yet.";
         }
     }
     else if (obj_name == "armor of torren")
@@ -186,7 +194,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
             player_char.add_inv_item(obj);
             player_char.set_player_flag("has_armor", true);
 
-            return "The armor of torren was added to your inventory. maybe this armor could come in handy.";
+            return "The Armor of Torren was added to your inventory. Maybe this armor could come in handy?";
         }
         else
         {
@@ -197,7 +205,7 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
     {
         if (player_char.get_player_loc() == "potion room")
         {
-            return "Can't you see the note? It says don't take the book, ya bozo.";
+            return "Can't you see the note? It says don't take the book, ya bozo. Read, don't take.";
         }
         else 
         {
@@ -447,15 +455,23 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     }
     else if (obj_name == "palace")
     {
-        if (player_char.get_player_flag("has_armor") && !player_char.get_player_flag("cannot_leave"))
+        if (player_char.get_inv_item("armor of torren") && !player_char.get_player_flag("cannot_leave"))
         {
             player_char.set_player_loc(obj_name);
-
-            return "You arrive at the walls surrounding the King's palace. On first glance, the place seems heavily guarded - "
-            "you get the feeling it won't be easy to go inside the palace. If you want to get in, you'll probably need to find "
-            "another entrance...";
+            if (player_char.get_player_flag("wearing_armor"))
+            {
+                return "You arrive at the walls surrounding the King's palace. On first glance, the place seems heavily guarded - "
+                "you get the feeling it won't be easy to go inside the palace. If you want to get in, you'll probably need to find "
+                "another entrance...";
+            }
+            else
+            {
+                return "You arrive at the walls surrounding the King's palace. On first glance, the place seems heavily guarded - "
+                "you get the feeling it won't be easy to go inside the palace. If you want to get in, you'll probably need to find "
+                "another entrance. You're feeling even more vulnerable than normal, though - maybe you should take advantage of that armor?";
+            }
         }
-        else if (!player_char.get_player_flag("has_armor"))
+        else if (!player_char.get_inv_item("armor of torren"))
         {
             return "You may be missing a improtant item. Maybe you should look around the city a little more.";
         }
@@ -490,8 +506,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             obj.set_object_flag("has_been", true);
             player_char.set_player_loc(obj_name);
             return "The inside of the palace is surprinsingly empty. Barely any furniture, guards, and a handful of torches "
-            "that lead to two doors. You now have the option to go through door one, or door two. There is also an ominous "
-            "space in the far distance not too far from room two.";
+            "that lead to two doors. Well, now you have a choice. Door one, or door two? Choose wisely...";
         }
     }
     else if (obj_name == "potion room")
@@ -544,13 +559,13 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     }
     else if (obj_name == "king's throne")
     {
-        if (player_char.get_player_flag("read_note") && (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser")))
+        if (player_char.get_player_flag("read_note") && player_char.get_player_flag("throne_available"))
         {
             player_char.set_player_loc(obj_name);
             return "You walk into the throne room and see King Akhem. He doesn't look surprised to see you. "
             "'Face me, if you dare... heathen.' He stands in a battle stance before you.";
         }
-        else if (!player_char.get_player_flag("read_note") && (player_char.get_player_flag("throne_available") || player_char.get_player_flag("the_confuser")))
+        else if (!player_char.get_player_flag("read_note") && player_char.get_player_flag("throne_available"))
         {
             player_char.set_player_loc(obj_name);
             return "You walk into the ominous room and see King Akhem. He doesn't look surprised to see you. "
@@ -671,7 +686,7 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
         }
         else
         {
-            return "What Old Lady are you talking about?"; 
+            return "What old lady are you talking about?"; 
         }
     }
     else if (obj_name == "locals")
@@ -944,6 +959,7 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
                     obj.set_object_desc("This is the guard you just knocked out to get inside the palace.");
                     obj.set_object_flag("is_unconscious", true);
                     player_char.set_player_flag("knocked_guard_out", true);
+                    find_object("paper").set_object_loc("side gate");
 
                     return "The guard sees that his toga is becoming loose and drops his sword to "
                     "tighten it. You use this opportunity to hit the guard upside the head with "
@@ -997,41 +1013,45 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
         }
         else if (obj_name == "spyro")
         {
-            if (player_char.get_player_loc() == "spyro's lair" && 
-                player_char.get_player_flag("is_strong") && !obj.get_object_flag("is_injured"))
+            if (player_char.get_player_loc() == "spyro's lair")
             {
-                obj.set_object_flag("is_injured", true);
-                player_char.set_player_flag("throne_available", true);
+                if (player_char.get_player_flag("is_strong") && !obj.get_object_flag("is_injured"))
+                {
+                    obj.set_object_flag("is_injured", true);
+                    player_char.set_player_flag("throne_available", true);
 
-                return "With the stregnth you gain from the strength potion, you gain strength throughout"
-                "your body, and you use this strength to jump up 10 feet into the air and slash"
-                "Spyro's neck. He is badly wounded, but he pleads for his life.\n Do you wwant to"
-                "spare his life and advance to the King's Throne?";
-            }
-            else if (player_char.get_player_loc() == "spyro's lair" && 
-                player_char.get_player_flag("is_strong") && obj.get_object_flag("is_injured"))
-            {
-                obj.remove_object_flag("is_alive");
-                return "You decide to stab Spyro in the heart. While his blood oozing from his chest, "
-                "he lets out a loud roar in pain. His body slowly stops moving, and his eyes close. You "
-                "have slain the mighty beast, and remove your sword out of his body. The path to King "
-                "Akhem's Throne is now clear. Continue your journey.";
-            }
-            else if (!obj.get_object_flag("is_alive") && player_char.get_player_loc() == "spyro's lair")
-            {
-                return "You shouldn't mutilate the beast's body anymore. You should let him rest now.";
-            }
-            else if (player_char.get_player_loc() == "spyro's lair" && player_char.get_player_flag("the_confuser"))
-            {
-                obj.remove_object_flag("is_alive");
-                return "While Spyro is confused, you see this as a great opportunity to attack him. "
-                "Spyro has fallen, and the blood is on your hands.";
-            }
-            else if (player_char.get_player_loc() == "spyro's lair" && 
-                (!player_char.get_player_flag("is_strong")  || !player_char.get_player_flag("the_confuser")))
-            {
-                player_char.set_player_state(false);
-                return "You attacked Spyro head on without using any potions. You were immediately ripped to shreads.";
+                    return "With the stregnth you gain from the strength potion, you gain strength throughout"
+                    "your body, and you use this strength to jump up 10 feet into the air and slash"
+                    "Spyro's neck. He is badly wounded, but he pleads for his life.\n Do you want to"
+                    "spare his life and advance to the King's Throne?";
+                }
+                else if (player_char.get_player_flag("is_strong") && obj.get_object_flag("is_injured"))
+                {
+                    obj.remove_object_flag("is_alive");
+
+                    return "You decide to stab Spyro in the heart. While his blood oozing from his chest, "
+                    "he lets out a loud roar in pain. His body slowly stops moving, and his eyes close. You "
+                    "have slain the mighty beast, and remove your sword out of his body. The path to King "
+                    "Akhem's Throne is now clear. Continue your journey.";
+                }
+                else if (player_char.get_player_flag("the_confuser"))
+                {
+                    obj.remove_object_flag("is_alive");
+
+                    return "While Spyro is confused, you see this as a great opportunity to attack him. "
+                    "You slice off his head, and the sphynx is no more. You feel a bit hollow, though - "
+                    "it wasn't a very fair fight.";
+                }
+                else if (!obj.get_object_flag("is_alive"))
+                {
+                    return "Come on now, don't mutilate the beast's body anymore. Let him rest now.";
+                }
+                else if (!player_char.get_player_flag("is_strong") || !player_char.get_player_flag("the_confuser"))
+                {
+                    player_char.set_player_state(false);
+
+                    return "You attacked the sphynx head on without using any potions. You were immediately ripped to shreads.";
+                }
             }
             else
             {
@@ -1040,42 +1060,45 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
         }
         else if (obj_name == "king akhem")
         {
-            if (player_char.get_player_loc() == "king's throne" && player_char.get_player_flag("wearing_armor"))
+            if (player_char.get_player_loc() == "king's throne")
             {
-                obj.set_object_flag("attacked_one", true);
-                player_char.remove_player_flag("wearing_armor");
-                return "You pull out your sword and charge at King Akhem. He dodges the first attack. "
-                "However, he charges at you and attempts to strike you in the chest with his colossal hammer. "
-                "You then dodge out of the way at the last second, but he shatters your armor. "
-                "It might've been quite rubbish, but the armor saved your life from his mighty blow.";
-            }
-            else if (player_char.get_player_loc() == "king's throne" && !player_char.get_player_flag("wearing_armor"))
-            {
-                obj.set_object_flag("attacked_one", true);
-                player_char.set_player_state(false);
-                return "You pull out your sword and charge at King Akhem. He dodges the first attack."
-                "However, he charges at you and attempts to strike you in the chest with his colossal hammer."
-                "He strikes you at the center of your skull, killing you instantly.";
-            }
-            else if (player_char.get_player_loc() == "king's throne" && obj.get_object_flag("attacked_one"))
-            {
-                obj.remove_object_flag("attacked_one");
-                obj.set_object_flag("final_attack", true);
+                if (!player_char.get_player_flag("wearing_armor") && (!obj.get_object_flag("attacked_one") && !obj.get_object_flag("final_attack")))
+                {
+                    obj.set_object_flag("attacked_one", true);
+                    player_char.set_player_state(false);
+                    return "You pull out your sword and charge at King Akhem. He dodges the first attack."
+                    "However, he charges at you and attempts to strike you in the chest with his colossal hammer."
+                    "He strikes you at the center of your skull, killing you instantly.";
+                }
+                else if (player_char.get_player_flag("wearing_armor"))
+                {
+                    obj.set_object_flag("attacked_one", true);
+                    player_char.remove_player_flag("wearing_armor");
+                    return "You pull out your sword and charge at King Akhem. He dodges the first attack. "
+                    "However, he charges at you and attempts to strike you in the chest with his colossal hammer. "
+                    "You then dodge out of the way at the last second, but he shatters your armor. "
+                    "It might've been quite rubbish, but the armor saved your life from his mighty blow.";
+                }
+                else if (obj.get_object_flag("attacked_one"))
+                {
+                    obj.remove_object_flag("attacked_one");
+                    obj.set_object_flag("final_attack", true);
 
-                return "Instead of taking him head on, you circle behind him for an attack from the rear. "
-                "He takes a while to spin around to defend himself, and you take this opportunity to slash him "
-                "in the nape. This causes him to gush out blood.";
-            }
-            else if (player_char.get_player_loc() == "king's throne" && obj.get_object_flag("final_attack"))
-            {
-                obj.remove_object_flag("final_attack");
-                obj.remove_object_flag("is_alive");
-                player_char.set_player_flag("finished_game", true);
-                return "King Akhem has fallen on one knee. His body has gone cold, and he is panting trying "
-                "to get the blood from his nape to stop leaking out of his body. Quickly, you slice at his legs "
-                "and arms, and stab him in the heart. King Akhem has fallen. The citizens of the Farlands rejoice "
-                "now that King Akhem's rule is finished. You are declared a hero, and you live the rest of your "
-                "life happy in the Farlands.";
+                    return "Instead of taking him head on, you circle behind him for an attack from the rear. "
+                    "He takes a while to spin around to defend himself, and you take this opportunity to slash him "
+                    "in the nape. This causes him to gush out blood.";
+                }
+                else if (obj.get_object_flag("final_attack"))
+                {
+                    obj.remove_object_flag("final_attack");
+                    obj.remove_object_flag("is_alive");
+                    player_char.set_player_flag("finished_game", true);
+                    return "King Akhem has fallen on one knee. His body has gone cold, and he is panting trying "
+                    "to get the blood from his nape to stop leaking out of his body. Quickly, you slice at his legs "
+                    "and arms, and stab him in the heart. King Akhem has fallen. The citizens of the Farlands rejoice "
+                    "now that King Akhem's rule is finished. You are declared a hero, and you live the rest of your "
+                    "life happy in the Farlands.";
+                }
             }
             else 
             {

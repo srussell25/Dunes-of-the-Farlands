@@ -250,9 +250,9 @@ void initialize_game_objects()
     "inside of the palace seems guarded by only one person.", "", {}, (std::set<std::string>) {"gate"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "inside palace", "The inside of the palace "
-    "is not heavely guarded like the outside. Actually, it's mostly dark inside, except for two doors lit by torches. "
-    "It's... almost scary how little detail there is on the inside of the palace compared to the outside.", "", {}, 
-    (std::set<std::string>) {"inside of the palace", "inside the palace"})); // TODO: Add description
+    "is not heavely guarded like the outside. If anything, it's the complete opposite from outside - dark "
+    "(minus the torch-lit doors), no guards, and with little room to move around.", "", {}, 
+    (std::set<std::string>) {"inside of the palace", "inside the palace"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "The entrance to "
     "the Farlands consists of a gate that is a light brown, likely from the hot sun beaming on it "
@@ -301,11 +301,14 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("item", "shield", "You look upon an ordinary shield; "
     "it may be made out of wood, but it'll protect you well enough. Maybe.", "playerinventory"));
 
-    main_objects.insert(main_objects.end(), game_object("item", "paper", "Map tips for new soldiers within King Akhem's Palace: "
-    "Go to the underground lair that King Akhem has. This has all of his riches and treasures, as well as any potions or weapons "
-    "that we could use for war. To get to his main room, you must talk to Spyro, a Sphynx who doesn't take kindly to strangers. "
-    "Beware of him, and if he attacks you, you will need a confusion potion to get past him, or you can use a strength potion to "
-    "take him head on. And newbies, the potion room might be inside the palace, but don't get ahead of yourselves.", "side gate")); 
+    main_objects.insert(main_objects.end(), game_object("item", "paper", "To all new soldiers of King "
+    "Akhem: if you are seeking an audience with the King, know this - he will not leave his throne room "
+    "to meet you, you will have to go to him. His pet sphynx Spyro protects the way to his throne - you "
+    "should be fine, but Spyro is not a fan of strangers, and you will need to use a confusion or strength "
+    "potion to get by him if you anger him. The potion room is close to the King's throne room, but the potions "
+    "within are for emergencies, not recreational use. They can and will kill you if you don't know what you're doing. "
+    "More information for new soldiers will come once I can find more paper to write these damn messages "
+    "on.\n - The Captain", "")); // location left empty on purpose 
 
 	main_objects.insert(main_objects.end(), game_object("item", "whiskey", "Well, it wouldn't be a tavern without any "
     "drinks. It looks like a shot of whiskey - why not take a drink?", "tavern", {}, (std::set<std::string>) {"drink", "whisky"}));
