@@ -1,4 +1,3 @@
-// Add necessary includes & imports here
 #include "catch.hpp"
 #include <iostream>
 #include <algorithm>
@@ -8,18 +7,11 @@
 #include <optional>
 #include <math.h>
 
-// Including every header file we made for the project
 #include "ui.hpp"
 #include "parser.hpp"
 #include "gameobjects.hpp"
 #include "objectactions.hpp"
 #include "classesmisc.hpp"
-
-// TODO: Go through every function declaration in the program and 
-// change the comment to match Prof. Kaiser's the style guide.
-// His instructions are - describe behavior at a high level, 
-// including parameters & return values, preconditions/assumptions,
-// and error conditions. Also, check necessity of all inline comments.
 
 int main()
 {
@@ -57,7 +49,7 @@ int main()
         "You spot a town that appears to be 'abandoned' in the north, "
         "but also see what appears to be an oasis nearby.");
 
-        while(player.get_player_state()) // Main gameplay loop; if player dies, break loop to restart
+        while(player.get_player_state() || player.get_player_finish()) // Inner loop to check player state
         {
             input_text = get_input();
             parser_output = game_input_parser(input_text);
@@ -65,7 +57,7 @@ int main()
             if (parser_output.first == "help") // Check for special commands or invalid input
             {
                 word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, leave, look/examine, "
-                "read, talk, attack, unlock. \nSpecial commands: inventory, help, credits, exit."));
+                "read, talk, attack. \nSpecial commands: inventory, help, credits, exit."));
                 continue;
             }
             else if (parser_output.first == "inventory")
@@ -104,6 +96,15 @@ int main()
 
             output_text = main_action(parser_output.first, (parser_output.second).get(), player);
             narrator(output_text);
+        }
+
+        if (player.get_player_finish())
+        {
+            output_text = "\n\nThe End.\n Thank you for completing our game! \n\nCredits: "
+            "\nUI Team: \nLane Durst \nConnor Morris \nObject and Development Team: "
+            "\nMaureen Sanchez \nJack(Yu Joo) \nStory Development and General Coding Team: \nShawn Russell \nLogan Remondet";
+            narrator(output_text);
+            break;
         }
 
         std::cout << center_text("Game Over!") << std::endl; // Yes/no loop; on 'no', quits the program

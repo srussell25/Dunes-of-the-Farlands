@@ -3,24 +3,20 @@
 
 #include "gameobjects.hpp"
 
-// Temporary(?) namespace until I can think of a better solution
 namespace parserspace
 {
     std::set<std::string> unique_commands = {"credits", "exit", "help", "inventory", "leave"};
-    std::set<std::string> predicate_set = {"a", "an", "at", "to", "the"}; // TODO: Add more predicates as needed
-    std::set<std::string> preposition_set = {"at", "on", "with"}; // TODO: Add more prepositions as needed
+    std::set<std::string> predicate_set = {"a", "an", "at", "to", "the"};
     std::unordered_map<std::string, bool> command_map;
 };
 
-// Temporary(?) initialize function until I can think of a better solution
+// Add proper function description here
 void initialize_parser()
 {
-    // TODO: check with story group to make sure these are all of the commands we need
     assign_map_values(parserspace::command_map, {{"use", true}, {"take", false}, 
     {"go", false}, {"look", false}, {"read", false}, 
     {"talk", false}, {"attack", true}, {"examine", false},
-    {"unlock", true}, {"grab", false}, {"get", false}, 
-    {"drink", false}});
+    {"grab", false}, {"get", false}, {"drink", false}});
 }
 
 // Takes in a string and returns a vector of substrings split by whitespace.
@@ -58,7 +54,7 @@ std::vector<std::string> string_splitter(std::string str)
     return return_vec;
 }
 
-// WIP new parser, put details here later
+// Add proper function description here
 std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(std::string input)
 {
     std::string return_str;
@@ -72,7 +68,7 @@ std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(st
     std::vector<std::string> input_vec = string_splitter(input);
     std::size_t input_vec_size = input_vec.size();
 
-    if (input_vec_size == 0) // TODO: Check specific actions for if they require multiple game objects
+    if (input_vec_size == 0)
     {
         return {return_str, return_obj};
     }
@@ -109,7 +105,7 @@ std::pair<std::string, std::reference_wrapper<game_object>> game_input_parser(st
 
         if (!combined_str.empty()) 
         {
-            return_obj = find_object(combined_str); // TODO: Add synonym check for game objects
+            return_obj = find_object(combined_str);
         }
     }
 

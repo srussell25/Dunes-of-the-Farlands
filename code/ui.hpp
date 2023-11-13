@@ -3,8 +3,6 @@
 
 #include "classesmisc.hpp"
 
-//Generic Text Methods//
-
 //generates a border (meant to be place on top and bottom of a string), made of '=' at the
 //specified border size
 std::string generate_border(int border_size = 88) //[The default border size is chosen to match the Titlecard]
@@ -42,7 +40,7 @@ std::vector<std::string> word_breaker(std::string raw)
         //if a whitespace is encountered current word is finished
         if (x == ' ')
         {   
-            if(temp != "")
+            if (temp != "")
             {
                 words.insert(words.end(), temp); //add temp (storing current word) to the end of the vector
             }
@@ -86,8 +84,6 @@ void word_wrapper(std::vector<std::string> words, int wrap_size = 88)//[The defa
     //printing the lower border
     std::cout << generate_border() << std::endl;
 }
-
-//UI Specific Methods//
 
 //prompts user for input, and then takes user input from the cin stream and returns the result as a 
 //string in all lowercase for easier matching

@@ -1,4 +1,3 @@
-// Add necessary includes & imports here
 #include "catch.hpp"
 #include <iostream>
 #include <algorithm>
@@ -8,7 +7,6 @@
 #include <optional>
 #include <math.h>
 
-// Including every header file we made for the project
 #include "ui.hpp"
 #include "parser.hpp"
 #include "gameobjects.hpp"
@@ -145,6 +143,38 @@ STUDENT_TEST("Check parser behavior with invalid inputs.")
     parser_output = game_input_parser("look at abandoned town ");
     CHECK(parser_output.first == "look");
     CHECK(parser_output.second == specificvars::empty_object);
+}
+
+STUDENT_TEST("Testing the 'word_breaker' function.")
+{
+    std::vector<std::string> hello_world = {"Hello,", "World"};
+    std::vector<std::string> empty_test = {""};
+    std::vector<std::string> num_test = {"123", "4567"};
+    std::vector<std::string> special_char_test = {"\n;#%&"};
+    std::vector<std::string> extra_spaces_test = {"extra", "spaces"};
+
+    CHECK(word_breaker("Hello, World") == hello_world);
+    CHECK(word_breaker("") == empty_test);
+    CHECK(word_breaker("123 4567") == num_test);
+    CHECK(word_breaker("\n;#%&") == special_char_test);
+    CHECK(word_breaker("extra     spaces") == extra_spaces_test);
+}
+
+STUDENT_TEST("Testing the 'center_text' function.")
+{
+    CHECK(center_text("Hello, World", 14) == " Hello, World ");
+    CHECK(center_text("Text is Too Large for given Line Length", 7) == "Text is Too Large for given Line Length");
+    CHECK(center_text("Uneven Line Length", 19) == "Uneven Line Length"); //center_displacement = 1/2, rounds down to 0 spaces added
+    CHECK(center_text("", 14) == "              ");
+    CHECK(center_text("Negative Line Length :(", -14) == "Negative Line Length :(");
+}
+
+STUDENT_TEST("Testing the 'generate_border' function.")
+{
+    CHECK(generate_border(10) == "==========");
+    CHECK(generate_border(0) == "");
+    CHECK(generate_border(-10) == "");
+    CHECK(generate_border() == "========================================================================================");
 }
 
 STUDENT_TEST("Check to see that game_object flags can be retrieved, added, & removed.")
@@ -318,39 +348,140 @@ STUDENT_TEST("Movement Check #2: Going to the coffee shop and then returning to 
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "coffee shop");
 
-    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // Simulate 'leave' command within 'main.cpp'
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
     main_action(parser_output.first, (parser_output.second).get(), player);
     CHECK(player.get_player_loc() == "city square");
 }
 
-STUDENT_TEST("Testing the 'word_breaker' function.")
+STUDENT_TEST("Final Check: Completing the entire game.")
 {
-    std::vector<std::string> hello_world = {"Hello,", "World"};
-    std::vector<std::string> empty_test = {""};
-    std::vector<std::string> num_test = {"123", "4567"};
-    std::vector<std::string> special_char_test = {"\n;#%&"};
-    std::vector<std::string> extra_spaces_test = {"extra", "spaces"};
+    initialize_parser();
+    initialize_game_objects();
+    player_info player = player_info("new");
+    std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
 
-    CHECK(word_breaker("Hello, World") == hello_world);
-    CHECK(word_breaker("") == empty_test);
-    CHECK(word_breaker("123 4567") == num_test);
-    CHECK(word_breaker("\n;#%&") == special_char_test);
-    CHECK(word_breaker("extra     spaces") == extra_spaces_test);
-}
+    parser_output = game_input_parser("go to the abandoned town"); // Simulate gameplay loop
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "abandoned town");
 
-STUDENT_TEST("Testing the 'center_text' function.")
-{
-    CHECK(center_text("Hello, World", 14) == " Hello, World ");
-    CHECK(center_text("Text is Too Large for given Line Length", 7) == "Text is Too Large for given Line Length");
-    CHECK(center_text("Uneven Line Length", 19) == "Uneven Line Length"); //center_displacement = 1/2, rounds down to 0 spaces added
-    CHECK(center_text("", 14) == "              ");
-    CHECK(center_text("Negative Line Length :(", -14) == "Negative Line Length :(");
-}
+    parser_output = game_input_parser("go to the saloon");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "tavern");
 
-STUDENT_TEST("Testing the 'generate_border' function.")
-{
-    CHECK(generate_border(10) == "==========");
-    CHECK(generate_border(0) == "");
-    CHECK(generate_border(-10) == "");
-    CHECK(generate_border() == "========================================================================================");
+    parser_output = game_input_parser("attack bandit");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("talk to the bartender");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // Simulate 'leave' command within 'main.cpp'
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "abandoned town");
+
+    parser_output = game_input_parser("go to the farlands");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "farlands");
+
+    parser_output = game_input_parser("talk to the lookouts");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("go to the city square");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "city square");
+
+    parser_output = game_input_parser("go to the coffee shop");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "coffee shop");
+
+    parser_output = game_input_parser("talk to the locals");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "city square");
+
+    parser_output = game_input_parser("go to the restaurant");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "sarabi's egyptian cuisine");
+
+    parser_output = game_input_parser("talk to the locals");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "city square");
+
+    parser_output = game_input_parser("go to the general store");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "general store");
+
+    parser_output = game_input_parser("talk to the shopkeeper");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("take the armor of torren");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("use the armor of torren");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "city square");
+
+    parser_output = game_input_parser("go to the palace");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "palace");
+
+    parser_output = game_input_parser("go to the side gate");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "side gate");
+
+    parser_output = game_input_parser("attack the guard");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("take the paper");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("read the paper");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("go inside the palace");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "inside palace");
+
+    parser_output = game_input_parser("go to the potion room");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "potion room");
+
+    parser_output = game_input_parser("read the book");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("take the strength potion");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = {"go", std::ref(find_object(player.get_player_loc_prev()))}; // 'leave' command
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "inside palace");
+
+    parser_output = game_input_parser("go to spyro's lair");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "spyro's lair");
+
+    parser_output = game_input_parser("use the strength potion");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("go to the king's throne");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+    CHECK(player.get_player_loc() == "king's throne");
+
+    parser_output = game_input_parser("attack king akhem");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("attack king akhem");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    parser_output = game_input_parser("attack king akhem");
+    main_action(parser_output.first, (parser_output.second).get(), player);
+
+    CHECK(player.get_player_flag("finished_game")); // should be true
 }

@@ -133,8 +133,7 @@ class game_object
         {
             object_desc = desc;
         }
-        // If flag exists & is set, returns true; otherwise, returns false.
-        bool get_object_flag(std::string flag)
+        bool get_object_flag(std::string flag) // If flag exists & is set, returns true.
         {
             if (object_flags.count(flag) != 0)
             {
@@ -145,9 +144,7 @@ class game_object
                 return false;
             }
         }
-        // Either adds a new flag with the key `name` and value `val`,
-        // or sets the value of the existing key `name` to `val`.
-        void set_object_flag(std::string name, bool val)
+        void set_object_flag(std::string name, bool val) // Adds or sets a value of 'val' to the flag 'name'
         {
             object_flags.insert_or_assign(name, val);
         }
@@ -176,19 +173,17 @@ class game_object
 // Specifying main_objects and empty_object inside of a namespace to keep them out of the global scope
 namespace specificvars
 {
-    // The master list of all objects in the game; add objects to this vector after creation.
-    std::vector<game_object> main_objects = {};
+    std::vector<game_object> main_objects = {}; // The main vector of all objects in the game (other than the player)
 
-    // Example of an empty game_object used for comparison.
-    game_object empty_object = game_object();
+    game_object empty_object = game_object(); // Empty game_object used for comparison by reference
 
-    // Location sets
     std::set<std::string> location_set_one = {"abandoned town", "game start", "oasis"}; // at start
     std::set<std::string> location_set_two = {"abandoned town", "farlands", "tavern"}; // at abandoned town
     std::set<std::string> location_set_three = {"city square", "farlands"}; // at farlands
     std::set<std::string> location_set_four = {"city square", "coffee shop", "general store", "palace", "sarabi's egyptian cuisine"}; // at city square
     std::set<std::string> location_set_five = {"inside palace", "palace", "side gate"}; // at palace
-    std::set<std::string> location_set_six = {"inside palace", "king's throne room", "potion room", "spyro's lair"}; // at inside palace
+    std::set<std::string> location_set_six = {"inside palace", "potion room", "spyro's lair"}; // at inside palace
+    std::set<std::string> location_set_seven = {"king's throne", "spyro's lair"}; // at spyro's lair
 };
 
 // This function takes in a string meant to represent the name of a game_object, and then 
@@ -251,10 +246,12 @@ void initialize_game_objects()
     "be a side gate guarded by only one person. Surely going over there wouldn't work... right?", "", {},
     (std::set<std::string>) {"fortress", "king akhem palace", "king akhem's palace"}));
 
-    main_objects.insert(main_objects.end(), game_object("location", "side gate", "You walk "
-    "up to the side gate, and are greeted by the sight of a lone guard.", "", {}, (std::set<std::string>) {"gate"}));
+    main_objects.insert(main_objects.end(), game_object("location", "side gate", "The side entrance to the "
+    "inside of the palace seems guarded by only one person.", "", {}, (std::set<std::string>) {"gate"}));
 
-    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "", "", {}, 
+    main_objects.insert(main_objects.end(), game_object("location", "inside palace", "The inside of the palace "
+    "is not heavely guarded like the outside. Actually, it's mostly dark inside, except for two doors lit by torches. "
+    "It's... almost scary how little detail there is on the inside of the palace compared to the outside.", "", {}, 
     (std::set<std::string>) {"inside of the palace", "inside the palace"})); // TODO: Add description
 
     main_objects.insert(main_objects.end(), game_object("location", "farlands", "The entrance to "
@@ -290,12 +287,12 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("location", "spyro's lair", "Spyro's lair is a dimly "
     "lit room, with a few windows higher up in the wall toward the ceiling. There is a candle-lit chandlier "
     "in the middle of the room, and the room seems to be made out of stone blocks.", "", {},
-    (std::set<std::string>) {"door two", "lair", "spyros lair"}));
+    (std::set<std::string>) {"door two", "lair", "sphynx lair", "sphynx's lair", "spyros lair"}));
 
     main_objects.insert(main_objects.end(), game_object("location", "king's throne", "The King's Throne room "
     "is exactly like Spyro's liar. However, he has a bed AND a rug. He is a simple man. There have been reports "
     "of the King firing multiple interior designers in the past.", "", {}, (std::set<std::string>) {"king's room",
-    "king's throne", "kings room", "kings throne", "ominous space", "throne", "throne room"}));
+    "king's throne room", "kings room", "kings throne room", "kings throne", "ominous space", "throne room", "throne"}));
 
     // Initializing items (objects of type "item") starting w/ items for the player inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
@@ -347,8 +344,8 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("item", "toys", "An assortment of childrens toys of "
     "various shapes and sizes. The craftsman seems to have put a lot of care into their creation.", "general store"));
 
-    main_objects.insert(main_objects.end(), game_object("item", "shoes", "A few pairs of shoes. Most seem to be a type of sandal "
-    "though there are a few that look more decorative than the others", "general store"));
+    main_objects.insert(main_objects.end(), game_object("item", "shoes", "A few pairs of shoes. Most seem "
+    "to be a type of sandal, though there are a few that look more decorative than the others.", "general store"));
 
     // Initializing characters (objects of type "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
@@ -382,7 +379,7 @@ void initialize_game_objects()
     "like... really large. He has a metal plate around his torso, as well as a golden helmet around his head. "
     "His eyes are beat red, and his claws are razor sharp. Upon looking at you, he snarls and sticks out his sharp"
     "fangs. His eyes glow red and his muscles begin to flare up.", "spyro's lair", 
-    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, {}));
+    (std::vector<std::pair<std::string, bool>>) {{"is_alive", true}}, (std::set<std::string>) {"sphynx"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "king akhem", "You lunge at King Akhem in an "
     "attempt to grab him by the arm. He flings you off like a piece of spaghetti, and the impact of hitting the "

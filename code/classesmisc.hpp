@@ -17,9 +17,7 @@ class player_info
         std::unordered_map<std::string, bool> player_flags;
 
     public:
-        // Public default constructor
         player_info() {}
-        // Public constructor called by main
         player_info(std::string str)
         {
             cur_loc = "game start";
@@ -27,12 +25,10 @@ class player_info
             set_loc = specificvars::location_set_one;
             player_inv = {};
             player_flags.insert_or_assign("is_alive", true);
-
-            // Add items immediately to inventory upon construction
+            player_flags.insert_or_assign("finished_game", false);
             player_inv.insert(player_inv.end(), "sword");
             player_inv.insert(player_inv.end(), "shield");
         }
-        // Class methods
         std::string get_player_loc()
         {
             return cur_loc;
@@ -66,22 +62,18 @@ class player_info
                 player_inv.insert(player_inv.end(), item_to_add.get_object_name());
             }
         }
-        // Removes an item from the player's inventory and 
-        // (optionally) removes it permanently from the main_objects vector
-        void remove_inv_item(std::string item_to_rem, bool remove_perm)
+        void remove_inv_item(std::string item_to_rem, bool remove_perm) // Can remove object from main vector permanently
         {
             if (remove_object(player_inv, item_to_rem) && remove_perm)
             {
                 remove_object(specificvars::main_objects, find_object(item_to_rem));
             }
         }
-        // NOTE: DOES NOT PASS BY REFERENCE
-        std::vector<std::string> get_inv_vector()
+        std::vector<std::string> get_inv_vector() // NOTE: DOES NOT PASS BY REFERENCE
         {
             return player_inv;
         }
-        // If flag exists, returns true; otherwise, returns false.
-        bool get_player_flag(std::string flag)
+        bool get_player_flag(std::string flag) // If flag exists and is set, returns true
         {
             if (player_flags.count(flag) != 0)
             {
@@ -92,15 +84,17 @@ class player_info
                 return false;
             }
         }
-        // Either adds a new flag with the key `name` and value `val`,
-        // or sets the value of the existing key `name` to `val`.
-        void set_player_flag(std::string name, bool val)
+        void set_player_flag(std::string name, bool val) // Adds or sets a value of 'val' to the flag 'name'
         {
             player_flags.insert_or_assign(name, val);
         }
         void remove_player_flag(std::string flag)
         {
             player_flags.erase(flag);
+        }
+        bool get_player_finish()
+        {
+            return player_flags.at("finished_game");
         }
         bool get_player_state()
         {
