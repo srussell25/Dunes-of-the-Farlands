@@ -2,8 +2,8 @@
 #define GAMEOBJECTS_HPP
 
 // Finds the iterator for an object in a vector of the same type.
-template <typename A, typename B>
-std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, B &objToFind)
+template <typename A>
+std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, A &objToFind)
 {
     return std::find(vec_to_check.begin(), vec_to_check.end(), objToFind);
 }
@@ -11,8 +11,8 @@ std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, B &objToFind)
 // Searches for an object in the vector argument, then attempts
 // to return the object if it exists in the vector. Returns the
 // default constructor of the type within the vector if unsuccessful.
-template <typename A, typename B> 
-A get_object(std::vector<A> &vec_to_check, B &obj_to_get)
+template <typename A>
+A get_object(std::vector<A> &vec_to_check, A &obj_to_get)
 {
     typename std::vector<A>::iterator vec_iter = find_iter(vec_to_check, obj_to_get);
     if (vec_iter != vec_to_check.end())
@@ -44,8 +44,8 @@ bool add_object(std::vector<A> &vec_to_check, A &obj_to_add)
 // Searches for an object in the vector argument, then attempts to remove
 // the object if it exists in the vector. Returns true if successful,
 // otherwise returns false.
-template <typename A, typename B>
-bool remove_object(std::vector<A> &vec_to_check, B &obj_to_rem)
+template <typename A>
+bool remove_object(std::vector<A> &vec_to_check, A &obj_to_rem)
 {
     typename std::vector<A>::iterator vec_iter = find_iter(vec_to_check, obj_to_rem);
     if (vec_iter != vec_to_check.end()) 

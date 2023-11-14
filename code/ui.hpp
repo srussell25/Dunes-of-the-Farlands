@@ -215,8 +215,8 @@ void display_credits()
 	std::cout << border << std::endl;
 	std::cout << "Project Lead & Input Parser Designer: Connor Morris" << std::endl;
 	std::cout << "UI Designer: Lane Durst" << std::endl;
-	std::cout << "Story Leads & Object Designers: Logan Remondet & Shawn Russel" << std::endl;
-	std::cout << "Map Lead & Object Action Designers: Yu Joo & Maureen Sanchez" << std::endl;
+	std::cout << "Story Leads & Gameplay Designers: Logan Remondet & Shawn Russel" << std::endl;
+	std::cout << "Story Implementers & General Designers: Yu Joo & Maureen Sanchez" << std::endl;
 	std::cout << border << std::endl;
 }
 
