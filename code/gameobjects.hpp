@@ -1,16 +1,22 @@
 #ifndef GAMEOBJECTS_HPP
 #define GAMEOBJECTS_HPP
 
-// Finds the iterator for an object in a vector of the same type.
+/// @brief Finds the iterator for an object in a vector of the same type
+/// @tparam A is the template parameter
+/// @param vec_to_check The vector, passed by ref., that should include `obj_to_find`
+/// @param obj_to_find The object, passed by ref., that should be inside of `vec_to_check`
+/// @return An iterator pointing to the position of `obj_to_find` in the vector `vec_to_check`
 template <typename A>
-std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, A &objToFind)
+std::vector<A>::iterator find_iter(std::vector<A> &vec_to_check, A &obj_to_find)
 {
-    return std::find(vec_to_check.begin(), vec_to_check.end(), objToFind);
+    return std::find(vec_to_check.begin(), vec_to_check.end(), obj_to_find);
 }
 
-// Searches for an object in the vector argument, then attempts
-// to return the object if it exists in the vector. Returns the
-// default constructor of the type within the vector if unsuccessful.
+/// @brief Retrieves an object from a vector of the same type
+/// @tparam A is the template parameter
+/// @param vec_to_check The vector, passed by ref., that should include `obj_to_get`
+/// @param obj_to_get The object, passed by ref., that should be inside of `vec_to_check`
+/// @return The object from the vector; on fail, returns the object class' default constructor
 template <typename A>
 A get_object(std::vector<A> &vec_to_check, A &obj_to_get)
 {
@@ -25,8 +31,11 @@ A get_object(std::vector<A> &vec_to_check, A &obj_to_get)
     }
 }
 
-// Attempts to add an object to a vector; fails if the item is equivalent
-// to the default constructor of the argument type.
+/// @brief Adds an object to a vector of the same type as long as it's not a default object
+/// @tparam A is the template parameter
+/// @param vec_to_check The vector, passed by ref., that shouldn't contain `obj_to_add`
+/// @param obj_to_add The object, passed by ref., to be inserted within `vec_to_check`
+/// @return A boolean value representing if the object was added or not
 template <typename A>
 bool add_object(std::vector<A> &vec_to_check, A &obj_to_add)
 {
@@ -41,9 +50,11 @@ bool add_object(std::vector<A> &vec_to_check, A &obj_to_add)
     }
 }
 
-// Searches for an object in the vector argument, then attempts to remove
-// the object if it exists in the vector. Returns true if successful,
-// otherwise returns false.
+/// @brief Removes an object from a vector of the same type; fails if the object isn't in the vector
+/// @tparam A is the template parameter
+/// @param vec_to_check The vector, passed by ref., that should contain `obj_to_rem`
+/// @param obj_to_rem The object, passed by ref., to be removed from `vec_to_check`
+/// @return A boolean value representing if the object was removed or not
 template <typename A>
 bool remove_object(std::vector<A> &vec_to_check, A &obj_to_rem)
 {
@@ -58,8 +69,11 @@ bool remove_object(std::vector<A> &vec_to_check, A &obj_to_rem)
     }
 }
 
-// Attempts to assign multiple key/value pairs from a vector
-// of type pair to an unordered map that is passed by reference.
+/// @brief Attempts to assign multiple key/value pairs from a vector of pairs to an unordered map
+/// @tparam A is the first template parameter
+/// @tparam B is the second template parameter
+/// @param map The unordered map, passed by reference
+/// @param pairs A vector containing key/value pairs to be added to `map`
 template <typename A, typename B>
 void assign_map_values(std::unordered_map<A, B> &map, std::vector<std::pair<A, B>> pairs)
 {
@@ -69,8 +83,8 @@ void assign_map_values(std::unordered_map<A, B> &map, std::vector<std::pair<A, B
     }
 }
 
-// This class contains information about one of the game's objects,
-// including its type, name, description, location, and set flags.
+// This class contains information about a location, item, or character in the game
+// and the methods to retrieve and/or edit said information during runtime
 class game_object
 {
     private:
@@ -82,7 +96,7 @@ class game_object
         std::set<std::string> object_synonyms;
 
     public:
-        game_object() {} // Public default constructor
+        game_object() {} // Using std::optional below so we can avoid having numerous constructors
         game_object(std::string obj_type, std::string obj_name, std::string obj_desc, 
             std::optional<std::string> obj_loc = std::nullopt, 
             std::optional<std::vector<std::pair<std::string, bool>>> obj_flags = std::nullopt, 
@@ -91,7 +105,6 @@ class game_object
             object_type = obj_type;
             object_name = obj_name;
             object_desc = obj_desc;
-            // Using std::optional so we don't have a lot of constructors
             if (obj_loc.has_value())
             {
                 object_location = obj_loc.value();
@@ -133,7 +146,7 @@ class game_object
         {
             object_desc = desc;
         }
-        bool get_object_flag(std::string flag) // If flag exists & is set, returns true.
+        bool get_object_flag(std::string flag) // If flag exists & is set, returns true
         {
             if (object_flags.count(flag) != 0)
             {
@@ -144,7 +157,7 @@ class game_object
                 return false;
             }
         }
-        void set_object_flag(std::string name, bool val) // Adds or sets a value of 'val' to the flag 'name'
+        void set_object_flag(std::string name, bool val) // Adds or sets a value of `val` to the flag `name`
         {
             object_flags.insert_or_assign(name, val);
         }
@@ -160,7 +173,7 @@ class game_object
         {
             object_location = loc;
         }
-        bool check_object_synonyms() // If synonyms exist, returns true.
+        bool check_object_synonyms() // If synonyms exist, returns true
         {
             return !object_synonyms.empty();
         }
@@ -170,12 +183,12 @@ class game_object
         }
 };
 
-// Specifying main_objects and empty_object inside of a namespace to keep them out of the global scope
+// Namespace to keep 'main_objects', 'empty_object', and 'location_set_x' out of the global scope
 namespace specificvars
 {
     std::vector<game_object> main_objects = {}; // The main vector of all objects in the game (other than the player)
 
-    game_object empty_object = game_object(); // Empty game_object used for comparison by reference
+    game_object empty_object = game_object(); // Empty game_object used for comparison and as a return for functions requiring a reference 
 
     std::set<std::string> location_set_one = {"abandoned town", "game start", "oasis"}; // at start
     std::set<std::string> location_set_two = {"abandoned town", "farlands", "tavern"}; // at abandoned town
@@ -186,9 +199,9 @@ namespace specificvars
     std::set<std::string> location_set_seven = {"king's throne", "spyro's lair"}; // at spyro's lair
 };
 
-// This function takes in a string meant to represent the name of a game_object, and then 
-// searches within the vector main_objects to see if that game_object exists. If it exists, 
-// the function returns the game_object by reference; otherwise, it returns empty_object by reference.
+/// @brief Attempts to retrieve a `game_object` by name from the "master" vector `main_objects`
+/// @param name The name of the object to be retrieved; can be either the actual name or a synonym
+/// @return A specific `game_object` passed back by reference; on fail, returns a reference to `empty_object` 
 game_object& find_object(std::string name)
 {
     using namespace specificvars;
@@ -216,7 +229,8 @@ game_object& find_object(std::string name)
     }
 }
 
-// This function is intended to initialize all game objects at the start of the program's runtime.
+/// \brief Adds all `game_object` used by the game into the `main_objects` vector; this also 
+/// functions as a way to "reset" `main_objects` back to its original state upon a "restart"
 void initialize_game_objects() 
 {
     using namespace specificvars;
@@ -225,7 +239,7 @@ void initialize_game_objects()
         main_objects.clear();
     }
 
-    // Initializing locations (objects of type "location")
+    // Initializing locations (`game_object` with `object_type` == "location")
     main_objects.insert(main_objects.begin(), game_object("location", "game start", "It's shabby, and a place "
     "of calm tension."));
 
@@ -294,7 +308,7 @@ void initialize_game_objects()
     "of the King firing multiple interior designers in the past.", "", {}, (std::set<std::string>) {"king's room",
     "king's throne room", "kings room", "kings throne room", "kings throne", "ominous space", "throne room", "throne"}));
 
-    // Initializing items (objects of type "item") starting w/ items for the player inventory
+    // Initializing items (`game_object` with `object_type` == "item") starting w/ items in the player's inventory
     main_objects.insert(main_objects.end(), game_object("item", "sword", "You look upon an ordinary sword; "
     "it's not pretty, but it gets the job done.", "playerinventory"));
 
@@ -350,10 +364,10 @@ void initialize_game_objects()
     main_objects.insert(main_objects.end(), game_object("item", "shoes", "A few pairs of shoes. Most seem "
     "to be a type of sandal, though there are a few that look more decorative than the others.", "general store"));
 
-    // Initializing characters (objects of type "character")
+    // Initializing characters (`game_object` with `object_type` == "character")
     main_objects.insert(main_objects.end(), game_object("character", "bandit", "He looks ragged, with "
     "torn clothes and a dented sword.", "tavern", (std::vector<std::pair<std::string, bool>>) 
-    {{"is_alive", true}, {"known_evil", true}}, {}));
+    {{"is_alive", true}}, (std::set<std::string>) {"bandit crew", "bandits", "crew"}));
 
     main_objects.insert(main_objects.end(), game_object("character", "old lady", "You see an old lady "
     "who seems to be having trouble with something, although you can't quite make out what it is "

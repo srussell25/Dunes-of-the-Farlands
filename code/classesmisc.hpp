@@ -3,10 +3,8 @@
 
 #include "gameobjects.hpp"
 
-// This class contains all info about the player, 
-// including their current location, their inventory, 
-// and any flags they've set. It is instanced upon
-// the program start or game loop restart.
+// This class contains information about the main player character and 
+// the methods to retrieve and/or edit said information during runtime
 class player_info 
 {
     private:
@@ -62,14 +60,14 @@ class player_info
                 player_inv.insert(player_inv.end(), item_to_add.get_object_name());
             }
         }
-        void remove_inv_item(std::string item_to_rem, bool remove_perm) // Can remove object from main vector permanently
+        void remove_inv_item(std::string item_to_rem, bool remove_perm) // Optionally removes item from `main_objects`
         {
             if (remove_object(player_inv, item_to_rem) && remove_perm)
             {
                 remove_object(specificvars::main_objects, find_object(item_to_rem));
             }
         }
-        std::vector<std::string> get_inv_vector() // NOTE: DOES NOT PASS BY REFERENCE
+        std::vector<std::string> get_inv_vector() // Not passed by ref., for use by the UI
         {
             return player_inv;
         }
@@ -84,7 +82,7 @@ class player_info
                 return false;
             }
         }
-        void set_player_flag(std::string name, bool val) // Adds or sets a value of 'val' to the flag 'name'
+        void set_player_flag(std::string name, bool val) // Adds or sets a value of `val` to the flag `name`
         {
             player_flags.insert_or_assign(name, val);
         }

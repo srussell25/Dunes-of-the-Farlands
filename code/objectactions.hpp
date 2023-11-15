@@ -3,7 +3,12 @@
 
 #include "classesmisc.hpp"
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "use" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
+/// @note This function is called whenever the player uses the similar "drink" command
 std::string use(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj_name == "whiskey")
@@ -141,7 +146,12 @@ std::string use(game_object &obj, std::string obj_name, player_info &player_char
     return "Invalid action & object combination; try again.";
 }
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "take" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
+/// @note This function is called whenever the player uses the similar "grab" or "take" commands
 std::string take(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj.get_object_loc() == "playerinventory")
@@ -324,7 +334,11 @@ std::string take(game_object &obj, std::string obj_name, player_info &player_cha
     return "This action cannot be performed here. Try something else.";
 }
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "go" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
 std::string go_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj_name == player_char.get_player_loc())
@@ -349,6 +363,8 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         if (!obj.get_object_flag("been_to"))
         {        
             obj.set_object_flag("been_to", true);
+            obj.set_object_desc("What previously seemed to be an abandoned town is, "
+            "sadly, a town that has been taken over by thugs and bandits.");
             player_char.set_player_loc(obj_name);
 
             return "You arrive at the town named Nekhem. The town isn't necessarily abandoned, "
@@ -376,6 +392,8 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
         if (!obj.get_object_flag("been_to"))
         {
             obj.set_object_flag("been_to", true);
+            obj.set_object_desc("Well, it's definitely a tavern. You've got a barkeep, "
+            "some drinks, and some truly awful customers. A classic combo.");
             player_char.set_player_loc(obj_name);
 
             return "You enter into the tavern. You try to go up to the bar to ask for directions, "
@@ -408,7 +426,7 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
             "as impressive as the first time, and the lookouts guarding the gate are still just as unfriendly.";
         }
     }
-    else if (obj_name == "city square" )
+    else if (obj_name == "city square")
     {
         if (player_char.get_player_flag("talked_to_lookouts") && !obj.get_object_flag("been_to"))
         {
@@ -575,7 +593,13 @@ std::string go_to(game_object &obj, std::string obj_name, player_info &player_ch
     return "Location has not been implemented yet.";
 }
 
-// Add proper function description here
+/// \brief Checks if the player can reach a location from where they are currently positioned; if true, sends 
+/// control to the `go_to` function for more checks and a descriptive return. If `go_to` moves the player, this 
+/// function then also determines the new set of locations the player can reach using sets from `specificvars`
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
 std::string go(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj.get_object_type() != "location")
@@ -632,24 +656,39 @@ std::string go(game_object &obj, std::string obj_name, player_info &player_char)
     return return_str;
 }
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "talk" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
 std::string talk_to(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj_name == "barkeep")
     {
         if (player_char.get_player_loc() == "tavern")
         {
-            if (!obj.get_object_flag("talked_to"))
+            if (find_object("bandit").get_object_flag("is_alive"))
+            {
+                player_char.set_player_state(false);
+                return "Considering the number of bandits, you probably should've guessed the barkeep wasn't going to do "
+                "anything. While you try to get the barkeep's attention, the lead bandit takes the initiative and slashes "
+                "at you. Luckily for you, he only cut off your head. Oh, wait, I've just been informed that's actually "
+                "quite bad. Well, at least your death was quick.";
+            }
+            else if (!obj.get_object_flag("talked_to"))
             {
                 obj.set_object_flag("talked_to", true);
-                return "Welcome to the Sand Dune Saloon. I'm the barkeep. Here's a drink, it's on the house; I can tell you're good people. "
-                "I must warn you though: there is nothing worth staying for at this town, that is, unless you want to get yourself killed by "
-                "one of the locals. If I were you, I'd recommend heading east of here, to the Farlands. It's quite the dangerous area in its "
-                "own right, but you'll find more to do over in that region.";
+                player_char.set_player_flag("npc_is_talking", true);
+                return "Welcome to the Sand Dune Saloon. Sorry about the bandit, this town's been getting worse by the day, and it's hard to "
+                "get any help around here. Take this drink, it's on the house - might not be much of a reward, but no-one can pass up a good "
+                "drink, eh? Anyways. I gotta warn you, if you had any plans to stay around here, it'd be best to change them unless you want "
+                "to keep fighting off bandits. My advice? I'd head east of here, to the Farlands. Admittedly, it's also quite the dangerous "
+                "place, but I think you'd enjoy a lower risk of getting your head cut off anytime you try to walk in a building.";
             }
             else
             {
-                return "Welcome back to the Sand Dune Saloon. It's good to see you again. Did you head to the Farlands?";
+                player_char.set_player_flag("npc_is_talking", true);
+                return "Ah, it's our saviour again! Welcome back to the Sand Dune Saloon. How are ya holding up? Been to the Farlands yet?";
             }
         }
         else
@@ -722,17 +761,17 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
                 player_char.set_player_flag("offered_armor", true);
 
                 return "You approach the shopkeeper and say hello. She gives a shy hello back and asks what she "
-                "could do for her. You begin to ask about the town and what it has to offer. She replies saying "
+                "could do for you. You begin to ask about the town and what it has to offer. She replies saying "
                 "that she doesn't like this town because of King Akhem, and that she wishes that someone would put "
                 "a stop to him. She takes notice that you are somewhat of a warrior and sees that you lack any type of "
                 "armor. She pulls out the Armor of Torren, and says, 'You must take this and find a way to defeat King "
-                "Akhem, you are the chosen one. Please, you are our only hope. Take this gift.' She holds out the armor "
-                "for you to take.";
+                "Akhem, I just know that you are the chosen one. Please, you are our only hope. Take this gift.' She "
+                "holds out the armor for you to take.";
             }
             else
             {
                 return "You approach the shopkeeper and say hello. She gives a shy hello back and asks what she "
-                "could do for her. You begin to ask about the town and what it has to offer. She replies saying "
+                "could do for you. You begin to ask about the town and what it has to offer. She replies saying "
                 "that she doesn't like this town because of King Akhem, and that she wishes that someone would put "
                 "a stop to him.";
             }
@@ -833,7 +872,12 @@ std::string talk_to(game_object &obj, std::string obj_name, player_info &player_
     return "Invalid action & object combination; try again.";
 }
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "look" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
+/// @note This function is called whenever the player uses the similar "examine" command
 std::string look_at(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (player_char.get_player_loc() == "coffee shop" && obj_name == "locals")
@@ -861,9 +905,10 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
     {
         return find_object(player_char.get_player_loc()).get_object_desc();
     }
-    else if (player_char.get_player_loc() == obj_name ||
-        player_char.get_player_loc_set().contains(obj.get_object_loc()) || 
-        obj.get_object_loc() == "playerinventory")
+    else if (obj.get_object_loc() == "playerinventory" ||
+        (player_char.get_player_loc() == obj_name) ||
+        (player_char.get_player_loc() == obj.get_object_loc()) ||
+        player_char.get_player_loc_set().contains(obj.get_object_name()))
     {
         return obj.get_object_desc();
     }
@@ -873,7 +918,11 @@ std::string look_at(game_object &obj, std::string obj_name, player_info &player_
     }
 }
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "attack" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
 std::string attack(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj.get_object_type() == "character")
@@ -1114,7 +1163,11 @@ std::string attack(game_object &obj, std::string obj_name, player_info &player_c
     return "Whatever you are trying to attack, it's not here. Go look somewhere else.";
 }
 
-// Add proper function description here
+/// @brief Finds the result of the player interacting with a `game_object` via the in-game "read" command
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param obj_name The name of the `game_object` the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing the results of the player's action
 std::string read(game_object &obj, std::string obj_name, player_info &player_char)
 {
     if (obj_name == "paper" && player_char.get_player_loc() == "side gate" && player_char.get_player_flag("knocked_guard_out"))
@@ -1140,7 +1193,12 @@ std::string read(game_object &obj, std::string obj_name, player_info &player_cha
     }
 }
 
-// Add proper function description here
+/// \brief Determines which function should be called to get the appropriate 
+/// results of whatever action the player has decided to take during gameplay
+/// @param act A string containing the name of the command that the player has chosen
+/// @param obj The `game_object`, passed by ref., that the player is interacting with
+/// @param player_char An instance of `player_info`, passed by ref., denoting the player's current state
+/// @return A string describing what has happened to the player
 std::string main_action(std::string act, game_object &obj, player_info &player_char) 
 {
     std::string result = "";

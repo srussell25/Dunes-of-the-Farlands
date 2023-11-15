@@ -21,9 +21,8 @@ int main()
     player_info player;
 
     bool first_startup = true;
-    initialize_parser();
 
-    while(true)
+    while(true) // Outer loop; used so that the program can be "restarted"
     {
         initialize_game_objects(); // Refresh objects & player to original state
         player = player_info("new");
@@ -49,7 +48,7 @@ int main()
         "You spot a town that appears to be 'abandoned' in the north, "
         "but also see what appears to be an oasis nearby.");
 
-        while(player.get_player_state() || player.get_player_finish()) // Inner loop to check player state
+        while(player.get_player_state() || player.get_player_finish()) // Inner loop; iterates after each command
         {
             input_text = get_input();
             parser_output = game_input_parser(input_text);
@@ -57,12 +56,17 @@ int main()
             if (parser_output.first == "help") // Check for special commands or invalid input
             {
                 word_wrapper(word_breaker("Regular commands: use, take/get/grab, go, leave, look/examine, "
-                "read, talk, attack. \nSpecial commands: inventory, help, credits, exit."));
+                "read, talk, attack. \nSpecial commands: inventory, location, help, credits, exit."));
                 continue;
             }
             else if (parser_output.first == "inventory")
             {
                 display_inventory(player);
+                continue;
+            }
+            else if (parser_output.first == "location")
+            {
+                display_location(player);
                 continue;
             }
             else if (parser_output.first == "credits")
@@ -95,19 +99,26 @@ int main()
             }
 
             output_text = main_action(parser_output.first, (parser_output.second).get(), player);
-            narrator(output_text);
+
+            if (player.get_player_flag("npc_is_talking"))
+            {
+                npc_text(output_text, (parser_output.second).get().get_object_name());
+                player.remove_player_flag("npc_is_talking");
+            }
+            else
+            {
+                narrator(output_text);
+            }
         }
 
-        if (player.get_player_finish())
+        if (player.get_player_finish()) // If game is finished, display credits & then quit the program
         {
-            output_text = "\n\nThe End.\n Thank you for completing our game! \n\nCredits: "
-            "\nUI Team: \nLane Durst \nConnor Morris \nObject and Development Team: "
-            "\nMaureen Sanchez \nJack(Yu Joo) \nStory Development and General Coding Team: \nShawn Russell \nLogan Remondet";
-            narrator(output_text);
+            std::cout << center_text("The End. You completed the game!") << std::endl;
+            display_credits();
             break;
         }
 
-        std::cout << center_text("Game Over!") << std::endl; // Yes/no loop; on 'no', quits the program
+        std::cout << center_text("Game Over!") << std::endl; // Yes/no loop; quits program on "no"
         if (!exit_seq("Would you like to try again?"))
         {
             break;

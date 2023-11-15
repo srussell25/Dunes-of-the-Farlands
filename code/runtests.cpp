@@ -31,7 +31,6 @@ STUDENT_TEST("Check to see that find_object exhibits proper behavior.")
 
 STUDENT_TEST("Check parser behavior with valid inputs.")
 {
-    initialize_parser();
     initialize_game_objects();
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
 
@@ -81,7 +80,6 @@ STUDENT_TEST("Check parser behavior with valid inputs.")
 
 STUDENT_TEST("Check parser behavior with invalid inputs.")
 {
-    initialize_parser();
     initialize_game_objects();
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
     std::pair<std::string, std::reference_wrapper<game_object>> default_output = parser_output;
@@ -195,7 +193,6 @@ STUDENT_TEST("Check to see that game_object flags can be retrieved, added, & rem
 
 STUDENT_TEST("Flag Set Check #1: Attacking the bandit in the tavern.")
 {
-    initialize_parser();
     initialize_game_objects();
     player_info player = player_info("new");
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
@@ -217,7 +214,6 @@ STUDENT_TEST("Flag Set Check #1: Attacking the bandit in the tavern.")
 
 STUDENT_TEST("Flag Set Check #2: Recognizing the old lady's status.")
 {
-    initialize_parser();
     initialize_game_objects();
     player_info player = player_info("new");
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
@@ -244,7 +240,6 @@ STUDENT_TEST("Flag Set Check #2: Recognizing the old lady's status.")
 
 STUDENT_TEST("Inventory Check #1: Taking the whiskey from the barkeep and drinking it.")
 {
-    initialize_parser();
     initialize_game_objects();
     player_info player = player_info("new");
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
@@ -280,7 +275,6 @@ STUDENT_TEST("Inventory Check #1: Taking the whiskey from the barkeep and drinki
 
 STUDENT_TEST("Movement Check #1: Going from the start of the game to the Farlands.")
 {
-    initialize_parser();
     initialize_game_objects();
     player_info player = player_info("new");
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
@@ -310,7 +304,6 @@ STUDENT_TEST("Movement Check #1: Going from the start of the game to the Farland
 
 STUDENT_TEST("Movement Check #2: Going to the coffee shop and then returning to the city square.")
 {
-    initialize_parser();
     initialize_game_objects();
     player_info player = player_info("new");
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
@@ -355,7 +348,6 @@ STUDENT_TEST("Movement Check #2: Going to the coffee shop and then returning to 
 
 STUDENT_TEST("Final Check: Completing the entire game.")
 {
-    initialize_parser();
     initialize_game_objects();
     player_info player = player_info("new");
     std::pair<std::string, std::reference_wrapper<game_object>> parser_output = {"", specificvars::empty_object};
